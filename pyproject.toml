@@ -2,13 +2,67 @@
 requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
+# -------------------------------------------------
+# Project metadata
+# -------------------------------------------------
 [project]
 name = "healthcheckx"
 version = "0.1.0"
-description = "Production-grade health checks for Python apps"
+description = "Production-grade health checks for Python applications"
 readme = "README.md"
 requires-python = ">=3.8"
 license = { file = "LICENSE" }
 
+authors = [
+    { name = "Soumen Samanta", email = "you@example.com" }
+]
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: System :: Monitoring",
+    "Topic :: Internet :: WWW/HTTP"
+]
+
+# -------------------------------------------------
+# Package discovery (src layout)
+# -------------------------------------------------
 [tool.setuptools.packages.find]
 where = ["src"]
+
+# -------------------------------------------------
+# OPTIONAL DEPENDENCIES (IMPORTANT)
+# -------------------------------------------------
+[project.optional-dependencies]
+
+# Redis health check support
+redis = [
+    "redis>=5.0"
+]
+
+# RabbitMQ health check support
+rabbitmq = [
+    "pika>=1.3"
+]
+
+# PostgreSQL health check support
+postgresql = [
+    "psycopg2-binary>=2.9"
+]
+
+# Install everything
+all = [
+    "redis>=5.0",
+    "pika>=1.3",
+    "psycopg2-binary>=2.9"
+]
+
+# -------------------------------------------------
+# Project URLs (optional but recommended)
+# -------------------------------------------------
+[project.urls]
+Homepage = "https://github.com/Soumen3/healthcheckx"
+Repository = "https://github.com/Soumen3/healthcheckx"
+Issues = "https://github.com/Soumen3/healthcheckx/issues"

@@ -1,7 +1,7 @@
 from fastapi import Response
 from healthcheckx.core import overall_status
 
-class FastAPIHealth:
+class FastAPIAdapter:
     def __init__(self, health):
         self.health = health
 
