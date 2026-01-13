@@ -52,11 +52,29 @@ postgresql = [
     "psycopg2-binary>=2.9"
 ]
 
+# MySQL health check support
+mysql = [
+    "mysql-connector-python>=8.0"
+]
+
+#Oracle health check support
+oracle = [
+    "oracledb>=3.4"
+]
+
+# MS SQL Server health check support
+mssql = [
+    "pymssql>=2.2"
+]
+
 # Install everything
 all = [
     "redis>=5.0",
     "pika>=1.3",
-    "psycopg2-binary>=2.9"
+    "psycopg2-binary>=2.9",
+    "mysql-connector-python>=8.0",
+    "oracledb>=3.4",
+    "pymssql>=2.2"
 ]
 
 # -------------------------------------------------

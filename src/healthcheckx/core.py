@@ -31,7 +31,7 @@ class Health:
         """
         Register a Redis health check.
         """
-        from healthcheckx.checks.redis import create_redis_check
+        from healthcheckx.checks.cache.redis_check import create_redis_check
 
         check = create_redis_check(redis_url, timeout)
         self.register(check)
@@ -41,7 +41,7 @@ class Health:
         """
         Register a RabbitMQ health check.
         """
-        from healthcheckx.checks.rabbitmq import create_rabbitmq_check
+        from healthcheckx.checks.messageQueue.rabbitmq_check import create_rabbitmq_check
 
         check = create_rabbitmq_check(amqp_url, timeout)
         self.register(check)
@@ -51,9 +51,49 @@ class Health:
         """
         Register a PostgreSQL health check.
         """
-        from healthcheckx.checks.postgresql import create_postgresql_check
+        from healthcheckx.checks.relationalDB.postgresql_check import create_postgresql_check
 
         check = create_postgresql_check(dsn, timeout)
+        self.register(check)
+        return self
+
+    def mysql_check(self, dsn: str, timeout: int = 3):
+        """
+        Register a MySQL health check.
+        """
+        from healthcheckx.checks.relationalDB.mysql_check import create_mysql_check
+
+        check = create_mysql_check(dsn, timeout)
+        self.register(check)
+        return self
+
+    def sqlite_check(self, db_path: str, timeout: int = 3):
+        """
+        Register a SQLite health check.
+        """
+        from healthcheckx.checks.relationalDB.sqlite_check import create_sqlite_check
+
+        check = create_sqlite_check(db_path, timeout)
+        self.register(check)
+        return self
+
+    def oracle_check(self, dsn: str, timeout: int = 3):
+        """
+        Register an Oracle health check.
+        """
+        from healthcheckx.checks.relationalDB.oracle_check import create_oracle_check
+
+        check = create_oracle_check(dsn, timeout)
+        self.register(check)
+        return self
+
+    def mssql_check(self, dsn: str, timeout: int = 3):
+        """
+        Register a MS SQL Server health check.
+        """
+        from healthcheckx.checks.relationalDB.mssql_check import create_mssql_check
+
+        check = create_mssql_check(dsn, timeout)
         self.register(check)
         return self
 
