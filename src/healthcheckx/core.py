@@ -97,6 +97,16 @@ class Health:
         self.register(check)
         return self
 
+    def mongodb_check(self, connection_string: str, timeout: int = 3):
+        """
+        Register a MongoDB health check.
+        """
+        from healthcheckx.checks.nosqlDB.mongodb_check import create_mongodb_check
+
+        check = create_mongodb_check(connection_string, timeout)
+        self.register(check)
+        return self
+
     # -----------------------------
     # Execute all checks
     # -----------------------------

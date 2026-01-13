@@ -67,6 +67,11 @@ mssql = [
     "pymssql>=2.2"
 ]
 
+# MongoDB health check support
+mongodb = [
+    "pymongo>=4.0"
+]
+
 # Install everything
 all = [
     "redis>=5.0",
@@ -74,7 +79,8 @@ all = [
     "psycopg2-binary>=2.9",
     "mysql-connector-python>=8.0",
     "oracledb>=3.4",
-    "pymssql>=2.2"
+    "pymssql>=2.2",
+    "pymongo>=4.0"
 ]
 
 # -------------------------------------------------
