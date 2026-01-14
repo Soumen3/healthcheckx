@@ -1,7 +1,7 @@
 import oracledb
 from healthcheckx.result import CheckResult, HealthStatus
 
-def create_oracle_check(dsn: str, timeout: int = 3):
+def create_oracle_check(dsn: str, timeout: int = 3, name: str = "oracle"):
     """
     Create an Oracle health check.
     
@@ -40,10 +40,10 @@ def create_oracle_check(dsn: str, timeout: int = 3):
             cur.fetchone()
             cur.close()
             conn.close()
-            return CheckResult("oracle", HealthStatus.healthy)
+            return CheckResult(name, HealthStatus.healthy)
         except Exception as e:
             return CheckResult(
-                "oracle",
+                name,
                 HealthStatus.unhealthy,
                 str(e)
             )

@@ -2,7 +2,7 @@ from pymongo import MongoClient
 from pymongo.errors import ConnectionFailure, ServerSelectionTimeoutError
 from healthcheckx.result import CheckResult, HealthStatus
 
-def create_mongodb_check(connection_string: str, timeout: int = 3):
+def create_mongodb_check(connection_string: str, timeout: int = 3, name: str = "mongodb"):
     """
     Create a MongoDB health check.
     
@@ -29,16 +29,16 @@ def create_mongodb_check(connection_string: str, timeout: int = 3):
             # Close the connection
             client.close()
             
-            return CheckResult("mongodb", HealthStatus.healthy)
+            return CheckResult(name, HealthStatus.healthy)
         except (ConnectionFailure, ServerSelectionTimeoutError) as e:
             return CheckResult(
-                "mongodb",
+                name,
                 HealthStatus.unhealthy,
                 f"Connection failed: {str(e)}"
             )
         except Exception as e:
             return CheckResult(
-                "mongodb",
+                name,
                 HealthStatus.unhealthy,
                 str(e)
             )

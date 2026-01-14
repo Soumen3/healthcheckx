@@ -27,83 +27,83 @@ class Health:
     # Built-in check helpers
     # -----------------------------
 
-    def redis_check(self, redis_url: str, timeout: int = 2):
+    def redis_check(self, redis_url: str, timeout: int = 2, name: str = "redis"):
         """
         Register a Redis health check.
         """
         from healthcheckx.checks.cache.redis_check import create_redis_check
 
-        check = create_redis_check(redis_url, timeout)
+        check = create_redis_check(redis_url, timeout, name)
         self.register(check)
         return self
 
-    def rabbitmq_check(self, amqp_url: str, timeout: int = 2):
+    def rabbitmq_check(self, amqp_url: str, timeout: int = 2, name: str = "rabbitmq"):
         """
         Register a RabbitMQ health check.
         """
         from healthcheckx.checks.messageQueue.rabbitmq_check import create_rabbitmq_check
 
-        check = create_rabbitmq_check(amqp_url, timeout)
+        check = create_rabbitmq_check(amqp_url, timeout, name)
         self.register(check)
         return self
 
-    def postgresql_check(self, dsn: str, timeout: int = 3):
+    def postgresql_check(self, dsn: str, timeout: int = 3, name: str = "postgresql"):
         """
         Register a PostgreSQL health check.
         """
         from healthcheckx.checks.relationalDB.postgresql_check import create_postgresql_check
 
-        check = create_postgresql_check(dsn, timeout)
+        check = create_postgresql_check(dsn, timeout, name)
         self.register(check)
         return self
 
-    def mysql_check(self, dsn: str, timeout: int = 3):
+    def mysql_check(self, dsn: str, timeout: int = 3, name: str = "mysql"):
         """
         Register a MySQL health check.
         """
         from healthcheckx.checks.relationalDB.mysql_check import create_mysql_check
 
-        check = create_mysql_check(dsn, timeout)
+        check = create_mysql_check(dsn, timeout, name)
         self.register(check)
         return self
 
-    def sqlite_check(self, db_path: str, timeout: int = 3):
+    def sqlite_check(self, db_path: str, timeout: int = 3, name: str = "sqlite"):
         """
         Register a SQLite health check.
         """
         from healthcheckx.checks.relationalDB.sqlite_check import create_sqlite_check
 
-        check = create_sqlite_check(db_path, timeout)
+        check = create_sqlite_check(db_path, timeout, name)
         self.register(check)
         return self
 
-    def oracle_check(self, dsn: str, timeout: int = 3):
+    def oracle_check(self, dsn: str, timeout: int = 3, name: str = "oracle"):
         """
         Register an Oracle health check.
         """
         from healthcheckx.checks.relationalDB.oracle_check import create_oracle_check
 
-        check = create_oracle_check(dsn, timeout)
+        check = create_oracle_check(dsn, timeout, name)
         self.register(check)
         return self
 
-    def mssql_check(self, dsn: str, timeout: int = 3):
+    def mssql_check(self, dsn: str, timeout: int = 3, name: str = "mssql"):
         """
         Register a MS SQL Server health check.
         """
         from healthcheckx.checks.relationalDB.mssql_check import create_mssql_check
 
-        check = create_mssql_check(dsn, timeout)
+        check = create_mssql_check(dsn, timeout, name)
         self.register(check)
         return self
 
-    def mongodb_check(self, connection_string: str, timeout: int = 3):
+    def mongodb_check(self, connection_string: str, timeout: int = 3, name: str = "mongodb"):
         """
         Register a MongoDB health check.
         """
         from healthcheckx.checks.nosqlDB.mongodb_check import create_mongodb_check
 
-        check = create_mongodb_check(connection_string, timeout)
+        check = create_mongodb_check(connection_string, timeout, name)
         self.register(check)
         return self
 

@@ -1,7 +1,7 @@
 import sqlite3
 from healthcheckx.result import CheckResult, HealthStatus
 
-def create_sqlite_check(db_path: str, timeout: int = 3):
+def create_sqlite_check(db_path: str, timeout: int = 3, name: str = "sqlite"):
     """
     Create a SQLite health check.
     
@@ -20,10 +20,10 @@ def create_sqlite_check(db_path: str, timeout: int = 3):
             cur.fetchone()
             cur.close()
             conn.close()
-            return CheckResult("sqlite", HealthStatus.healthy)
+            return CheckResult(name, HealthStatus.healthy)
         except Exception as e:
             return CheckResult(
-                "sqlite",
+                name,
                 HealthStatus.unhealthy,
                 str(e)
             )

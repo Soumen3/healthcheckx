@@ -2,7 +2,7 @@ import mysql.connector
 from urllib.parse import urlparse
 from healthcheckx.result import CheckResult, HealthStatus
 
-def create_mysql_check(dsn: str, timeout: int = 3):
+def create_mysql_check(dsn: str, timeout: int = 3, name: str = "mysql"):
     """
     Create a MySQL health check.
     
@@ -31,10 +31,10 @@ def create_mysql_check(dsn: str, timeout: int = 3):
             cur.fetchone()
             cur.close()
             conn.close()
-            return CheckResult("mysql", HealthStatus.healthy)
+            return CheckResult(name, HealthStatus.healthy)
         except Exception as e:
             return CheckResult(
-                "mysql",
+                name,
                 HealthStatus.unhealthy,
                 str(e)
             )

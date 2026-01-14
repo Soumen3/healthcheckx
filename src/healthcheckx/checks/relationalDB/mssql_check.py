@@ -2,7 +2,7 @@ import pymssql
 from urllib.parse import urlparse
 from healthcheckx.result import CheckResult, HealthStatus
 
-def create_mssql_check(dsn: str, timeout: int = 3):
+def create_mssql_check(dsn: str, timeout: int = 3, name: str = "mssql"):
     """
     Create a MS SQL Server health check.
     
@@ -32,10 +32,10 @@ def create_mssql_check(dsn: str, timeout: int = 3):
             cur.fetchone()
             cur.close()
             conn.close()
-            return CheckResult("mssql", HealthStatus.healthy)
+            return CheckResult(name, HealthStatus.healthy)
         except Exception as e:
             return CheckResult(
-                "mssql",
+                name,
                 HealthStatus.unhealthy,
                 str(e)
             )
