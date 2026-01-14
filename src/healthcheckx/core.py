@@ -37,6 +37,26 @@ class Health:
         self.register(check)
         return self
 
+    def keydb_check(self, keydb_url: str, timeout: int = 2, name: str = "keydb"):
+        """
+        Register a KeyDB health check.
+        """
+        from healthcheckx.checks.cache.keydb_check import create_keydb_check
+
+        check = create_keydb_check(keydb_url, timeout, name)
+        self.register(check)
+        return self
+
+    def memcached_check(self, host: str = "localhost", port: int = 11211, timeout: int = 2, name: str = "memcached"):
+        """
+        Register a Memcached health check.
+        """
+        from healthcheckx.checks.cache.memcached_check import create_memcached_check
+
+        check = create_memcached_check(host, port, timeout, name)
+        self.register(check)
+        return self
+
     def rabbitmq_check(self, amqp_url: str, timeout: int = 2, name: str = "rabbitmq"):
         """
         Register a RabbitMQ health check.

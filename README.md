@@ -8,8 +8,9 @@
 ## 🚀 Features
 
 - **🔌 Framework Agnostic**: Core library works independently, with optional adapters for FastAPI, Flask, and Django
-- **🎯 Built-in Health Checks**: Pre-built checks for popular services (Redis, RabbitMQ, PostgreSQL, MySQL, SQLite, Oracle, MS SQL Server, MongoDB)
+- **🎯 Built-in Health Checks**: Pre-built checks for popular services (Redis, KeyDB, Memcached, RabbitMQ, PostgreSQL, MySQL, SQLite, Oracle, MS SQL Server, MongoDB)
 - **⚡ Simple & Extensible**: Easy to add custom health checks with a clean API
+- **🏷️ Named Checks**: Support for multiple instances of the same service with custom names
 - **🎭 Graceful Degradation**: Distinguishes between healthy, degraded, and unhealthy states
 - **⏱️ Performance Tracking**: Measures execution time for each health check
 - **🛡️ Error Handling**: Catches exceptions gracefully and returns meaningful status
@@ -29,8 +30,11 @@ pip install healthcheckx
 Install support for specific services:
 
 ```bash
-# Redis support
+# Redis support (also works for KeyDB)
 pip install healthcheckx[redis]
+
+# Memcached support
+pip install healthcheckx[memcached]
 
 # RabbitMQ support
 pip install healthcheckx[rabbitmq]
@@ -104,6 +108,37 @@ print(f"Overall Status: {status}")
 
 ```python
 health.redis_check("redis://localhost:6379", timeout=2)
+
+# With custom name (for multiple Redis instances)
+health.redis_check("redis://primary.local:6379", timeout=2, name="redis-primary")
+health.redis_check("redis://secondary.local:6379", timeout=2, name="redis-secondary")
+```
+
+#### KeyDB
+
+```python
+# KeyDB is Redis-compatible
+health.keydb_check("keydb://localhost:6379", timeout=2)
+
+# Can also use redis:// scheme
+health.keydb_check("redis://localhost:6379", timeout=2)
+
+# With authentication
+health.keydb_check("keydb://user:password@localhost:6379/0", name="keydb")
+```
+
+#### Memcached
+
+```python
+# Basic usage
+health.memcached_check()
+
+# With custom host and port
+health.memcached_check(host="localhost", port=11211, timeout=2)
+
+# Multiple Memcached instances
+health.memcached_check(host="cache1.local", port=11211, name="memcached-1")
+health.memcached_check(host="cache2.local", port=11211, name="memcached-2")
 ```
 
 ### Message Queues
@@ -120,12 +155,20 @@ health.rabbitmq_check("amqp://guest:guest@localhost:5672", timeout=2)
 
 ```python
 health.postgresql_check("postgresql://user:password@localhost:5432/mydb", timeout=3)
+
+# Multiple PostgreSQL databases
+health.postgresql_check("postgresql://user:pass@db1:5432/app", name="postgres-main")
+health.postgresql_check("postgresql://user:pass@db2:5432/analytics", name="postgres-analytics")
 ```
 
 #### MySQL
 
 ```python
 health.mysql_check("mysql://root:password@localhost:3306/mydb", timeout=3)
+
+# Multiple MySQL databases with custom names
+health.mysql_check("mysql://user:pass@localhost:3306/users", name="mysql-users-db")
+health.mysql_check("mysql://user:pass@localhost:3306/orders", name="mysql-orders-db")
 ```
 
 #### SQLite
@@ -366,14 +409,24 @@ When determining overall status from multiple checks:
 
 - **`register(check: Callable) -> Health`**: Register a health check function
 - **`run() -> List[CheckResult]`**: Execute all registered checks and return results
-- **`redis_check(redis_url: str, timeout: int = 2) -> Health`**: Register Redis check
-- **`rabbitmq_check(amqp_url: str, timeout: int = 2) -> Health`**: Register RabbitMQ check
-- **`postgresql_check(dsn: str, timeout: int = 3) -> Health`**: Register PostgreSQL check
-- **`mysql_check(dsn: str, timeout: int = 3) -> Health`**: Register MySQL check
-- **`sqlite_check(db_path: str, timeout: int = 3) -> Health`**: Register SQLite check
-- **`oracle_check(dsn: str, timeout: int = 3) -> Health`**: Register Oracle check
-- **`mssql_check(dsn: str, timeout: int = 3) -> Health`**: Register MS SQL Server check
-- **`mongodb_check(connection_string: str, timeout: int = 3) -> Health`**: Register MongoDB check
+
+**Cache Checks:**
+- **`redis_check(redis_url: str, timeout: int = 2, name: str = "redis") -> Health`**: Register Redis check
+- **`keydb_check(keydb_url: str, timeout: int = 2, name: str = "keydb") -> Health`**: Register KeyDB check
+- **`memcached_check(host: str = "localhost", port: int = 11211, timeout: int = 2, name: str = "memcached") -> Health`**: Register Memcached check
+
+**Message Queue Checks:**
+- **`rabbitmq_check(amqp_url: str, timeout: int = 2, name: str = "rabbitmq") -> Health`**: Register RabbitMQ check
+
+**Relational Database Checks:**
+- **`postgresql_check(dsn: str, timeout: int = 3, name: str = "postgresql") -> Health`**: Register PostgreSQL check
+- **`mysql_check(dsn: str, timeout: int = 3, name: str = "mysql") -> Health`**: Register MySQL check
+- **`sqlite_check(db_path: str, timeout: int = 3, name: str = "sqlite") -> Health`**: Register SQLite check
+- **`oracle_check(dsn: str, timeout: int = 3, name: str = "oracle") -> Health`**: Register Oracle check
+- **`mssql_check(dsn: str, timeout: int = 3, name: str = "mssql") -> Health`**: Register MS SQL Server check
+
+**NoSQL Database Checks:**
+- **`mongodb_check(connection_string: str, timeout: int = 3, name: str = "mongodb") -> Health`**: Register MongoDB check
 
 ### `CheckResult` Class
 
@@ -445,6 +498,43 @@ health = Health()
 health.redis_check("redis://localhost:6379", timeout=1)  # Fast check
 health.postgresql_check("postgresql://localhost/db", timeout=5)  # Slower check
 health.mongodb_check("mongodb://localhost:27017", timeout=3)  # Medium check
+```
+
+### Multiple Instances of Same Service
+
+Use the `name` parameter to monitor multiple instances of the same service:
+
+```python
+health = Health()
+
+# Multiple Redis instances
+health.redis_check("redis://primary:6379", name="redis-primary") \
+      .redis_check("redis://cache:6379", name="redis-cache") \
+      .redis_check("redis://sessions:6379", name="redis-sessions")
+
+# Multiple databases
+health.postgresql_check("postgresql://db1/users", name="users-db") \
+      .postgresql_check("postgresql://db2/orders", name="orders-db") \
+      .mysql_check("mysql://db3/analytics", name="analytics-db")
+
+# Multiple Memcached servers
+health.memcached_check(host="cache1", port=11211, name="cache-node-1") \
+      .memcached_check(host="cache2", port=11211, name="cache-node-2")
+
+results = health.run()
+
+# Each check has its unique name
+for result in results:
+    print(f"{result.name}: {result.status}")
+# Output:
+# redis-primary: healthy
+# redis-cache: healthy
+# redis-sessions: healthy
+# users-db: healthy
+# orders-db: healthy
+# analytics-db: healthy
+# cache-node-1: healthy
+# cache-node-2: healthy
 ```
 
 ### Health Check with Environment Variables
@@ -535,12 +625,13 @@ for result in results:
 ## 📝 Best Practices
 
 1. **Set Appropriate Timeouts**: Keep health check timeouts short (2-5 seconds) to avoid blocking
-2. **Separate Readiness from Liveness**: Use different health check endpoints for Kubernetes readiness/liveness probes
-3. **Cache Results**: For high-traffic endpoints, consider caching health check results for a few seconds
-4. **Monitor Check Duration**: Track `duration_ms` to identify slow dependencies
-5. **Use Graceful Degradation**: Return `degraded` status when service is operational but impaired
-6. **Avoid Heavy Operations**: Health checks should be lightweight (simple ping/select operations)
-7. **Handle Exceptions**: Let healthcheckx handle exceptions gracefully by returning appropriate status
+2. **Use Named Checks**: When monitoring multiple instances, use the `name` parameter to distinguish them
+3. **Separate Readiness from Liveness**: Use different health check endpoints for Kubernetes readiness/liveness probes
+4. **Cache Results**: For high-traffic endpoints, consider caching health check results for a few seconds
+5. **Monitor Check Duration**: Track `duration_ms` to identify slow dependencies
+6. **Use Graceful Degradation**: Return `degraded` status when service is operational but impaired
+7. **Avoid Heavy Operations**: Health checks should be lightweight (simple ping/select operations)
+8. **Handle Exceptions**: Let healthcheckx handle exceptions gracefully by returning appropriate status
 
 ## 🤝 Contributing
 
