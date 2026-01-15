@@ -1,0 +1,2518 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Production-grade health checks for Python applications">
+      
+      
+        <meta name="author" content="Soumen Samanta">
+      
+      
+        <link rel="canonical" href="https://github.com/Soumen3/healthcheckx/frameworks/flask/">
+      
+      
+        <link rel="prev" href="../fastapi/">
+      
+      
+        <link rel="next" href="../django/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Flask - healthcheckx Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#flask-integration" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="healthcheckx Documentation" class="md-header__button md-logo" aria-label="healthcheckx Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            healthcheckx Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Flask
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Soumen3/healthcheckx" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Soumen3/healthcheckx
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../installation/" class="md-tabs__link">
+          
+  
+  
+  Getting Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../checks/cache/" class="md-tabs__link">
+          
+  
+  
+  Built-in Checks
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../fastapi/" class="md-tabs__link">
+          
+  
+  
+  Framework Integration
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../advanced/" class="md-tabs__link">
+          
+  
+  
+  Advanced
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../api-reference/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  API Reference
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../examples/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Examples
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="healthcheckx Documentation" class="md-nav__button md-logo" aria-label="healthcheckx Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    healthcheckx Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Soumen3/healthcheckx" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Soumen3/healthcheckx
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Built-in Checks
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Built-in Checks
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../checks/cache/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cache Systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../checks/message-queue/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Message Queues
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../checks/relational-db/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Relational Databases
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../checks/nosql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    NoSQL Databases
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Framework Integration
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Framework Integration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fastapi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FastAPI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flask
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flask
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic Integration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Basic Integration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#simple-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Simple Example
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#response-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Response Format
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Response Format">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#healthy-response-http-200" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Healthy Response (HTTP 200)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unhealthy-response-http-503" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Unhealthy Response (HTTP 503)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#complete-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complete Example
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#blueprint-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Blueprint Integration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multiple-health-check-endpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multiple Health Check Endpoints
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#custom-response-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Custom Response Format
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#application-factory-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Application Factory Pattern
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#flask-extensions-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flask Extensions Integration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#custom-health-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Custom Health Checks
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kubernetes-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Kubernetes Integration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Kubernetes Integration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#flask-app-with-probes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flask App with Probes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kubernetes-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Kubernetes Deployment
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#docker-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Docker Integration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Docker Integration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dockerfile" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dockerfile
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-composeyml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker-compose.yml
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#production-deployment-with-gunicorn" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Production Deployment with Gunicorn
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Handling
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#logging-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Logging Integration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Best Practices
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#health-endpoint-returns-404" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Health Endpoint Returns 404
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slow-health-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Slow Health Checks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#import-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Import Errors
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../django/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Django
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Advanced
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic Integration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Basic Integration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#simple-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Simple Example
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#response-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Response Format
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Response Format">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#healthy-response-http-200" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Healthy Response (HTTP 200)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unhealthy-response-http-503" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Unhealthy Response (HTTP 503)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#complete-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complete Example
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#blueprint-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Blueprint Integration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multiple-health-check-endpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multiple Health Check Endpoints
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#custom-response-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Custom Response Format
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#application-factory-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Application Factory Pattern
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#flask-extensions-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flask Extensions Integration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#custom-health-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Custom Health Checks
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kubernetes-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Kubernetes Integration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Kubernetes Integration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#flask-app-with-probes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flask App with Probes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kubernetes-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Kubernetes Deployment
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#docker-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Docker Integration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Docker Integration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dockerfile" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dockerfile
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-composeyml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker-compose.yml
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#production-deployment-with-gunicorn" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Production Deployment with Gunicorn
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Handling
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#logging-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Logging Integration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Best Practices
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#health-endpoint-returns-404" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Health Endpoint Returns 404
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slow-health-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Slow Health Checks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#import-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Import Errors
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="flask-integration">Flask Integration</h1>
+<p>Integrate healthcheckx with Flask applications for simple and effective health check endpoints.</p>
+<h2 id="installation">Installation</h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip<span class="w"> </span>install<span class="w"> </span>flask<span class="w"> </span>healthcheckx<span class="o">[</span>all<span class="o">]</span>
+</code></pre></div>
+<h2 id="basic-integration">Basic Integration</h2>
+<h3 id="simple-example">Simple Example</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">flask</span><span class="w"> </span><span class="kn">import</span> <span class="n">Flask</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">healthcheckx</span><span class="w"> </span><span class="kn">import</span> <span class="n">Health</span><span class="p">,</span> <span class="n">flask_health_endpoint</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="n">health</span> <span class="o">=</span> <span class="n">Health</span><span class="p">()</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1"># Register health checks</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="n">health</span><span class="o">.</span><span class="n">redis_check</span><span class="p">(</span><span class="s2">&quot;redis://localhost:6379&quot;</span><span class="p">)</span> \
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>      <span class="o">.</span><span class="n">postgresql_check</span><span class="p">(</span><span class="s2">&quot;postgresql://user:pass@localhost/db&quot;</span><span class="p">)</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="c1"># Add health endpoint</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="n">app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="s2">&quot;/health&quot;</span><span class="p">,</span> <span class="s2">&quot;health&quot;</span><span class="p">,</span> <span class="n">flask_health_endpoint</span><span class="p">(</span><span class="n">health</span><span class="p">))</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>    <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">debug</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+<p>Visit <code>http://localhost:5000/health</code> to see the health status.</p>
+<h2 id="response-format">Response Format</h2>
+<h3 id="healthy-response-http-200">Healthy Response (HTTP 200)</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">{</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;healthy&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="nt">&quot;checks&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;redis&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">      </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;healthy&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">      </span><span class="nt">&quot;duration_ms&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">12.5</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="p">},</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;postgresql&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">      </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;healthy&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">      </span><span class="nt">&quot;duration_ms&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">45.3</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">  </span><span class="p">]</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="p">}</span>
+</code></pre></div>
+<h3 id="unhealthy-response-http-503">Unhealthy Response (HTTP 503)</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">{</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;unhealthy&quot;</span><span class="p">,</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="nt">&quot;checks&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;redis&quot;</span><span class="p">,</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">      </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;unhealthy&quot;</span><span class="p">,</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">      </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Connection refused&quot;</span><span class="p">,</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">      </span><span class="nt">&quot;duration_ms&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">2001.2</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">    </span><span class="p">},</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;postgresql&quot;</span><span class="p">,</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">      </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;healthy&quot;</span><span class="p">,</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">      </span><span class="nt">&quot;duration_ms&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">38.7</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="w">  </span><span class="p">]</span>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="p">}</span>
+</code></pre></div>
+<h2 id="complete-example">Complete Example</h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">flask</span><span class="w"> </span><span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">jsonify</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">healthcheckx</span><span class="w"> </span><span class="kn">import</span> <span class="n">Health</span><span class="p">,</span> <span class="n">flask_health_endpoint</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="c1"># Initialize health checks</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="n">health</span> <span class="o">=</span> <span class="n">Health</span><span class="p">()</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="c1"># Register checks from environment</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="k">if</span> <span class="n">redis_url</span> <span class="o">:=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;REDIS_URL&quot;</span><span class="p">):</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>    <span class="n">health</span><span class="o">.</span><span class="n">redis_check</span><span class="p">(</span><span class="n">redis_url</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;redis-cache&quot;</span><span class="p">)</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="k">if</span> <span class="n">db_url</span> <span class="o">:=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;DATABASE_URL&quot;</span><span class="p">):</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>    <span class="n">health</span><span class="o">.</span><span class="n">postgresql_check</span><span class="p">(</span><span class="n">db_url</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;postgres-main&quot;</span><span class="p">)</span>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="k">if</span> <span class="n">mongodb_url</span> <span class="o">:=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;MONGODB_URL&quot;</span><span class="p">):</span>
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>    <span class="n">health</span><span class="o">.</span><span class="n">mongodb_check</span><span class="p">(</span><span class="n">mongodb_url</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;mongo-data&quot;</span><span class="p">)</span>
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>
+<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="k">if</span> <span class="n">rabbitmq_url</span> <span class="o">:=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;RABBITMQ_URL&quot;</span><span class="p">):</span>
+<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>    <span class="n">health</span><span class="o">.</span><span class="n">rabbitmq_check</span><span class="p">(</span><span class="n">rabbitmq_url</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;message-queue&quot;</span><span class="p">)</span>
+<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>
+<a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="c1"># Add health endpoint</span>
+<a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="n">app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="s2">&quot;/health&quot;</span><span class="p">,</span> <span class="s2">&quot;health&quot;</span><span class="p">,</span> <span class="n">flask_health_endpoint</span><span class="p">(</span><span class="n">health</span><span class="p">))</span>
+<a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a>
+<a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a><span class="c1"># Optional: Liveness endpoint (simple alive check)</span>
+<a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/healthz&quot;</span><span class="p">)</span>
+<a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a><span class="k">def</span><span class="w"> </span><span class="nf">liveness</span><span class="p">():</span>
+<a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a>    <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;ok&quot;</span><span class="p">}),</span> <span class="mi">200</span>
+<a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a>
+<a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a><span class="c1"># Optional: Separate readiness endpoint</span>
+<a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/ready&quot;</span><span class="p">)</span>
+<a id="__codelineno-4-33" name="__codelineno-4-33" href="#__codelineno-4-33"></a><span class="k">def</span><span class="w"> </span><span class="nf">readiness</span><span class="p">():</span>
+<a id="__codelineno-4-34" name="__codelineno-4-34" href="#__codelineno-4-34"></a>    <span class="k">return</span> <span class="n">flask_health_endpoint</span><span class="p">(</span><span class="n">health</span><span class="p">)()</span>
+<a id="__codelineno-4-35" name="__codelineno-4-35" href="#__codelineno-4-35"></a>
+<a id="__codelineno-4-36" name="__codelineno-4-36" href="#__codelineno-4-36"></a><span class="c1"># Main application endpoints</span>
+<a id="__codelineno-4-37" name="__codelineno-4-37" href="#__codelineno-4-37"></a><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+<a id="__codelineno-4-38" name="__codelineno-4-38" href="#__codelineno-4-38"></a><span class="k">def</span><span class="w"> </span><span class="nf">index</span><span class="p">():</span>
+<a id="__codelineno-4-39" name="__codelineno-4-39" href="#__codelineno-4-39"></a>    <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Welcome to the API&quot;</span><span class="p">})</span>
+<a id="__codelineno-4-40" name="__codelineno-4-40" href="#__codelineno-4-40"></a>
+<a id="__codelineno-4-41" name="__codelineno-4-41" href="#__codelineno-4-41"></a><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/api/data&quot;</span><span class="p">)</span>
+<a id="__codelineno-4-42" name="__codelineno-4-42" href="#__codelineno-4-42"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_data</span><span class="p">():</span>
+<a id="__codelineno-4-43" name="__codelineno-4-43" href="#__codelineno-4-43"></a>    <span class="c1"># Your business logic here</span>
+<a id="__codelineno-4-44" name="__codelineno-4-44" href="#__codelineno-4-44"></a>    <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="p">[]})</span>
+<a id="__codelineno-4-45" name="__codelineno-4-45" href="#__codelineno-4-45"></a>
+<a id="__codelineno-4-46" name="__codelineno-4-46" href="#__codelineno-4-46"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<a id="__codelineno-4-47" name="__codelineno-4-47" href="#__codelineno-4-47"></a>    <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">&quot;0.0.0.0&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="blueprint-integration">Blueprint Integration</h2>
+<p>Organize health checks in a blueprint:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">flask</span><span class="w"> </span><span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">Blueprint</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">healthcheckx</span><span class="w"> </span><span class="kn">import</span> <span class="n">Health</span><span class="p">,</span> <span class="n">flask_health_endpoint</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># Create monitoring blueprint</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="n">monitoring</span> <span class="o">=</span> <span class="n">Blueprint</span><span class="p">(</span><span class="s1">&#39;monitoring&#39;</span><span class="p">,</span> <span class="vm">__name__</span><span class="p">,</span> <span class="n">url_prefix</span><span class="o">=</span><span class="s1">&#39;/monitoring&#39;</span><span class="p">)</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1"># Create health checks</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="n">health</span> <span class="o">=</span> <span class="n">Health</span><span class="p">()</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="n">health</span><span class="o">.</span><span class="n">redis_check</span><span class="p">(</span><span class="s2">&quot;redis://localhost:6379&quot;</span><span class="p">)</span> \
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>      <span class="o">.</span><span class="n">postgresql_check</span><span class="p">(</span><span class="s2">&quot;postgresql://localhost/db&quot;</span><span class="p">)</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="c1"># Add health endpoint to blueprint</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="n">monitoring</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="s2">&quot;/health&quot;</span><span class="p">,</span> <span class="s2">&quot;health&quot;</span><span class="p">,</span> <span class="n">flask_health_endpoint</span><span class="p">(</span><span class="n">health</span><span class="p">))</span>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="nd">@monitoring</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/ping&quot;</span><span class="p">)</span>
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="k">def</span><span class="w"> </span><span class="nf">ping</span><span class="p">():</span>
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;pong&quot;</span><span class="p">},</span> <span class="mi">200</span>
+<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>
+<a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="c1"># Create app and register blueprint</span>
+<a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="n">app</span><span class="o">.</span><span class="n">register_blueprint</span><span class="p">(</span><span class="n">monitoring</span><span class="p">)</span>
+<a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a>
+<a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a>    <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">debug</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+<p>Access health check at: <code>http://localhost:5000/monitoring/health</code></p>
+<h2 id="multiple-health-check-endpoints">Multiple Health Check Endpoints</h2>
+<p>Create different health check configurations:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">flask</span><span class="w"> </span><span class="kn">import</span> <span class="n">Flask</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">healthcheckx</span><span class="w"> </span><span class="kn">import</span> <span class="n">Health</span><span class="p">,</span> <span class="n">flask_health_endpoint</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="c1"># Critical services only (for liveness probe)</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="n">critical_health</span> <span class="o">=</span> <span class="n">Health</span><span class="p">()</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="n">critical_health</span><span class="o">.</span><span class="n">postgresql_check</span><span class="p">(</span><span class="s2">&quot;postgresql://localhost/db&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;database&quot;</span><span class="p">)</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="c1"># All services (for readiness probe)</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="n">full_health</span> <span class="o">=</span> <span class="n">Health</span><span class="p">()</span>
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="n">full_health</span><span class="o">.</span><span class="n">postgresql_check</span><span class="p">(</span><span class="s2">&quot;postgresql://localhost/db&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;database&quot;</span><span class="p">)</span> \
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>           <span class="o">.</span><span class="n">redis_check</span><span class="p">(</span><span class="s2">&quot;redis://localhost:6379&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;cache&quot;</span><span class="p">)</span> \
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>           <span class="o">.</span><span class="n">rabbitmq_check</span><span class="p">(</span><span class="s2">&quot;amqp://localhost:5672&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;queue&quot;</span><span class="p">)</span> \
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>           <span class="o">.</span><span class="n">mongodb_check</span><span class="p">(</span><span class="s2">&quot;mongodb://localhost:27017&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;documents&quot;</span><span class="p">)</span>
+<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>
+<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="c1"># Liveness - only checks critical services</span>
+<a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a><span class="n">app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="s2">&quot;/healthz&quot;</span><span class="p">,</span> <span class="s2">&quot;liveness&quot;</span><span class="p">,</span> <span class="n">flask_health_endpoint</span><span class="p">(</span><span class="n">critical_health</span><span class="p">))</span>
+<a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a>
+<a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a><span class="c1"># Readiness - checks all services</span>
+<a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a><span class="n">app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="s2">&quot;/ready&quot;</span><span class="p">,</span> <span class="s2">&quot;readiness&quot;</span><span class="p">,</span> <span class="n">flask_health_endpoint</span><span class="p">(</span><span class="n">full_health</span><span class="p">))</span>
+<a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a>
+<a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a><span class="c1"># Detailed health - includes all checks</span>
+<a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a><span class="n">app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="s2">&quot;/health&quot;</span><span class="p">,</span> <span class="s2">&quot;health&quot;</span><span class="p">,</span> <span class="n">flask_health_endpoint</span><span class="p">(</span><span class="n">full_health</span><span class="p">))</span>
+<a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a>
+<a id="__codelineno-6-26" name="__codelineno-6-26" href="#__codelineno-6-26"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<a id="__codelineno-6-27" name="__codelineno-6-27" href="#__codelineno-6-27"></a>    <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">debug</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="custom-response-format">Custom Response Format</h2>
+<p>Customize the response structure:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">flask</span><span class="w"> </span><span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">jsonify</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">healthcheckx</span><span class="w"> </span><span class="kn">import</span> <span class="n">Health</span><span class="p">,</span> <span class="n">overall_status</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="n">health</span> <span class="o">=</span> <span class="n">Health</span><span class="p">()</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="n">health</span><span class="o">.</span><span class="n">redis_check</span><span class="p">(</span><span class="s2">&quot;redis://localhost:6379&quot;</span><span class="p">)</span> \
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>      <span class="o">.</span><span class="n">postgresql_check</span><span class="p">(</span><span class="s2">&quot;postgresql://localhost/db&quot;</span><span class="p">)</span>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/health&quot;</span><span class="p">)</span>
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="k">def</span><span class="w"> </span><span class="nf">health_check</span><span class="p">():</span>
+<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>    <span class="n">results</span> <span class="o">=</span> <span class="n">health</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>    <span class="n">status</span> <span class="o">=</span> <span class="n">overall_status</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+<a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>
+<a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a>    <span class="c1"># Custom response format</span>
+<a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>    <span class="n">response_data</span> <span class="o">=</span> <span class="p">{</span>
+<a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a>        <span class="s2">&quot;application&quot;</span><span class="p">:</span> <span class="s2">&quot;my-flask-api&quot;</span><span class="p">,</span>
+<a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a>        <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;1.0.0&quot;</span><span class="p">,</span>
+<a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a>        <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="n">status</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+<a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a>        <span class="s2">&quot;timestamp&quot;</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;Z&quot;</span><span class="p">,</span>
+<a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a>        <span class="s2">&quot;services&quot;</span><span class="p">:</span> <span class="p">[</span>
+<a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a>            <span class="p">{</span>
+<a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a>                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">r</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+<a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a>                <span class="s2">&quot;healthy&quot;</span><span class="p">:</span> <span class="n">r</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="s2">&quot;healthy&quot;</span><span class="p">,</span>
+<a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a>                <span class="s2">&quot;responseTime&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">duration_ms</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">ms&quot;</span><span class="p">,</span>
+<a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a>                <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="n">r</span><span class="o">.</span><span class="n">message</span> <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">message</span> <span class="k">else</span> <span class="kc">None</span>
+<a id="__codelineno-7-28" name="__codelineno-7-28" href="#__codelineno-7-28"></a>            <span class="p">}</span>
+<a id="__codelineno-7-29" name="__codelineno-7-29" href="#__codelineno-7-29"></a>            <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">results</span>
+<a id="__codelineno-7-30" name="__codelineno-7-30" href="#__codelineno-7-30"></a>        <span class="p">]</span>
+<a id="__codelineno-7-31" name="__codelineno-7-31" href="#__codelineno-7-31"></a>    <span class="p">}</span>
+<a id="__codelineno-7-32" name="__codelineno-7-32" href="#__codelineno-7-32"></a>
+<a id="__codelineno-7-33" name="__codelineno-7-33" href="#__codelineno-7-33"></a>    <span class="n">status_code</span> <span class="o">=</span> <span class="mi">200</span> <span class="k">if</span> <span class="n">status</span><span class="o">.</span><span class="n">value</span> <span class="o">!=</span> <span class="s2">&quot;unhealthy&quot;</span> <span class="k">else</span> <span class="mi">503</span>
+<a id="__codelineno-7-34" name="__codelineno-7-34" href="#__codelineno-7-34"></a>    <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_data</span><span class="p">),</span> <span class="n">status_code</span>
+<a id="__codelineno-7-35" name="__codelineno-7-35" href="#__codelineno-7-35"></a>
+<a id="__codelineno-7-36" name="__codelineno-7-36" href="#__codelineno-7-36"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<a id="__codelineno-7-37" name="__codelineno-7-37" href="#__codelineno-7-37"></a>    <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">debug</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="application-factory-pattern">Application Factory Pattern</h2>
+<p>Use Flask application factory with health checks:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">flask</span><span class="w"> </span><span class="kn">import</span> <span class="n">Flask</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">healthcheckx</span><span class="w"> </span><span class="kn">import</span> <span class="n">Health</span><span class="p">,</span> <span class="n">flask_health_endpoint</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="k">def</span><span class="w"> </span><span class="nf">create_health</span><span class="p">():</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Create and configure health checks&quot;&quot;&quot;</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>    <span class="n">health</span> <span class="o">=</span> <span class="n">Health</span><span class="p">()</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>    <span class="c1"># Add checks based on configuration</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>    <span class="k">if</span> <span class="n">redis_url</span> <span class="o">:=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;REDIS_URL&quot;</span><span class="p">):</span>
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>        <span class="n">health</span><span class="o">.</span><span class="n">redis_check</span><span class="p">(</span><span class="n">redis_url</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;redis&quot;</span><span class="p">)</span>
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>    <span class="k">if</span> <span class="n">db_url</span> <span class="o">:=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;DATABASE_URL&quot;</span><span class="p">):</span>
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>        <span class="n">health</span><span class="o">.</span><span class="n">postgresql_check</span><span class="p">(</span><span class="n">db_url</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;database&quot;</span><span class="p">)</span>
+<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>
+<a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>    <span class="k">return</span> <span class="n">health</span>
+<a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>
+<a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a><span class="k">def</span><span class="w"> </span><span class="nf">create_app</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Application factory&quot;&quot;&quot;</span>
+<a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a>    <span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a>
+<a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a>    <span class="c1"># Load configuration</span>
+<a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a>    <span class="k">if</span> <span class="n">config</span><span class="p">:</span>
+<a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a>        <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+<a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a>
+<a id="__codelineno-8-26" name="__codelineno-8-26" href="#__codelineno-8-26"></a>    <span class="c1"># Initialize health checks</span>
+<a id="__codelineno-8-27" name="__codelineno-8-27" href="#__codelineno-8-27"></a>    <span class="n">health</span> <span class="o">=</span> <span class="n">create_health</span><span class="p">()</span>
+<a id="__codelineno-8-28" name="__codelineno-8-28" href="#__codelineno-8-28"></a>
+<a id="__codelineno-8-29" name="__codelineno-8-29" href="#__codelineno-8-29"></a>    <span class="c1"># Register health endpoint</span>
+<a id="__codelineno-8-30" name="__codelineno-8-30" href="#__codelineno-8-30"></a>    <span class="n">app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="s2">&quot;/health&quot;</span><span class="p">,</span> <span class="s2">&quot;health&quot;</span><span class="p">,</span> <span class="n">flask_health_endpoint</span><span class="p">(</span><span class="n">health</span><span class="p">))</span>
+<a id="__codelineno-8-31" name="__codelineno-8-31" href="#__codelineno-8-31"></a>
+<a id="__codelineno-8-32" name="__codelineno-8-32" href="#__codelineno-8-32"></a>    <span class="c1"># Register blueprints</span>
+<a id="__codelineno-8-33" name="__codelineno-8-33" href="#__codelineno-8-33"></a>    <span class="kn">from</span><span class="w"> </span><span class="nn">.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">api_bp</span>
+<a id="__codelineno-8-34" name="__codelineno-8-34" href="#__codelineno-8-34"></a>    <span class="n">app</span><span class="o">.</span><span class="n">register_blueprint</span><span class="p">(</span><span class="n">api_bp</span><span class="p">)</span>
+<a id="__codelineno-8-35" name="__codelineno-8-35" href="#__codelineno-8-35"></a>
+<a id="__codelineno-8-36" name="__codelineno-8-36" href="#__codelineno-8-36"></a>    <span class="k">return</span> <span class="n">app</span>
+<a id="__codelineno-8-37" name="__codelineno-8-37" href="#__codelineno-8-37"></a>
+<a id="__codelineno-8-38" name="__codelineno-8-38" href="#__codelineno-8-38"></a><span class="c1"># Usage</span>
+<a id="__codelineno-8-39" name="__codelineno-8-39" href="#__codelineno-8-39"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<a id="__codelineno-8-40" name="__codelineno-8-40" href="#__codelineno-8-40"></a>    <span class="n">app</span> <span class="o">=</span> <span class="n">create_app</span><span class="p">()</span>
+<a id="__codelineno-8-41" name="__codelineno-8-41" href="#__codelineno-8-41"></a>    <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">debug</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="flask-extensions-integration">Flask Extensions Integration</h2>
+<p>Integrate with Flask extensions:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">flask</span><span class="w"> </span><span class="kn">import</span> <span class="n">Flask</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">flask_sqlalchemy</span><span class="w"> </span><span class="kn">import</span> <span class="n">SQLAlchemy</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">flask_redis</span><span class="w"> </span><span class="kn">import</span> <span class="n">FlaskRedis</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">healthcheckx</span><span class="w"> </span><span class="kn">import</span> <span class="n">Health</span><span class="p">,</span> <span class="n">flask_health_endpoint</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;SQLALCHEMY_DATABASE_URI&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;postgresql://localhost/mydb&#39;</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;REDIS_URL&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;redis://localhost:6379&#39;</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="c1"># Initialize extensions</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="n">db</span> <span class="o">=</span> <span class="n">SQLAlchemy</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="n">redis_client</span> <span class="o">=</span> <span class="n">FlaskRedis</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="c1"># Create health checks using extension connections</span>
+<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="n">health</span> <span class="o">=</span> <span class="n">Health</span><span class="p">()</span>
+<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="n">health</span><span class="o">.</span><span class="n">postgresql_check</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;SQLALCHEMY_DATABASE_URI&#39;</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;database&quot;</span><span class="p">)</span> \
+<a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>      <span class="o">.</span><span class="n">redis_check</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;REDIS_URL&#39;</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;cache&quot;</span><span class="p">)</span>
+<a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a>
+<a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a><span class="c1"># Add health endpoint</span>
+<a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a><span class="n">app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="s2">&quot;/health&quot;</span><span class="p">,</span> <span class="s2">&quot;health&quot;</span><span class="p">,</span> <span class="n">flask_health_endpoint</span><span class="p">(</span><span class="n">health</span><span class="p">))</span>
+<a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a>
+<a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+<a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a><span class="k">def</span><span class="w"> </span><span class="nf">index</span><span class="p">():</span>
+<a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a>    <span class="c1"># Use extensions</span>
+<a id="__codelineno-9-25" name="__codelineno-9-25" href="#__codelineno-9-25"></a>    <span class="n">users</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">User</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<a id="__codelineno-9-26" name="__codelineno-9-26" href="#__codelineno-9-26"></a>    <span class="n">redis_client</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">&#39;key&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">)</span>
+<a id="__codelineno-9-27" name="__codelineno-9-27" href="#__codelineno-9-27"></a>    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;users&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">users</span><span class="p">)}</span>
+<a id="__codelineno-9-28" name="__codelineno-9-28" href="#__codelineno-9-28"></a>
+<a id="__codelineno-9-29" name="__codelineno-9-29" href="#__codelineno-9-29"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<a id="__codelineno-9-30" name="__codelineno-9-30" href="#__codelineno-9-30"></a>    <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">debug</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="custom-health-checks">Custom Health Checks</h2>
+<p>Add custom health checks:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">flask</span><span class="w"> </span><span class="kn">import</span> <span class="n">Flask</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">healthcheckx</span><span class="w"> </span><span class="kn">import</span> <span class="n">Health</span><span class="p">,</span> <span class="n">CheckResult</span><span class="p">,</span> <span class="n">HealthStatus</span><span class="p">,</span> <span class="n">flask_health_endpoint</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="n">health</span> <span class="o">=</span> <span class="n">Health</span><span class="p">()</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="c1"># Built-in checks</span>
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="n">health</span><span class="o">.</span><span class="n">redis_check</span><span class="p">(</span><span class="s2">&quot;redis://localhost:6379&quot;</span><span class="p">)</span>
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="c1"># Custom check for external API</span>
+<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="k">def</span><span class="w"> </span><span class="nf">external_api_check</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">CheckResult</span><span class="p">:</span>
+<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a>    <span class="k">try</span><span class="p">:</span>
+<a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a>        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+<a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a>            <span class="s2">&quot;https://api.example.com/status&quot;</span><span class="p">,</span>
+<a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a>            <span class="n">timeout</span><span class="o">=</span><span class="mi">2</span>
+<a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a>        <span class="p">)</span>
+<a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a>        <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+<a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a>            <span class="k">return</span> <span class="n">CheckResult</span><span class="p">(</span><span class="s2">&quot;external-api&quot;</span><span class="p">,</span> <span class="n">HealthStatus</span><span class="o">.</span><span class="n">healthy</span><span class="p">)</span>
+<a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a>        <span class="k">else</span><span class="p">:</span>
+<a id="__codelineno-10-21" name="__codelineno-10-21" href="#__codelineno-10-21"></a>            <span class="k">return</span> <span class="n">CheckResult</span><span class="p">(</span>
+<a id="__codelineno-10-22" name="__codelineno-10-22" href="#__codelineno-10-22"></a>                <span class="s2">&quot;external-api&quot;</span><span class="p">,</span>
+<a id="__codelineno-10-23" name="__codelineno-10-23" href="#__codelineno-10-23"></a>                <span class="n">HealthStatus</span><span class="o">.</span><span class="n">unhealthy</span><span class="p">,</span>
+<a id="__codelineno-10-24" name="__codelineno-10-24" href="#__codelineno-10-24"></a>                <span class="sa">f</span><span class="s2">&quot;HTTP </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">&quot;</span>
+<a id="__codelineno-10-25" name="__codelineno-10-25" href="#__codelineno-10-25"></a>            <span class="p">)</span>
+<a id="__codelineno-10-26" name="__codelineno-10-26" href="#__codelineno-10-26"></a>    <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">RequestException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<a id="__codelineno-10-27" name="__codelineno-10-27" href="#__codelineno-10-27"></a>        <span class="k">return</span> <span class="n">CheckResult</span><span class="p">(</span><span class="s2">&quot;external-api&quot;</span><span class="p">,</span> <span class="n">HealthStatus</span><span class="o">.</span><span class="n">unhealthy</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+<a id="__codelineno-10-28" name="__codelineno-10-28" href="#__codelineno-10-28"></a>
+<a id="__codelineno-10-29" name="__codelineno-10-29" href="#__codelineno-10-29"></a><span class="c1"># Custom check for disk space</span>
+<a id="__codelineno-10-30" name="__codelineno-10-30" href="#__codelineno-10-30"></a><span class="k">def</span><span class="w"> </span><span class="nf">disk_space_check</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">CheckResult</span><span class="p">:</span>
+<a id="__codelineno-10-31" name="__codelineno-10-31" href="#__codelineno-10-31"></a>    <span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
+<a id="__codelineno-10-32" name="__codelineno-10-32" href="#__codelineno-10-32"></a>    <span class="k">try</span><span class="p">:</span>
+<a id="__codelineno-10-33" name="__codelineno-10-33" href="#__codelineno-10-33"></a>        <span class="n">total</span><span class="p">,</span> <span class="n">used</span><span class="p">,</span> <span class="n">free</span> <span class="o">=</span> <span class="n">shutil</span><span class="o">.</span><span class="n">disk_usage</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+<a id="__codelineno-10-34" name="__codelineno-10-34" href="#__codelineno-10-34"></a>        <span class="n">percent_used</span> <span class="o">=</span> <span class="p">(</span><span class="n">used</span> <span class="o">/</span> <span class="n">total</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+<a id="__codelineno-10-35" name="__codelineno-10-35" href="#__codelineno-10-35"></a>
+<a id="__codelineno-10-36" name="__codelineno-10-36" href="#__codelineno-10-36"></a>        <span class="k">if</span> <span class="n">percent_used</span> <span class="o">&gt;</span> <span class="mi">90</span><span class="p">:</span>
+<a id="__codelineno-10-37" name="__codelineno-10-37" href="#__codelineno-10-37"></a>            <span class="k">return</span> <span class="n">CheckResult</span><span class="p">(</span>
+<a id="__codelineno-10-38" name="__codelineno-10-38" href="#__codelineno-10-38"></a>                <span class="s2">&quot;disk-space&quot;</span><span class="p">,</span>
+<a id="__codelineno-10-39" name="__codelineno-10-39" href="#__codelineno-10-39"></a>                <span class="n">HealthStatus</span><span class="o">.</span><span class="n">unhealthy</span><span class="p">,</span>
+<a id="__codelineno-10-40" name="__codelineno-10-40" href="#__codelineno-10-40"></a>                <span class="sa">f</span><span class="s2">&quot;Disk usage at </span><span class="si">{</span><span class="n">percent_used</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%&quot;</span>
+<a id="__codelineno-10-41" name="__codelineno-10-41" href="#__codelineno-10-41"></a>            <span class="p">)</span>
+<a id="__codelineno-10-42" name="__codelineno-10-42" href="#__codelineno-10-42"></a>        <span class="k">elif</span> <span class="n">percent_used</span> <span class="o">&gt;</span> <span class="mi">75</span><span class="p">:</span>
+<a id="__codelineno-10-43" name="__codelineno-10-43" href="#__codelineno-10-43"></a>            <span class="k">return</span> <span class="n">CheckResult</span><span class="p">(</span>
+<a id="__codelineno-10-44" name="__codelineno-10-44" href="#__codelineno-10-44"></a>                <span class="s2">&quot;disk-space&quot;</span><span class="p">,</span>
+<a id="__codelineno-10-45" name="__codelineno-10-45" href="#__codelineno-10-45"></a>                <span class="n">HealthStatus</span><span class="o">.</span><span class="n">degraded</span><span class="p">,</span>
+<a id="__codelineno-10-46" name="__codelineno-10-46" href="#__codelineno-10-46"></a>                <span class="sa">f</span><span class="s2">&quot;Disk usage at </span><span class="si">{</span><span class="n">percent_used</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%&quot;</span>
+<a id="__codelineno-10-47" name="__codelineno-10-47" href="#__codelineno-10-47"></a>            <span class="p">)</span>
+<a id="__codelineno-10-48" name="__codelineno-10-48" href="#__codelineno-10-48"></a>        <span class="k">else</span><span class="p">:</span>
+<a id="__codelineno-10-49" name="__codelineno-10-49" href="#__codelineno-10-49"></a>            <span class="k">return</span> <span class="n">CheckResult</span><span class="p">(</span><span class="s2">&quot;disk-space&quot;</span><span class="p">,</span> <span class="n">HealthStatus</span><span class="o">.</span><span class="n">healthy</span><span class="p">)</span>
+<a id="__codelineno-10-50" name="__codelineno-10-50" href="#__codelineno-10-50"></a>    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<a id="__codelineno-10-51" name="__codelineno-10-51" href="#__codelineno-10-51"></a>        <span class="k">return</span> <span class="n">CheckResult</span><span class="p">(</span><span class="s2">&quot;disk-space&quot;</span><span class="p">,</span> <span class="n">HealthStatus</span><span class="o">.</span><span class="n">unhealthy</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+<a id="__codelineno-10-52" name="__codelineno-10-52" href="#__codelineno-10-52"></a>
+<a id="__codelineno-10-53" name="__codelineno-10-53" href="#__codelineno-10-53"></a><span class="c1"># Register custom checks</span>
+<a id="__codelineno-10-54" name="__codelineno-10-54" href="#__codelineno-10-54"></a><span class="n">health</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">external_api_check</span><span class="p">)</span>
+<a id="__codelineno-10-55" name="__codelineno-10-55" href="#__codelineno-10-55"></a><span class="n">health</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">disk_space_check</span><span class="p">)</span>
+<a id="__codelineno-10-56" name="__codelineno-10-56" href="#__codelineno-10-56"></a>
+<a id="__codelineno-10-57" name="__codelineno-10-57" href="#__codelineno-10-57"></a><span class="n">app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="s2">&quot;/health&quot;</span><span class="p">,</span> <span class="s2">&quot;health&quot;</span><span class="p">,</span> <span class="n">flask_health_endpoint</span><span class="p">(</span><span class="n">health</span><span class="p">))</span>
+<a id="__codelineno-10-58" name="__codelineno-10-58" href="#__codelineno-10-58"></a>
+<a id="__codelineno-10-59" name="__codelineno-10-59" href="#__codelineno-10-59"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<a id="__codelineno-10-60" name="__codelineno-10-60" href="#__codelineno-10-60"></a>    <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">debug</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="kubernetes-integration">Kubernetes Integration</h2>
+<h3 id="flask-app-with-probes">Flask App with Probes</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">flask</span><span class="w"> </span><span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">jsonify</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">healthcheckx</span><span class="w"> </span><span class="kn">import</span> <span class="n">Health</span><span class="p">,</span> <span class="n">flask_health_endpoint</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="n">health</span> <span class="o">=</span> <span class="n">Health</span><span class="p">()</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="n">health</span><span class="o">.</span><span class="n">postgresql_check</span><span class="p">(</span><span class="s2">&quot;postgresql://postgres:5432/db&quot;</span><span class="p">)</span> \
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>      <span class="o">.</span><span class="n">redis_check</span><span class="p">(</span><span class="s2">&quot;redis://redis:6379&quot;</span><span class="p">)</span>
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>
+<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="c1"># Liveness probe - is the app alive?</span>
+<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/healthz&quot;</span><span class="p">)</span>
+<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="k">def</span><span class="w"> </span><span class="nf">liveness</span><span class="p">():</span>
+<a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>    <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;ok&quot;</span><span class="p">}),</span> <span class="mi">200</span>
+<a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>
+<a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a><span class="c1"># Readiness probe - is the app ready to serve traffic?</span>
+<a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a><span class="n">app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="s2">&quot;/ready&quot;</span><span class="p">,</span> <span class="s2">&quot;readiness&quot;</span><span class="p">,</span> <span class="n">flask_health_endpoint</span><span class="p">(</span><span class="n">health</span><span class="p">))</span>
+<a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a>
+<a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a><span class="c1"># Startup probe - has the app finished starting?</span>
+<a id="__codelineno-11-19" name="__codelineno-11-19" href="#__codelineno-11-19"></a><span class="n">app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="s2">&quot;/startup&quot;</span><span class="p">,</span> <span class="s2">&quot;startup&quot;</span><span class="p">,</span> <span class="n">flask_health_endpoint</span><span class="p">(</span><span class="n">health</span><span class="p">))</span>
+<a id="__codelineno-11-20" name="__codelineno-11-20" href="#__codelineno-11-20"></a>
+<a id="__codelineno-11-21" name="__codelineno-11-21" href="#__codelineno-11-21"></a><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+<a id="__codelineno-11-22" name="__codelineno-11-22" href="#__codelineno-11-22"></a><span class="k">def</span><span class="w"> </span><span class="nf">index</span><span class="p">():</span>
+<a id="__codelineno-11-23" name="__codelineno-11-23" href="#__codelineno-11-23"></a>    <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Hello World&quot;</span><span class="p">})</span>
+<a id="__codelineno-11-24" name="__codelineno-11-24" href="#__codelineno-11-24"></a>
+<a id="__codelineno-11-25" name="__codelineno-11-25" href="#__codelineno-11-25"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<a id="__codelineno-11-26" name="__codelineno-11-26" href="#__codelineno-11-26"></a>    <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">&quot;0.0.0.0&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">5000</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="kubernetes-deployment">Kubernetes Deployment</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="nt">metadata</span><span class="p">:</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">flask-api</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="nt">spec</span><span class="p">:</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="w">  </span><span class="nt">selector</span><span class="p">:</span>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="w">    </span><span class="nt">matchLabels</span><span class="p">:</span>
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="w">      </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">flask-api</span>
+<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="w">  </span><span class="nt">template</span><span class="p">:</span>
+<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="w">    </span><span class="nt">metadata</span><span class="p">:</span>
+<a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a><span class="w">      </span><span class="nt">labels</span><span class="p">:</span>
+<a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a><span class="w">        </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">flask-api</span>
+<a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a><span class="w">    </span><span class="nt">spec</span><span class="p">:</span>
+<a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a><span class="w">      </span><span class="nt">containers</span><span class="p">:</span>
+<a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">api</span>
+<a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a><span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">flask-api:latest</span>
+<a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a><span class="w">        </span><span class="nt">ports</span><span class="p">:</span>
+<a id="__codelineno-12-19" name="__codelineno-12-19" href="#__codelineno-12-19"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5000</span>
+<a id="__codelineno-12-20" name="__codelineno-12-20" href="#__codelineno-12-20"></a>
+<a id="__codelineno-12-21" name="__codelineno-12-21" href="#__codelineno-12-21"></a><span class="w">        </span><span class="nt">env</span><span class="p">:</span>
+<a id="__codelineno-12-22" name="__codelineno-12-22" href="#__codelineno-12-22"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">REDIS_URL</span>
+<a id="__codelineno-12-23" name="__codelineno-12-23" href="#__codelineno-12-23"></a><span class="w">          </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;redis://redis:6379&quot;</span>
+<a id="__codelineno-12-24" name="__codelineno-12-24" href="#__codelineno-12-24"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DATABASE_URL</span>
+<a id="__codelineno-12-25" name="__codelineno-12-25" href="#__codelineno-12-25"></a><span class="w">          </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;postgresql://postgres:5432/mydb&quot;</span>
+<a id="__codelineno-12-26" name="__codelineno-12-26" href="#__codelineno-12-26"></a>
+<a id="__codelineno-12-27" name="__codelineno-12-27" href="#__codelineno-12-27"></a><span class="w">        </span><span class="c1"># Liveness probe - restart if fails</span>
+<a id="__codelineno-12-28" name="__codelineno-12-28" href="#__codelineno-12-28"></a><span class="w">        </span><span class="nt">livenessProbe</span><span class="p">:</span>
+<a id="__codelineno-12-29" name="__codelineno-12-29" href="#__codelineno-12-29"></a><span class="w">          </span><span class="nt">httpGet</span><span class="p">:</span>
+<a id="__codelineno-12-30" name="__codelineno-12-30" href="#__codelineno-12-30"></a><span class="w">            </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/healthz</span>
+<a id="__codelineno-12-31" name="__codelineno-12-31" href="#__codelineno-12-31"></a><span class="w">            </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5000</span>
+<a id="__codelineno-12-32" name="__codelineno-12-32" href="#__codelineno-12-32"></a><span class="w">          </span><span class="nt">initialDelaySeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30</span>
+<a id="__codelineno-12-33" name="__codelineno-12-33" href="#__codelineno-12-33"></a><span class="w">          </span><span class="nt">periodSeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+<a id="__codelineno-12-34" name="__codelineno-12-34" href="#__codelineno-12-34"></a><span class="w">          </span><span class="nt">timeoutSeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
+<a id="__codelineno-12-35" name="__codelineno-12-35" href="#__codelineno-12-35"></a><span class="w">          </span><span class="nt">failureThreshold</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+<a id="__codelineno-12-36" name="__codelineno-12-36" href="#__codelineno-12-36"></a>
+<a id="__codelineno-12-37" name="__codelineno-12-37" href="#__codelineno-12-37"></a><span class="w">        </span><span class="c1"># Readiness probe - remove from service if fails</span>
+<a id="__codelineno-12-38" name="__codelineno-12-38" href="#__codelineno-12-38"></a><span class="w">        </span><span class="nt">readinessProbe</span><span class="p">:</span>
+<a id="__codelineno-12-39" name="__codelineno-12-39" href="#__codelineno-12-39"></a><span class="w">          </span><span class="nt">httpGet</span><span class="p">:</span>
+<a id="__codelineno-12-40" name="__codelineno-12-40" href="#__codelineno-12-40"></a><span class="w">            </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/ready</span>
+<a id="__codelineno-12-41" name="__codelineno-12-41" href="#__codelineno-12-41"></a><span class="w">            </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5000</span>
+<a id="__codelineno-12-42" name="__codelineno-12-42" href="#__codelineno-12-42"></a><span class="w">          </span><span class="nt">initialDelaySeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+<a id="__codelineno-12-43" name="__codelineno-12-43" href="#__codelineno-12-43"></a><span class="w">          </span><span class="nt">periodSeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
+<a id="__codelineno-12-44" name="__codelineno-12-44" href="#__codelineno-12-44"></a><span class="w">          </span><span class="nt">timeoutSeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+<a id="__codelineno-12-45" name="__codelineno-12-45" href="#__codelineno-12-45"></a><span class="w">          </span><span class="nt">failureThreshold</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+<a id="__codelineno-12-46" name="__codelineno-12-46" href="#__codelineno-12-46"></a>
+<a id="__codelineno-12-47" name="__codelineno-12-47" href="#__codelineno-12-47"></a><span class="w">        </span><span class="c1"># Startup probe - wait for app to start</span>
+<a id="__codelineno-12-48" name="__codelineno-12-48" href="#__codelineno-12-48"></a><span class="w">        </span><span class="nt">startupProbe</span><span class="p">:</span>
+<a id="__codelineno-12-49" name="__codelineno-12-49" href="#__codelineno-12-49"></a><span class="w">          </span><span class="nt">httpGet</span><span class="p">:</span>
+<a id="__codelineno-12-50" name="__codelineno-12-50" href="#__codelineno-12-50"></a><span class="w">            </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/startup</span>
+<a id="__codelineno-12-51" name="__codelineno-12-51" href="#__codelineno-12-51"></a><span class="w">            </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5000</span>
+<a id="__codelineno-12-52" name="__codelineno-12-52" href="#__codelineno-12-52"></a><span class="w">          </span><span class="nt">initialDelaySeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+<a id="__codelineno-12-53" name="__codelineno-12-53" href="#__codelineno-12-53"></a><span class="w">          </span><span class="nt">periodSeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
+<a id="__codelineno-12-54" name="__codelineno-12-54" href="#__codelineno-12-54"></a><span class="w">          </span><span class="nt">timeoutSeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+<a id="__codelineno-12-55" name="__codelineno-12-55" href="#__codelineno-12-55"></a><span class="w">          </span><span class="nt">failureThreshold</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30</span>
+</code></pre></div>
+<h2 id="docker-integration">Docker Integration</h2>
+<h3 id="dockerfile">Dockerfile</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="k">FROM</span><span class="w"> </span><span class="s">python:3.11-slim</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="k">WORKDIR</span><span class="w"> </span><span class="s">/app</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="k">COPY</span><span class="w"> </span>requirements.txt<span class="w"> </span>.
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="k">RUN</span><span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--no-cache-dir<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="k">COPY</span><span class="w"> </span>.<span class="w"> </span>.
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="c"># Health check</span>
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="k">HEALTHCHECK</span><span class="w"> </span>--interval<span class="o">=</span>30s<span class="w"> </span>--timeout<span class="o">=</span>3s<span class="w"> </span>--start-period<span class="o">=</span>5s<span class="w"> </span>--retries<span class="o">=</span><span class="m">3</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a><span class="w">  </span>CMD<span class="w"> </span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import requests; requests.get(&#39;http://localhost:5000/health&#39;).raise_for_status()&quot;</span>
+<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a>
+<a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a><span class="k">EXPOSE</span><span class="w"> </span><span class="s">5000</span>
+<a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a>
+<a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a><span class="k">CMD</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;gunicorn&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;--bind&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;0.0.0.0:5000&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;app:app&quot;</span><span class="p">]</span>
+</code></pre></div>
+<h3 id="docker-composeyml">docker-compose.yml</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;3.8&#39;</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="nt">services</span><span class="p">:</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="w">  </span><span class="nt">flask-api</span><span class="p">:</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="w">    </span><span class="nt">build</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.</span>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;5000:5000&quot;</span>
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">REDIS_URL=redis://redis:6379</span>
+<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DATABASE_URL=postgresql://postgres:postgres@postgres:5432/mydb</span>
+<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a><span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span>
+<a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">redis</span>
+<a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">postgres</span>
+<a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a><span class="w">    </span><span class="nt">healthcheck</span><span class="p">:</span>
+<a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a><span class="w">      </span><span class="nt">test</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;CMD&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;curl&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;-f&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;http://localhost:5000/health&quot;</span><span class="p p-Indicator">]</span>
+<a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a><span class="w">      </span><span class="nt">interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30s</span>
+<a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a><span class="w">      </span><span class="nt">timeout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3s</span>
+<a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a><span class="w">      </span><span class="nt">retries</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+<a id="__codelineno-14-19" name="__codelineno-14-19" href="#__codelineno-14-19"></a><span class="w">      </span><span class="nt">start_period</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10s</span>
+<a id="__codelineno-14-20" name="__codelineno-14-20" href="#__codelineno-14-20"></a>
+<a id="__codelineno-14-21" name="__codelineno-14-21" href="#__codelineno-14-21"></a><span class="w">  </span><span class="nt">redis</span><span class="p">:</span>
+<a id="__codelineno-14-22" name="__codelineno-14-22" href="#__codelineno-14-22"></a><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">redis:7-alpine</span>
+<a id="__codelineno-14-23" name="__codelineno-14-23" href="#__codelineno-14-23"></a><span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+<a id="__codelineno-14-24" name="__codelineno-14-24" href="#__codelineno-14-24"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;6379:6379&quot;</span>
+<a id="__codelineno-14-25" name="__codelineno-14-25" href="#__codelineno-14-25"></a>
+<a id="__codelineno-14-26" name="__codelineno-14-26" href="#__codelineno-14-26"></a><span class="w">  </span><span class="nt">postgres</span><span class="p">:</span>
+<a id="__codelineno-14-27" name="__codelineno-14-27" href="#__codelineno-14-27"></a><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">postgres:15-alpine</span>
+<a id="__codelineno-14-28" name="__codelineno-14-28" href="#__codelineno-14-28"></a><span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
+<a id="__codelineno-14-29" name="__codelineno-14-29" href="#__codelineno-14-29"></a><span class="w">      </span><span class="nt">POSTGRES_PASSWORD</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">postgres</span>
+<a id="__codelineno-14-30" name="__codelineno-14-30" href="#__codelineno-14-30"></a><span class="w">      </span><span class="nt">POSTGRES_DB</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mydb</span>
+<a id="__codelineno-14-31" name="__codelineno-14-31" href="#__codelineno-14-31"></a><span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+<a id="__codelineno-14-32" name="__codelineno-14-32" href="#__codelineno-14-32"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;5432:5432&quot;</span>
+</code></pre></div>
+<h2 id="production-deployment-with-gunicorn">Production Deployment with Gunicorn</h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># wsgi.py</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">app</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_app</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="n">app</span> <span class="o">=</span> <span class="n">create_app</span><span class="p">()</span>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>    <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</code></pre></div>
+<p>Run with Gunicorn:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>gunicorn<span class="w"> </span>--workers<span class="w"> </span><span class="m">4</span><span class="w"> </span>--bind<span class="w"> </span><span class="m">0</span>.0.0.0:5000<span class="w"> </span>wsgi:app
+</code></pre></div>
+<p>Or with configuration file:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># gunicorn.conf.py</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="n">bind</span> <span class="o">=</span> <span class="s2">&quot;0.0.0.0:5000&quot;</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="n">workers</span> <span class="o">=</span> <span class="mi">4</span>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="n">worker_class</span> <span class="o">=</span> <span class="s2">&quot;sync&quot;</span>
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="n">timeout</span> <span class="o">=</span> <span class="mi">30</span>
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="n">keepalive</span> <span class="o">=</span> <span class="mi">5</span>
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="c1"># Health check</span>
+<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a><span class="k">def</span><span class="w"> </span><span class="nf">pre_request</span><span class="p">(</span><span class="n">worker</span><span class="p">,</span> <span class="n">req</span><span class="p">):</span>
+<a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a>    <span class="k">if</span> <span class="n">req</span><span class="o">.</span><span class="n">path</span> <span class="o">==</span> <span class="s2">&quot;/health&quot;</span><span class="p">:</span>
+<a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a>        <span class="n">worker</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Health check request&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="error-handling">Error Handling</h2>
+<p>Handle errors gracefully:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">flask</span><span class="w"> </span><span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">jsonify</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">healthcheckx</span><span class="w"> </span><span class="kn">import</span> <span class="n">Health</span><span class="p">,</span> <span class="n">flask_health_endpoint</span>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="n">health</span> <span class="o">=</span> <span class="n">Health</span><span class="p">()</span>
+<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>
+<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="n">health</span><span class="o">.</span><span class="n">redis_check</span><span class="p">(</span><span class="s2">&quot;redis://localhost:6379&quot;</span><span class="p">)</span> \
+<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>      <span class="o">.</span><span class="n">postgresql_check</span><span class="p">(</span><span class="s2">&quot;postgresql://localhost/db&quot;</span><span class="p">)</span>
+<a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>
+<a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a><span class="n">app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="s2">&quot;/health&quot;</span><span class="p">,</span> <span class="s2">&quot;health&quot;</span><span class="p">,</span> <span class="n">flask_health_endpoint</span><span class="p">(</span><span class="n">health</span><span class="p">))</span>
+<a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a>
+<a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a><span class="c1"># Global error handler</span>
+<a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a><span class="nd">@app</span><span class="o">.</span><span class="n">errorhandler</span><span class="p">(</span><span class="ne">Exception</span><span class="p">)</span>
+<a id="__codelineno-18-14" name="__codelineno-18-14" href="#__codelineno-18-14"></a><span class="k">def</span><span class="w"> </span><span class="nf">handle_error</span><span class="p">(</span><span class="n">error</span><span class="p">):</span>
+<a id="__codelineno-18-15" name="__codelineno-18-15" href="#__codelineno-18-15"></a>    <span class="n">app</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error: </span><span class="si">{</span><span class="n">error</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-18-16" name="__codelineno-18-16" href="#__codelineno-18-16"></a>    <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span>
+<a id="__codelineno-18-17" name="__codelineno-18-17" href="#__codelineno-18-17"></a>        <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;error&quot;</span><span class="p">,</span>
+<a id="__codelineno-18-18" name="__codelineno-18-18" href="#__codelineno-18-18"></a>        <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+<a id="__codelineno-18-19" name="__codelineno-18-19" href="#__codelineno-18-19"></a>    <span class="p">}),</span> <span class="mi">500</span>
+<a id="__codelineno-18-20" name="__codelineno-18-20" href="#__codelineno-18-20"></a>
+<a id="__codelineno-18-21" name="__codelineno-18-21" href="#__codelineno-18-21"></a><span class="c1"># Health check shouldn&#39;t trigger error handler</span>
+<a id="__codelineno-18-22" name="__codelineno-18-22" href="#__codelineno-18-22"></a><span class="nd">@app</span><span class="o">.</span><span class="n">errorhandler</span><span class="p">(</span><span class="mi">503</span><span class="p">)</span>
+<a id="__codelineno-18-23" name="__codelineno-18-23" href="#__codelineno-18-23"></a><span class="k">def</span><span class="w"> </span><span class="nf">service_unavailable</span><span class="p">(</span><span class="n">error</span><span class="p">):</span>
+<a id="__codelineno-18-24" name="__codelineno-18-24" href="#__codelineno-18-24"></a>    <span class="c1"># Let health check return 503 without triggering error handler</span>
+<a id="__codelineno-18-25" name="__codelineno-18-25" href="#__codelineno-18-25"></a>    <span class="k">return</span> <span class="n">error</span>
+<a id="__codelineno-18-26" name="__codelineno-18-26" href="#__codelineno-18-26"></a>
+<a id="__codelineno-18-27" name="__codelineno-18-27" href="#__codelineno-18-27"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<a id="__codelineno-18-28" name="__codelineno-18-28" href="#__codelineno-18-28"></a>    <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">debug</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="logging-integration">Logging Integration</h2>
+<p>Add logging to health checks:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">flask</span><span class="w"> </span><span class="kn">import</span> <span class="n">Flask</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">healthcheckx</span><span class="w"> </span><span class="kn">import</span> <span class="n">Health</span><span class="p">,</span> <span class="n">flask_health_endpoint</span>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>
+<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a><span class="c1"># Configure logging</span>
+<a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a><span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span>
+<a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a>    <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">,</span>
+<a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a>    <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%(asctime)s</span><span class="s1"> - </span><span class="si">%(name)s</span><span class="s1"> - </span><span class="si">%(levelname)s</span><span class="s1"> - </span><span class="si">%(message)s</span><span class="s1">&#39;</span>
+<a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a><span class="p">)</span>
+<a id="__codelineno-19-12" name="__codelineno-19-12" href="#__codelineno-19-12"></a><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<a id="__codelineno-19-13" name="__codelineno-19-13" href="#__codelineno-19-13"></a>
+<a id="__codelineno-19-14" name="__codelineno-19-14" href="#__codelineno-19-14"></a><span class="n">health</span> <span class="o">=</span> <span class="n">Health</span><span class="p">()</span>
+<a id="__codelineno-19-15" name="__codelineno-19-15" href="#__codelineno-19-15"></a><span class="n">health</span><span class="o">.</span><span class="n">redis_check</span><span class="p">(</span><span class="s2">&quot;redis://localhost:6379&quot;</span><span class="p">)</span> \
+<a id="__codelineno-19-16" name="__codelineno-19-16" href="#__codelineno-19-16"></a>      <span class="o">.</span><span class="n">postgresql_check</span><span class="p">(</span><span class="s2">&quot;postgresql://localhost/db&quot;</span><span class="p">)</span>
+<a id="__codelineno-19-17" name="__codelineno-19-17" href="#__codelineno-19-17"></a>
+<a id="__codelineno-19-18" name="__codelineno-19-18" href="#__codelineno-19-18"></a><span class="c1"># Wrapper to log health checks</span>
+<a id="__codelineno-19-19" name="__codelineno-19-19" href="#__codelineno-19-19"></a><span class="k">def</span><span class="w"> </span><span class="nf">logged_health_endpoint</span><span class="p">():</span>
+<a id="__codelineno-19-20" name="__codelineno-19-20" href="#__codelineno-19-20"></a>    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Health check initiated&quot;</span><span class="p">)</span>
+<a id="__codelineno-19-21" name="__codelineno-19-21" href="#__codelineno-19-21"></a>    <span class="n">health_func</span> <span class="o">=</span> <span class="n">flask_health_endpoint</span><span class="p">(</span><span class="n">health</span><span class="p">)</span>
+<a id="__codelineno-19-22" name="__codelineno-19-22" href="#__codelineno-19-22"></a>    <span class="n">response</span> <span class="o">=</span> <span class="n">health_func</span><span class="p">()</span>
+<a id="__codelineno-19-23" name="__codelineno-19-23" href="#__codelineno-19-23"></a>    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Health check completed: </span><span class="si">{</span><span class="n">response</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-19-24" name="__codelineno-19-24" href="#__codelineno-19-24"></a>    <span class="k">return</span> <span class="n">response</span>
+<a id="__codelineno-19-25" name="__codelineno-19-25" href="#__codelineno-19-25"></a>
+<a id="__codelineno-19-26" name="__codelineno-19-26" href="#__codelineno-19-26"></a><span class="n">app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="s2">&quot;/health&quot;</span><span class="p">,</span> <span class="s2">&quot;health&quot;</span><span class="p">,</span> <span class="n">logged_health_endpoint</span><span class="p">)</span>
+<a id="__codelineno-19-27" name="__codelineno-19-27" href="#__codelineno-19-27"></a>
+<a id="__codelineno-19-28" name="__codelineno-19-28" href="#__codelineno-19-28"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<a id="__codelineno-19-29" name="__codelineno-19-29" href="#__codelineno-19-29"></a>    <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">debug</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="testing">Testing</h2>
+<p>Test health check endpoints:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="c1"># test_health.py</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">app</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_app</span>
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="k">def</span><span class="w"> </span><span class="nf">client</span><span class="p">():</span>
+<a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a>    <span class="n">app</span> <span class="o">=</span> <span class="n">create_app</span><span class="p">({</span><span class="s2">&quot;TESTING&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
+<a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a>    <span class="k">with</span> <span class="n">app</span><span class="o">.</span><span class="n">test_client</span><span class="p">()</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+<a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a>        <span class="k">yield</span> <span class="n">client</span>
+<a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a>
+<a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a><span class="k">def</span><span class="w"> </span><span class="nf">test_health_endpoint_exists</span><span class="p">(</span><span class="n">client</span><span class="p">):</span>
+<a id="__codelineno-20-12" name="__codelineno-20-12" href="#__codelineno-20-12"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Test that health endpoint exists&quot;&quot;&quot;</span>
+<a id="__codelineno-20-13" name="__codelineno-20-13" href="#__codelineno-20-13"></a>    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/health&quot;</span><span class="p">)</span>
+<a id="__codelineno-20-14" name="__codelineno-20-14" href="#__codelineno-20-14"></a>    <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">200</span><span class="p">,</span> <span class="mi">503</span><span class="p">]</span>
+<a id="__codelineno-20-15" name="__codelineno-20-15" href="#__codelineno-20-15"></a>
+<a id="__codelineno-20-16" name="__codelineno-20-16" href="#__codelineno-20-16"></a><span class="k">def</span><span class="w"> </span><span class="nf">test_health_response_format</span><span class="p">(</span><span class="n">client</span><span class="p">):</span>
+<a id="__codelineno-20-17" name="__codelineno-20-17" href="#__codelineno-20-17"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Test health response has correct format&quot;&quot;&quot;</span>
+<a id="__codelineno-20-18" name="__codelineno-20-18" href="#__codelineno-20-18"></a>    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/health&quot;</span><span class="p">)</span>
+<a id="__codelineno-20-19" name="__codelineno-20-19" href="#__codelineno-20-19"></a>    <span class="n">data</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">get_json</span><span class="p">()</span>
+<a id="__codelineno-20-20" name="__codelineno-20-20" href="#__codelineno-20-20"></a>
+<a id="__codelineno-20-21" name="__codelineno-20-21" href="#__codelineno-20-21"></a>    <span class="k">assert</span> <span class="s2">&quot;status&quot;</span> <span class="ow">in</span> <span class="n">data</span>
+<a id="__codelineno-20-22" name="__codelineno-20-22" href="#__codelineno-20-22"></a>    <span class="k">assert</span> <span class="s2">&quot;checks&quot;</span> <span class="ow">in</span> <span class="n">data</span>
+<a id="__codelineno-20-23" name="__codelineno-20-23" href="#__codelineno-20-23"></a>    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;checks&quot;</span><span class="p">],</span> <span class="nb">list</span><span class="p">)</span>
+<a id="__codelineno-20-24" name="__codelineno-20-24" href="#__codelineno-20-24"></a>
+<a id="__codelineno-20-25" name="__codelineno-20-25" href="#__codelineno-20-25"></a><span class="k">def</span><span class="w"> </span><span class="nf">test_liveness_probe</span><span class="p">(</span><span class="n">client</span><span class="p">):</span>
+<a id="__codelineno-20-26" name="__codelineno-20-26" href="#__codelineno-20-26"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Test liveness probe always returns 200&quot;&quot;&quot;</span>
+<a id="__codelineno-20-27" name="__codelineno-20-27" href="#__codelineno-20-27"></a>    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/healthz&quot;</span><span class="p">)</span>
+<a id="__codelineno-20-28" name="__codelineno-20-28" href="#__codelineno-20-28"></a>    <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span>
+<a id="__codelineno-20-29" name="__codelineno-20-29" href="#__codelineno-20-29"></a>
+<a id="__codelineno-20-30" name="__codelineno-20-30" href="#__codelineno-20-30"></a><span class="k">def</span><span class="w"> </span><span class="nf">test_health_with_mocked_services</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">mocker</span><span class="p">):</span>
+<a id="__codelineno-20-31" name="__codelineno-20-31" href="#__codelineno-20-31"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Test health with mocked services&quot;&quot;&quot;</span>
+<a id="__codelineno-20-32" name="__codelineno-20-32" href="#__codelineno-20-32"></a>    <span class="c1"># Mock Redis to be healthy</span>
+<a id="__codelineno-20-33" name="__codelineno-20-33" href="#__codelineno-20-33"></a>    <span class="n">mocker</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="s1">&#39;redis.Redis.ping&#39;</span><span class="p">,</span> <span class="n">return_value</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<a id="__codelineno-20-34" name="__codelineno-20-34" href="#__codelineno-20-34"></a>
+<a id="__codelineno-20-35" name="__codelineno-20-35" href="#__codelineno-20-35"></a>    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/health&quot;</span><span class="p">)</span>
+<a id="__codelineno-20-36" name="__codelineno-20-36" href="#__codelineno-20-36"></a>    <span class="n">data</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">get_json</span><span class="p">()</span>
+<a id="__codelineno-20-37" name="__codelineno-20-37" href="#__codelineno-20-37"></a>
+<a id="__codelineno-20-38" name="__codelineno-20-38" href="#__codelineno-20-38"></a>    <span class="k">assert</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;status&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;healthy&quot;</span>
+</code></pre></div>
+<h2 id="best-practices">Best Practices</h2>
+<ol>
+<li><strong>Keep It Simple</strong> - Health checks should be fast and straightforward</li>
+<li><strong>Separate Concerns</strong> - Use different endpoints for liveness and readiness</li>
+<li><strong>Handle Timeouts</strong> - Set appropriate timeouts for all checks (1-3 seconds)</li>
+<li><strong>Log Sparingly</strong> - Only log failures or important events</li>
+<li><strong>Use Blueprints</strong> - Organize health checks in monitoring blueprint</li>
+<li><strong>Production Ready</strong> - Deploy with Gunicorn or uWSGI for production</li>
+</ol>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="health-endpoint-returns-404">Health Endpoint Returns 404</h3>
+<p>Ensure you're using the helper function correctly:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="c1"># ✅ Correct</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="n">app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="s2">&quot;/health&quot;</span><span class="p">,</span> <span class="s2">&quot;health&quot;</span><span class="p">,</span> <span class="n">flask_health_endpoint</span><span class="p">(</span><span class="n">health</span><span class="p">))</span>
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="c1"># ❌ Wrong</span>
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="n">app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="s2">&quot;/health&quot;</span><span class="p">,</span> <span class="s2">&quot;health&quot;</span><span class="p">,</span> <span class="n">health</span><span class="o">.</span><span class="n">run</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="slow-health-checks">Slow Health Checks</h3>
+<p>If health checks are slow, add timeouts:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="n">health</span> <span class="o">=</span> <span class="n">Health</span><span class="p">()</span>
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="c1"># Default timeout is 2 seconds, adjust if needed</span>
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="n">health</span><span class="o">.</span><span class="n">redis_check</span><span class="p">(</span><span class="s2">&quot;redis://localhost:6379&quot;</span><span class="p">)</span>  <span class="c1"># Uses 2s timeout</span>
+</code></pre></div>
+<h3 id="import-errors">Import Errors</h3>
+<p>Make sure healthcheckx is installed with Flask support:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>pip<span class="w"> </span>install<span class="w"> </span>flask<span class="w"> </span>healthcheckx<span class="o">[</span>all<span class="o">]</span>
+</code></pre></div>
+<h2 id="next-steps">Next Steps</h2>
+<ul>
+<li><a href="../fastapi/">FastAPI Integration</a> - FastAPI framework integration</li>
+<li><a href="../django/">Django Integration</a> - Django framework integration  </li>
+<li><a href="../../advanced/custom-checks/">Custom Checks</a> - Create custom health checks</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,2074 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Production-grade health checks for Python applications">
+      
+      
+        <meta name="author" content="Soumen Samanta">
+      
+      
+        <link rel="canonical" href="https://github.com/Soumen3/healthcheckx/advanced/configuration/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Configuration - healthcheckx Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#configuration" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="healthcheckx Documentation" class="md-header__button md-logo" aria-label="healthcheckx Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            healthcheckx Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Configuration
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Soumen3/healthcheckx" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Soumen3/healthcheckx
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../installation/" class="md-tabs__link">
+          
+  
+  
+  Getting Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../checks/cache/" class="md-tabs__link">
+          
+  
+  
+  Built-in Checks
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../frameworks/fastapi/" class="md-tabs__link">
+          
+  
+  
+  Framework Integration
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+  Advanced
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../api-reference/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  API Reference
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../examples/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Examples
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="healthcheckx Documentation" class="md-nav__button md-logo" aria-label="healthcheckx Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    healthcheckx Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Soumen3/healthcheckx" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Soumen3/healthcheckx
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Built-in Checks
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Built-in Checks
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../checks/cache/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cache Systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../checks/message-queue/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Message Queues
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../checks/relational-db/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Relational Databases
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../checks/nosql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    NoSQL Databases
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Framework Integration
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Framework Integration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../frameworks/fastapi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FastAPI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../frameworks/flask/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flask
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../frameworks/django/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Django
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Advanced
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#default-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Default Settings
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#connection-strings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connection Strings
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Connection Strings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#redis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Redis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#postgresql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PostgreSQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mysql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MySQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mongodb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MongoDB
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rabbitmq" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RabbitMQ
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#memcached" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Memcached
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#keydb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        KeyDB
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sqlite" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SQLite
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#oracle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Oracle
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ms-sql-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MS SQL Server
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Environment Variables
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Environment Variables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#environment-file-env" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Environment File (.env)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration Classes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#custom-timeout-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Custom Timeout Configuration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#logging-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Logging Configuration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#retry-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Retry Configuration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#response-format-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Response Format Configuration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#caching-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Caching Configuration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#framework-specific-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Framework-Specific Configuration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Framework-Specific Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fastapi-with-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FastAPI with Settings
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#flask-with-config" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flask with Config
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#django-with-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Django with Settings
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#docker-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Docker Configuration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Docker Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#docker-composeyml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker-compose.yml
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kubernetes-configmap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Kubernetes ConfigMap
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Best Practices
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration Checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="configuration">Configuration</h1>
+<p>Configure health check behavior including timeouts, retries, and custom settings.</p>
+<h2 id="overview">Overview</h2>
+<p>healthcheckx provides sensible defaults but allows you to customize:</p>
+<ul>
+<li>Connection timeouts</li>
+<li>Check behavior</li>
+<li>Error handling</li>
+<li>Response formats</li>
+<li>Execution strategies</li>
+</ul>
+<h2 id="default-settings">Default Settings</h2>
+<p>All built-in checks use these defaults:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">DEFAULT_TIMEOUT</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1"># seconds</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">DEFAULT_CONNECT_TIMEOUT</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1"># seconds</span>
+</code></pre></div>
+<h2 id="connection-strings">Connection Strings</h2>
+<h3 id="redis">Redis</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">health</span><span class="o">.</span><span class="n">redis_check</span><span class="p">(</span><span class="s2">&quot;redis://localhost:6379/0&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;redis&quot;</span><span class="p">)</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="c1"># With password</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">health</span><span class="o">.</span><span class="n">redis_check</span><span class="p">(</span><span class="s2">&quot;redis://:password@localhost:6379/0&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;redis&quot;</span><span class="p">)</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="c1"># With username and password (Redis 6+)</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="n">health</span><span class="o">.</span><span class="n">redis_check</span><span class="p">(</span><span class="s2">&quot;redis://user:password@localhost:6379/0&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;redis&quot;</span><span class="p">)</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="c1"># SSL/TLS</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="n">health</span><span class="o">.</span><span class="n">redis_check</span><span class="p">(</span><span class="s2">&quot;rediss://localhost:6380/0&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;redis-ssl&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="postgresql">PostgreSQL</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Basic</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">health</span><span class="o">.</span><span class="n">postgresql_check</span><span class="p">(</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    <span class="s2">&quot;postgresql://user:password@localhost:5432/dbname&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;postgres&quot;</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="p">)</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># With SSL</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="n">health</span><span class="o">.</span><span class="n">postgresql_check</span><span class="p">(</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>    <span class="s2">&quot;postgresql://user:password@localhost:5432/dbname?sslmode=require&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;postgres&quot;</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="p">)</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="c1"># Custom timeout in connection string</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="n">health</span><span class="o">.</span><span class="n">postgresql_check</span><span class="p">(</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>    <span class="s2">&quot;postgresql://user:password@localhost:5432/dbname?connect_timeout=5&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;postgres&quot;</span>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="p">)</span>
+</code></pre></div>
+<h3 id="mysql">MySQL</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Basic</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">health</span><span class="o">.</span><span class="n">mysql_check</span><span class="p">(</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    <span class="s2">&quot;mysql://user:password@localhost:3306/dbname&quot;</span><span class="p">,</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;mysql&quot;</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="p">)</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="c1"># With charset</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="n">health</span><span class="o">.</span><span class="n">mysql_check</span><span class="p">(</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>    <span class="s2">&quot;mysql://user:password@localhost:3306/dbname?charset=utf8mb4&quot;</span><span class="p">,</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;mysql&quot;</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="p">)</span>
+</code></pre></div>
+<h3 id="mongodb">MongoDB</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Basic</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">health</span><span class="o">.</span><span class="n">mongodb_check</span><span class="p">(</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    <span class="s2">&quot;mongodb://localhost:27017/dbname&quot;</span><span class="p">,</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;mongodb&quot;</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="p">)</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="c1"># With authentication</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="n">health</span><span class="o">.</span><span class="n">mongodb_check</span><span class="p">(</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>    <span class="s2">&quot;mongodb://user:password@localhost:27017/dbname?authSource=admin&quot;</span><span class="p">,</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;mongodb&quot;</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="p">)</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="c1"># Replica set</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="n">health</span><span class="o">.</span><span class="n">mongodb_check</span><span class="p">(</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>    <span class="s2">&quot;mongodb://mongo1:27017,mongo2:27017,mongo3:27017/dbname?replicaSet=rs0&quot;</span><span class="p">,</span>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;mongodb&quot;</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="p">)</span>
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="c1"># With timeout</span>
+<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="n">health</span><span class="o">.</span><span class="n">mongodb_check</span><span class="p">(</span>
+<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>    <span class="s2">&quot;mongodb://localhost:27017/dbname?serverSelectionTimeoutMS=2000&quot;</span><span class="p">,</span>
+<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;mongodb&quot;</span>
+<a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="p">)</span>
+</code></pre></div>
+<h3 id="rabbitmq">RabbitMQ</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Basic</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">health</span><span class="o">.</span><span class="n">rabbitmq_check</span><span class="p">(</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="s2">&quot;amqp://guest:guest@localhost:5672/&quot;</span><span class="p">,</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;rabbitmq&quot;</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="p">)</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1"># Virtual host</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="n">health</span><span class="o">.</span><span class="n">rabbitmq_check</span><span class="p">(</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>    <span class="s2">&quot;amqp://user:password@localhost:5672/myvhost&quot;</span><span class="p">,</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;rabbitmq&quot;</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="p">)</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="c1"># SSL</span>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="n">health</span><span class="o">.</span><span class="n">rabbitmq_check</span><span class="p">(</span>
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>    <span class="s2">&quot;amqps://user:password@localhost:5671/&quot;</span><span class="p">,</span>
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;rabbitmq-ssl&quot;</span>
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="p">)</span>
+</code></pre></div>
+<h3 id="memcached">Memcached</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Single server</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">health</span><span class="o">.</span><span class="n">memcached_check</span><span class="p">(</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    <span class="s2">&quot;memcached://localhost:11211&quot;</span><span class="p">,</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;memcached&quot;</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="p">)</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="c1"># Multiple servers (client handles distribution)</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="n">health</span><span class="o">.</span><span class="n">memcached_check</span><span class="p">(</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>    <span class="s2">&quot;memcached://cache1:11211,cache2:11211&quot;</span><span class="p">,</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;memcached-cluster&quot;</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="p">)</span>
+</code></pre></div>
+<h3 id="keydb">KeyDB</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Same as Redis</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">health</span><span class="o">.</span><span class="n">keydb_check</span><span class="p">(</span><span class="s2">&quot;redis://localhost:6379&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;keydb&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="sqlite">SQLite</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># File-based</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="n">health</span><span class="o">.</span><span class="n">sqlite_check</span><span class="p">(</span><span class="s2">&quot;sqlite:///path/to/database.db&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;sqlite&quot;</span><span class="p">)</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="c1"># Absolute path</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="n">health</span><span class="o">.</span><span class="n">sqlite_check</span><span class="p">(</span><span class="s2">&quot;sqlite:////absolute/path/to/database.db&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;sqlite&quot;</span><span class="p">)</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="c1"># In-memory (for testing)</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="n">health</span><span class="o">.</span><span class="n">sqlite_check</span><span class="p">(</span><span class="s2">&quot;sqlite:///:memory:&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;sqlite-memory&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="oracle">Oracle</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># TNS format</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">health</span><span class="o">.</span><span class="n">oracle_check</span><span class="p">(</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>    <span class="s2">&quot;oracle://user:password@localhost:1521/ORCL&quot;</span><span class="p">,</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;oracle&quot;</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="p">)</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="c1"># Easy Connect format</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="n">health</span><span class="o">.</span><span class="n">oracle_check</span><span class="p">(</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>    <span class="s2">&quot;oracle://user:password@//localhost:1521/service_name&quot;</span><span class="p">,</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;oracle&quot;</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="p">)</span>
+</code></pre></div>
+<h3 id="ms-sql-server">MS SQL Server</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># Basic</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="n">health</span><span class="o">.</span><span class="n">mssql_check</span><span class="p">(</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>    <span class="s2">&quot;mssql://user:password@localhost:1433/dbname&quot;</span><span class="p">,</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;mssql&quot;</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="p">)</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="c1"># Windows Authentication</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="n">health</span><span class="o">.</span><span class="n">mssql_check</span><span class="p">(</span>
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>    <span class="s2">&quot;mssql://localhost:1433/dbname?trusted_connection=yes&quot;</span><span class="p">,</span>
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;mssql&quot;</span>
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="p">)</span>
+</code></pre></div>
+<h2 id="environment-variables">Environment Variables</h2>
+<p>Best practice: Use environment variables for configuration:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">healthcheckx</span><span class="w"> </span><span class="kn">import</span> <span class="n">Health</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="k">def</span><span class="w"> </span><span class="nf">create_health</span><span class="p">():</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>    <span class="n">health</span> <span class="o">=</span> <span class="n">Health</span><span class="p">()</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>    <span class="c1"># Get from environment with defaults</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>    <span class="n">redis_url</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;REDIS_URL&quot;</span><span class="p">,</span> <span class="s2">&quot;redis://localhost:6379&quot;</span><span class="p">)</span>
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>    <span class="n">db_url</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;DATABASE_URL&quot;</span><span class="p">,</span> <span class="s2">&quot;postgresql://localhost/mydb&quot;</span><span class="p">)</span>
+<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>
+<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>    <span class="n">health</span><span class="o">.</span><span class="n">redis_check</span><span class="p">(</span><span class="n">redis_url</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;redis&quot;</span><span class="p">)</span>
+<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>    <span class="n">health</span><span class="o">.</span><span class="n">postgresql_check</span><span class="p">(</span><span class="n">db_url</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;database&quot;</span><span class="p">)</span>
+<a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>
+<a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>    <span class="k">return</span> <span class="n">health</span>
+<a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a>
+<a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a><span class="n">health</span> <span class="o">=</span> <span class="n">create_health</span><span class="p">()</span>
+</code></pre></div>
+<h3 id="environment-file-env">Environment File (.env)</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># .env file</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="nv">DATABASE_URL</span><span class="o">=</span>postgresql://user:pass@localhost:5432/mydb
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="nv">REDIS_URL</span><span class="o">=</span>redis://:password@localhost:6379/0
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="nv">RABBITMQ_URL</span><span class="o">=</span>amqp://user:pass@localhost:5672/
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="nv">MONGODB_URL</span><span class="o">=</span>mongodb://localhost:27017/mydb
+</code></pre></div>
+<p>Load with python-dotenv:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">healthcheckx</span><span class="w"> </span><span class="kn">import</span> <span class="n">Health</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">dotenv</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dotenv</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="c1"># Load .env file</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="n">load_dotenv</span><span class="p">()</span>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="n">health</span> <span class="o">=</span> <span class="n">Health</span><span class="p">()</span>
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="n">health</span><span class="o">.</span><span class="n">postgresql_check</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;DATABASE_URL&quot;</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;database&quot;</span><span class="p">)</span>
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="n">health</span><span class="o">.</span><span class="n">redis_check</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;REDIS_URL&quot;</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;redis&quot;</span><span class="p">)</span>
+<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a><span class="n">health</span><span class="o">.</span><span class="n">rabbitmq_check</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;RABBITMQ_URL&quot;</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;rabbitmq&quot;</span><span class="p">)</span>
+<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a><span class="n">health</span><span class="o">.</span><span class="n">mongodb_check</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;MONGODB_URL&quot;</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;mongodb&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="configuration-classes">Configuration Classes</h2>
+<p>Create configuration classes for better organization:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="nd">@dataclass</span>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="k">class</span><span class="w"> </span><span class="nc">RedisConfig</span><span class="p">:</span>
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>    <span class="n">url</span><span class="p">:</span> <span class="nb">str</span>
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;redis&quot;</span>
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>
+<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>    <span class="nd">@classmethod</span>
+<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">from_env</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">env_var</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;REDIS_URL&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;redis&quot;</span><span class="p">):</span>
+<a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a>        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+<a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a>            <span class="n">url</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">env_var</span><span class="p">,</span> <span class="s2">&quot;redis://localhost:6379&quot;</span><span class="p">),</span>
+<a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a>            <span class="n">name</span><span class="o">=</span><span class="n">name</span>
+<a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a>        <span class="p">)</span>
+<a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a>
+<a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a><span class="nd">@dataclass</span>
+<a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a><span class="k">class</span><span class="w"> </span><span class="nc">DatabaseConfig</span><span class="p">:</span>
+<a id="__codelineno-14-19" name="__codelineno-14-19" href="#__codelineno-14-19"></a>    <span class="n">url</span><span class="p">:</span> <span class="nb">str</span>
+<a id="__codelineno-14-20" name="__codelineno-14-20" href="#__codelineno-14-20"></a>    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;database&quot;</span>
+<a id="__codelineno-14-21" name="__codelineno-14-21" href="#__codelineno-14-21"></a>
+<a id="__codelineno-14-22" name="__codelineno-14-22" href="#__codelineno-14-22"></a>    <span class="nd">@classmethod</span>
+<a id="__codelineno-14-23" name="__codelineno-14-23" href="#__codelineno-14-23"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">from_env</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">env_var</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;DATABASE_URL&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;database&quot;</span><span class="p">):</span>
+<a id="__codelineno-14-24" name="__codelineno-14-24" href="#__codelineno-14-24"></a>        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+<a id="__codelineno-14-25" name="__codelineno-14-25" href="#__codelineno-14-25"></a>            <span class="n">url</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">env_var</span><span class="p">,</span> <span class="s2">&quot;postgresql://localhost/mydb&quot;</span><span class="p">),</span>
+<a id="__codelineno-14-26" name="__codelineno-14-26" href="#__codelineno-14-26"></a>            <span class="n">name</span><span class="o">=</span><span class="n">name</span>
+<a id="__codelineno-14-27" name="__codelineno-14-27" href="#__codelineno-14-27"></a>        <span class="p">)</span>
+<a id="__codelineno-14-28" name="__codelineno-14-28" href="#__codelineno-14-28"></a>
+<a id="__codelineno-14-29" name="__codelineno-14-29" href="#__codelineno-14-29"></a><span class="nd">@dataclass</span>
+<a id="__codelineno-14-30" name="__codelineno-14-30" href="#__codelineno-14-30"></a><span class="k">class</span><span class="w"> </span><span class="nc">HealthConfig</span><span class="p">:</span>
+<a id="__codelineno-14-31" name="__codelineno-14-31" href="#__codelineno-14-31"></a>    <span class="n">redis</span><span class="p">:</span> <span class="n">RedisConfig</span>
+<a id="__codelineno-14-32" name="__codelineno-14-32" href="#__codelineno-14-32"></a>    <span class="n">database</span><span class="p">:</span> <span class="n">DatabaseConfig</span>
+<a id="__codelineno-14-33" name="__codelineno-14-33" href="#__codelineno-14-33"></a>    <span class="n">rabbitmq_url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<a id="__codelineno-14-34" name="__codelineno-14-34" href="#__codelineno-14-34"></a>
+<a id="__codelineno-14-35" name="__codelineno-14-35" href="#__codelineno-14-35"></a>    <span class="nd">@classmethod</span>
+<a id="__codelineno-14-36" name="__codelineno-14-36" href="#__codelineno-14-36"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">from_env</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+<a id="__codelineno-14-37" name="__codelineno-14-37" href="#__codelineno-14-37"></a>        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+<a id="__codelineno-14-38" name="__codelineno-14-38" href="#__codelineno-14-38"></a>            <span class="n">redis</span><span class="o">=</span><span class="n">RedisConfig</span><span class="o">.</span><span class="n">from_env</span><span class="p">(),</span>
+<a id="__codelineno-14-39" name="__codelineno-14-39" href="#__codelineno-14-39"></a>            <span class="n">database</span><span class="o">=</span><span class="n">DatabaseConfig</span><span class="o">.</span><span class="n">from_env</span><span class="p">(),</span>
+<a id="__codelineno-14-40" name="__codelineno-14-40" href="#__codelineno-14-40"></a>            <span class="n">rabbitmq_url</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;RABBITMQ_URL&quot;</span><span class="p">)</span>
+<a id="__codelineno-14-41" name="__codelineno-14-41" href="#__codelineno-14-41"></a>        <span class="p">)</span>
+<a id="__codelineno-14-42" name="__codelineno-14-42" href="#__codelineno-14-42"></a>
+<a id="__codelineno-14-43" name="__codelineno-14-43" href="#__codelineno-14-43"></a><span class="c1"># Usage</span>
+<a id="__codelineno-14-44" name="__codelineno-14-44" href="#__codelineno-14-44"></a><span class="n">config</span> <span class="o">=</span> <span class="n">HealthConfig</span><span class="o">.</span><span class="n">from_env</span><span class="p">()</span>
+<a id="__codelineno-14-45" name="__codelineno-14-45" href="#__codelineno-14-45"></a>
+<a id="__codelineno-14-46" name="__codelineno-14-46" href="#__codelineno-14-46"></a><span class="n">health</span> <span class="o">=</span> <span class="n">Health</span><span class="p">()</span>
+<a id="__codelineno-14-47" name="__codelineno-14-47" href="#__codelineno-14-47"></a><span class="n">health</span><span class="o">.</span><span class="n">redis_check</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">redis</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">redis</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<a id="__codelineno-14-48" name="__codelineno-14-48" href="#__codelineno-14-48"></a><span class="n">health</span><span class="o">.</span><span class="n">postgresql_check</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<a id="__codelineno-14-49" name="__codelineno-14-49" href="#__codelineno-14-49"></a>
+<a id="__codelineno-14-50" name="__codelineno-14-50" href="#__codelineno-14-50"></a><span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">rabbitmq_url</span><span class="p">:</span>
+<a id="__codelineno-14-51" name="__codelineno-14-51" href="#__codelineno-14-51"></a>    <span class="n">health</span><span class="o">.</span><span class="n">rabbitmq_check</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">rabbitmq_url</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;rabbitmq&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="custom-timeout-configuration">Custom Timeout Configuration</h2>
+<p>For custom checks with specific timeouts:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">healthcheckx</span><span class="w"> </span><span class="kn">import</span> <span class="n">Health</span><span class="p">,</span> <span class="n">CheckResult</span><span class="p">,</span> <span class="n">HealthStatus</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="k">def</span><span class="w"> </span><span class="nf">create_api_check</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">):</span>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Factory with custom timeout&quot;&quot;&quot;</span>
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">check</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">CheckResult</span><span class="p">:</span>
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>        <span class="k">try</span><span class="p">:</span>
+<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>            <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span>
+<a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>            <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+<a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a>                <span class="k">return</span> <span class="n">CheckResult</span><span class="p">(</span><span class="s2">&quot;api&quot;</span><span class="p">,</span> <span class="n">HealthStatus</span><span class="o">.</span><span class="n">healthy</span><span class="p">)</span>
+<a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a>            <span class="k">return</span> <span class="n">CheckResult</span><span class="p">(</span><span class="s2">&quot;api&quot;</span><span class="p">,</span> <span class="n">HealthStatus</span><span class="o">.</span><span class="n">unhealthy</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;HTTP </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a>        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a>            <span class="k">return</span> <span class="n">CheckResult</span><span class="p">(</span><span class="s2">&quot;api&quot;</span><span class="p">,</span> <span class="n">HealthStatus</span><span class="o">.</span><span class="n">unhealthy</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+<a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a>    <span class="k">return</span> <span class="n">check</span>
+<a id="__codelineno-15-15" name="__codelineno-15-15" href="#__codelineno-15-15"></a>
+<a id="__codelineno-15-16" name="__codelineno-15-16" href="#__codelineno-15-16"></a><span class="n">health</span> <span class="o">=</span> <span class="n">Health</span><span class="p">()</span>
+<a id="__codelineno-15-17" name="__codelineno-15-17" href="#__codelineno-15-17"></a>
+<a id="__codelineno-15-18" name="__codelineno-15-18" href="#__codelineno-15-18"></a><span class="c1"># Different timeouts for different services</span>
+<a id="__codelineno-15-19" name="__codelineno-15-19" href="#__codelineno-15-19"></a><span class="n">health</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">create_api_check</span><span class="p">(</span><span class="s2">&quot;https://fast-api.com&quot;</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+<a id="__codelineno-15-20" name="__codelineno-15-20" href="#__codelineno-15-20"></a><span class="n">health</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">create_api_check</span><span class="p">(</span><span class="s2">&quot;https://slow-api.com&quot;</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">5</span><span class="p">))</span>
+</code></pre></div>
+<h2 id="logging-configuration">Logging Configuration</h2>
+<p>Configure logging for health checks:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">healthcheckx</span><span class="w"> </span><span class="kn">import</span> <span class="n">Health</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="c1"># Configure logging</span>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span>
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>    <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">,</span>
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>    <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%(asctime)s</span><span class="s1"> - </span><span class="si">%(name)s</span><span class="s1"> - </span><span class="si">%(levelname)s</span><span class="s1"> - </span><span class="si">%(message)s</span><span class="s1">&#39;</span>
+<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="p">)</span>
+<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>
+<a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>
+<a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a><span class="n">health</span> <span class="o">=</span> <span class="n">Health</span><span class="p">()</span>
+<a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a><span class="n">health</span><span class="o">.</span><span class="n">redis_check</span><span class="p">(</span><span class="s2">&quot;redis://localhost:6379&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;redis&quot;</span><span class="p">)</span>
+<a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a><span class="n">health</span><span class="o">.</span><span class="n">postgresql_check</span><span class="p">(</span><span class="s2">&quot;postgresql://localhost/db&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;database&quot;</span><span class="p">)</span>
+<a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a>
+<a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a><span class="c1"># Log results</span>
+<a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a><span class="n">results</span> <span class="o">=</span> <span class="n">health</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<a id="__codelineno-16-18" name="__codelineno-16-18" href="#__codelineno-16-18"></a><span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+<a id="__codelineno-16-19" name="__codelineno-16-19" href="#__codelineno-16-19"></a>    <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;unhealthy&quot;</span><span class="p">:</span>
+<a id="__codelineno-16-20" name="__codelineno-16-20" href="#__codelineno-16-20"></a>        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> is unhealthy: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">message</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-16-21" name="__codelineno-16-21" href="#__codelineno-16-21"></a>    <span class="k">elif</span> <span class="n">result</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;degraded&quot;</span><span class="p">:</span>
+<a id="__codelineno-16-22" name="__codelineno-16-22" href="#__codelineno-16-22"></a>        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> is degraded: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">message</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-16-23" name="__codelineno-16-23" href="#__codelineno-16-23"></a>    <span class="k">else</span><span class="p">:</span>
+<a id="__codelineno-16-24" name="__codelineno-16-24" href="#__codelineno-16-24"></a>        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> is healthy (</span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">duration_ms</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">ms)&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="retry-configuration">Retry Configuration</h2>
+<p>Add retry logic to health checks:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">healthcheckx</span><span class="w"> </span><span class="kn">import</span> <span class="n">Health</span><span class="p">,</span> <span class="n">CheckResult</span><span class="p">,</span> <span class="n">HealthStatus</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">wraps</span>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="k">def</span><span class="w"> </span><span class="nf">with_retry</span><span class="p">(</span><span class="n">max_attempts</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">delay</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">):</span>
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Decorator to add retry logic&quot;&quot;&quot;</span>
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">decorator</span><span class="p">(</span><span class="n">check_func</span><span class="p">):</span>
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>        <span class="nd">@wraps</span><span class="p">(</span><span class="n">check_func</span><span class="p">)</span>
+<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>        <span class="k">def</span><span class="w"> </span><span class="nf">wrapper</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">CheckResult</span><span class="p">:</span>
+<a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a>            <span class="n">last_result</span> <span class="o">=</span> <span class="kc">None</span>
+<a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a>            <span class="k">for</span> <span class="n">attempt</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_attempts</span><span class="p">):</span>
+<a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a>                <span class="n">result</span> <span class="o">=</span> <span class="n">check_func</span><span class="p">()</span>
+<a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a>                <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="n">HealthStatus</span><span class="o">.</span><span class="n">healthy</span><span class="p">:</span>
+<a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a>                    <span class="k">return</span> <span class="n">result</span>
+<a id="__codelineno-17-15" name="__codelineno-17-15" href="#__codelineno-17-15"></a>                <span class="n">last_result</span> <span class="o">=</span> <span class="n">result</span>
+<a id="__codelineno-17-16" name="__codelineno-17-16" href="#__codelineno-17-16"></a>                <span class="k">if</span> <span class="n">attempt</span> <span class="o">&lt;</span> <span class="n">max_attempts</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+<a id="__codelineno-17-17" name="__codelineno-17-17" href="#__codelineno-17-17"></a>                    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">delay</span><span class="p">)</span>
+<a id="__codelineno-17-18" name="__codelineno-17-18" href="#__codelineno-17-18"></a>            <span class="k">return</span> <span class="n">last_result</span>
+<a id="__codelineno-17-19" name="__codelineno-17-19" href="#__codelineno-17-19"></a>        <span class="k">return</span> <span class="n">wrapper</span>
+<a id="__codelineno-17-20" name="__codelineno-17-20" href="#__codelineno-17-20"></a>    <span class="k">return</span> <span class="n">decorator</span>
+<a id="__codelineno-17-21" name="__codelineno-17-21" href="#__codelineno-17-21"></a>
+<a id="__codelineno-17-22" name="__codelineno-17-22" href="#__codelineno-17-22"></a><span class="c1"># Usage</span>
+<a id="__codelineno-17-23" name="__codelineno-17-23" href="#__codelineno-17-23"></a><span class="nd">@with_retry</span><span class="p">(</span><span class="n">max_attempts</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<a id="__codelineno-17-24" name="__codelineno-17-24" href="#__codelineno-17-24"></a><span class="k">def</span><span class="w"> </span><span class="nf">unstable_service_check</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">CheckResult</span><span class="p">:</span>
+<a id="__codelineno-17-25" name="__codelineno-17-25" href="#__codelineno-17-25"></a>    <span class="c1"># Your check logic</span>
+<a id="__codelineno-17-26" name="__codelineno-17-26" href="#__codelineno-17-26"></a>    <span class="k">pass</span>
+<a id="__codelineno-17-27" name="__codelineno-17-27" href="#__codelineno-17-27"></a>
+<a id="__codelineno-17-28" name="__codelineno-17-28" href="#__codelineno-17-28"></a><span class="n">health</span> <span class="o">=</span> <span class="n">Health</span><span class="p">()</span>
+<a id="__codelineno-17-29" name="__codelineno-17-29" href="#__codelineno-17-29"></a><span class="n">health</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">unstable_service_check</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="response-format-configuration">Response Format Configuration</h2>
+<p>Customize response format:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">healthcheckx</span><span class="w"> </span><span class="kn">import</span> <span class="n">Health</span><span class="p">,</span> <span class="n">overall_status</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="k">def</span><span class="w"> </span><span class="nf">custom_response_format</span><span class="p">(</span><span class="n">results</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Custom response format&quot;&quot;&quot;</span>
+<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>    <span class="n">status</span> <span class="o">=</span> <span class="n">overall_status</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>
+<a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>    <span class="k">return</span> <span class="p">{</span>
+<a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a>        <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="n">status</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+<a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a>        <span class="s2">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2026-01-15T10:30:00Z&quot;</span><span class="p">,</span>
+<a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a>        <span class="s2">&quot;total_checks&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">),</span>
+<a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a>        <span class="s2">&quot;healthy_count&quot;</span><span class="p">:</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">results</span> <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;healthy&quot;</span><span class="p">),</span>
+<a id="__codelineno-18-14" name="__codelineno-18-14" href="#__codelineno-18-14"></a>        <span class="s2">&quot;unhealthy_count&quot;</span><span class="p">:</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">results</span> <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;unhealthy&quot;</span><span class="p">),</span>
+<a id="__codelineno-18-15" name="__codelineno-18-15" href="#__codelineno-18-15"></a>        <span class="s2">&quot;average_response_time&quot;</span><span class="p">:</span> <span class="nb">sum</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">duration_ms</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">results</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">),</span>
+<a id="__codelineno-18-16" name="__codelineno-18-16" href="#__codelineno-18-16"></a>        <span class="s2">&quot;checks&quot;</span><span class="p">:</span> <span class="p">[</span>
+<a id="__codelineno-18-17" name="__codelineno-18-17" href="#__codelineno-18-17"></a>            <span class="p">{</span>
+<a id="__codelineno-18-18" name="__codelineno-18-18" href="#__codelineno-18-18"></a>                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">r</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+<a id="__codelineno-18-19" name="__codelineno-18-19" href="#__codelineno-18-19"></a>                <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="n">r</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+<a id="__codelineno-18-20" name="__codelineno-18-20" href="#__codelineno-18-20"></a>                <span class="s2">&quot;duration_ms&quot;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">duration_ms</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+<a id="__codelineno-18-21" name="__codelineno-18-21" href="#__codelineno-18-21"></a>                <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="n">r</span><span class="o">.</span><span class="n">message</span>
+<a id="__codelineno-18-22" name="__codelineno-18-22" href="#__codelineno-18-22"></a>            <span class="p">}</span>
+<a id="__codelineno-18-23" name="__codelineno-18-23" href="#__codelineno-18-23"></a>            <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">results</span>
+<a id="__codelineno-18-24" name="__codelineno-18-24" href="#__codelineno-18-24"></a>        <span class="p">]</span>
+<a id="__codelineno-18-25" name="__codelineno-18-25" href="#__codelineno-18-25"></a>    <span class="p">}</span>
+<a id="__codelineno-18-26" name="__codelineno-18-26" href="#__codelineno-18-26"></a>
+<a id="__codelineno-18-27" name="__codelineno-18-27" href="#__codelineno-18-27"></a><span class="n">health</span> <span class="o">=</span> <span class="n">Health</span><span class="p">()</span>
+<a id="__codelineno-18-28" name="__codelineno-18-28" href="#__codelineno-18-28"></a><span class="n">health</span><span class="o">.</span><span class="n">redis_check</span><span class="p">(</span><span class="s2">&quot;redis://localhost:6379&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;redis&quot;</span><span class="p">)</span>
+<a id="__codelineno-18-29" name="__codelineno-18-29" href="#__codelineno-18-29"></a><span class="n">health</span><span class="o">.</span><span class="n">postgresql_check</span><span class="p">(</span><span class="s2">&quot;postgresql://localhost/db&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;database&quot;</span><span class="p">)</span>
+<a id="__codelineno-18-30" name="__codelineno-18-30" href="#__codelineno-18-30"></a>
+<a id="__codelineno-18-31" name="__codelineno-18-31" href="#__codelineno-18-31"></a><span class="n">results</span> <span class="o">=</span> <span class="n">health</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<a id="__codelineno-18-32" name="__codelineno-18-32" href="#__codelineno-18-32"></a><span class="n">custom_response</span> <span class="o">=</span> <span class="n">custom_response_format</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+<a id="__codelineno-18-33" name="__codelineno-18-33" href="#__codelineno-18-33"></a><span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">custom_response</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+</code></pre></div>
+<h2 id="caching-configuration">Caching Configuration</h2>
+<p>Cache health check results to reduce load:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">healthcheckx</span><span class="w"> </span><span class="kn">import</span> <span class="n">Health</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">lru_cache</span>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span>
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="k">class</span><span class="w"> </span><span class="nc">CachedHealth</span><span class="p">:</span>
+<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">health</span><span class="p">:</span> <span class="n">Health</span><span class="p">,</span> <span class="n">cache_duration</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span><span class="p">):</span>
+<a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">health</span> <span class="o">=</span> <span class="n">health</span>
+<a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">cache_duration</span> <span class="o">=</span> <span class="n">cache_duration</span>  <span class="c1"># seconds</span>
+<a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">last_check</span> <span class="o">=</span> <span class="kc">None</span>
+<a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">cached_results</span> <span class="o">=</span> <span class="kc">None</span>
+<a id="__codelineno-19-12" name="__codelineno-19-12" href="#__codelineno-19-12"></a>
+<a id="__codelineno-19-13" name="__codelineno-19-13" href="#__codelineno-19-13"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a id="__codelineno-19-14" name="__codelineno-19-14" href="#__codelineno-19-14"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Run checks with caching&quot;&quot;&quot;</span>
+<a id="__codelineno-19-15" name="__codelineno-19-15" href="#__codelineno-19-15"></a>        <span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+<a id="__codelineno-19-16" name="__codelineno-19-16" href="#__codelineno-19-16"></a>
+<a id="__codelineno-19-17" name="__codelineno-19-17" href="#__codelineno-19-17"></a>        <span class="c1"># Return cached results if still valid</span>
+<a id="__codelineno-19-18" name="__codelineno-19-18" href="#__codelineno-19-18"></a>        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cached_results</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> 
+<a id="__codelineno-19-19" name="__codelineno-19-19" href="#__codelineno-19-19"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">last_check</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span>
+<a id="__codelineno-19-20" name="__codelineno-19-20" href="#__codelineno-19-20"></a>            <span class="p">(</span><span class="n">now</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_check</span><span class="p">)</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache_duration</span><span class="p">):</span>
+<a id="__codelineno-19-21" name="__codelineno-19-21" href="#__codelineno-19-21"></a>            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cached_results</span>
+<a id="__codelineno-19-22" name="__codelineno-19-22" href="#__codelineno-19-22"></a>
+<a id="__codelineno-19-23" name="__codelineno-19-23" href="#__codelineno-19-23"></a>        <span class="c1"># Run fresh checks</span>
+<a id="__codelineno-19-24" name="__codelineno-19-24" href="#__codelineno-19-24"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">cached_results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">health</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<a id="__codelineno-19-25" name="__codelineno-19-25" href="#__codelineno-19-25"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">last_check</span> <span class="o">=</span> <span class="n">now</span>
+<a id="__codelineno-19-26" name="__codelineno-19-26" href="#__codelineno-19-26"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cached_results</span>
+<a id="__codelineno-19-27" name="__codelineno-19-27" href="#__codelineno-19-27"></a>
+<a id="__codelineno-19-28" name="__codelineno-19-28" href="#__codelineno-19-28"></a><span class="c1"># Usage</span>
+<a id="__codelineno-19-29" name="__codelineno-19-29" href="#__codelineno-19-29"></a><span class="n">health</span> <span class="o">=</span> <span class="n">Health</span><span class="p">()</span>
+<a id="__codelineno-19-30" name="__codelineno-19-30" href="#__codelineno-19-30"></a><span class="n">health</span><span class="o">.</span><span class="n">redis_check</span><span class="p">(</span><span class="s2">&quot;redis://localhost:6379&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;redis&quot;</span><span class="p">)</span>
+<a id="__codelineno-19-31" name="__codelineno-19-31" href="#__codelineno-19-31"></a><span class="n">health</span><span class="o">.</span><span class="n">postgresql_check</span><span class="p">(</span><span class="s2">&quot;postgresql://localhost/db&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;database&quot;</span><span class="p">)</span>
+<a id="__codelineno-19-32" name="__codelineno-19-32" href="#__codelineno-19-32"></a>
+<a id="__codelineno-19-33" name="__codelineno-19-33" href="#__codelineno-19-33"></a><span class="n">cached_health</span> <span class="o">=</span> <span class="n">CachedHealth</span><span class="p">(</span><span class="n">health</span><span class="p">,</span> <span class="n">cache_duration</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<a id="__codelineno-19-34" name="__codelineno-19-34" href="#__codelineno-19-34"></a>
+<a id="__codelineno-19-35" name="__codelineno-19-35" href="#__codelineno-19-35"></a><span class="c1"># First call - runs checks</span>
+<a id="__codelineno-19-36" name="__codelineno-19-36" href="#__codelineno-19-36"></a><span class="n">results1</span> <span class="o">=</span> <span class="n">cached_health</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<a id="__codelineno-19-37" name="__codelineno-19-37" href="#__codelineno-19-37"></a>
+<a id="__codelineno-19-38" name="__codelineno-19-38" href="#__codelineno-19-38"></a><span class="c1"># Second call within 30 seconds - returns cached results</span>
+<a id="__codelineno-19-39" name="__codelineno-19-39" href="#__codelineno-19-39"></a><span class="n">results2</span> <span class="o">=</span> <span class="n">cached_health</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>  <span class="c1"># Same results, no actual checks</span>
+<a id="__codelineno-19-40" name="__codelineno-19-40" href="#__codelineno-19-40"></a>
+<a id="__codelineno-19-41" name="__codelineno-19-41" href="#__codelineno-19-41"></a><span class="c1"># After 30 seconds - runs fresh checks</span>
+<a id="__codelineno-19-42" name="__codelineno-19-42" href="#__codelineno-19-42"></a><span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<a id="__codelineno-19-43" name="__codelineno-19-43" href="#__codelineno-19-43"></a><span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">31</span><span class="p">)</span>
+<a id="__codelineno-19-44" name="__codelineno-19-44" href="#__codelineno-19-44"></a><span class="n">results3</span> <span class="o">=</span> <span class="n">cached_health</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>  <span class="c1"># New checks</span>
+</code></pre></div>
+<h2 id="framework-specific-configuration">Framework-Specific Configuration</h2>
+<h3 id="fastapi-with-settings">FastAPI with Settings</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastAPI</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic_settings</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseSettings</span>
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">healthcheckx</span><span class="w"> </span><span class="kn">import</span> <span class="n">Health</span><span class="p">,</span> <span class="n">FastAPIAdapter</span>
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="k">class</span><span class="w"> </span><span class="nc">Settings</span><span class="p">(</span><span class="n">BaseSettings</span><span class="p">):</span>
+<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>    <span class="n">redis_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;redis://localhost:6379&quot;</span>
+<a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a>    <span class="n">database_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;postgresql://localhost/mydb&quot;</span>
+<a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a>    <span class="n">environment</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;development&quot;</span>
+<a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a>
+<a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a>    <span class="k">class</span><span class="w"> </span><span class="nc">Config</span><span class="p">:</span>
+<a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a>        <span class="n">env_file</span> <span class="o">=</span> <span class="s2">&quot;.env&quot;</span>
+<a id="__codelineno-20-12" name="__codelineno-20-12" href="#__codelineno-20-12"></a>
+<a id="__codelineno-20-13" name="__codelineno-20-13" href="#__codelineno-20-13"></a><span class="n">settings</span> <span class="o">=</span> <span class="n">Settings</span><span class="p">()</span>
+<a id="__codelineno-20-14" name="__codelineno-20-14" href="#__codelineno-20-14"></a>
+<a id="__codelineno-20-15" name="__codelineno-20-15" href="#__codelineno-20-15"></a><span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
+<a id="__codelineno-20-16" name="__codelineno-20-16" href="#__codelineno-20-16"></a>
+<a id="__codelineno-20-17" name="__codelineno-20-17" href="#__codelineno-20-17"></a><span class="n">health</span> <span class="o">=</span> <span class="n">Health</span><span class="p">()</span>
+<a id="__codelineno-20-18" name="__codelineno-20-18" href="#__codelineno-20-18"></a><span class="n">health</span><span class="o">.</span><span class="n">redis_check</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">redis_url</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;redis&quot;</span><span class="p">)</span>
+<a id="__codelineno-20-19" name="__codelineno-20-19" href="#__codelineno-20-19"></a><span class="n">health</span><span class="o">.</span><span class="n">postgresql_check</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">database_url</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;database&quot;</span><span class="p">)</span>
+<a id="__codelineno-20-20" name="__codelineno-20-20" href="#__codelineno-20-20"></a>
+<a id="__codelineno-20-21" name="__codelineno-20-21" href="#__codelineno-20-21"></a><span class="n">adapter</span> <span class="o">=</span> <span class="n">FastAPIAdapter</span><span class="p">(</span><span class="n">health</span><span class="p">)</span>
+<a id="__codelineno-20-22" name="__codelineno-20-22" href="#__codelineno-20-22"></a><span class="n">app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/health&quot;</span><span class="p">)(</span><span class="n">adapter</span><span class="o">.</span><span class="n">endpoint</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="flask-with-config">Flask with Config</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">flask</span><span class="w"> </span><span class="kn">import</span> <span class="n">Flask</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">healthcheckx</span><span class="w"> </span><span class="kn">import</span> <span class="n">Health</span><span class="p">,</span> <span class="n">flask_health_endpoint</span>
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>
+<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a><span class="c1"># Load configuration</span>
+<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">from_object</span><span class="p">(</span><span class="s1">&#39;config.ProductionConfig&#39;</span><span class="p">)</span>
+<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a><span class="c1"># or</span>
+<a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">from_envvar</span><span class="p">(</span><span class="s1">&#39;APP_CONFIG_FILE&#39;</span><span class="p">)</span>
+<a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a>
+<a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a><span class="n">health</span> <span class="o">=</span> <span class="n">Health</span><span class="p">()</span>
+<a id="__codelineno-21-12" name="__codelineno-21-12" href="#__codelineno-21-12"></a><span class="n">health</span><span class="o">.</span><span class="n">redis_check</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;REDIS_URL&#39;</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;redis&quot;</span><span class="p">)</span>
+<a id="__codelineno-21-13" name="__codelineno-21-13" href="#__codelineno-21-13"></a><span class="n">health</span><span class="o">.</span><span class="n">postgresql_check</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;DATABASE_URL&#39;</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;database&quot;</span><span class="p">)</span>
+<a id="__codelineno-21-14" name="__codelineno-21-14" href="#__codelineno-21-14"></a>
+<a id="__codelineno-21-15" name="__codelineno-21-15" href="#__codelineno-21-15"></a><span class="n">app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="s2">&quot;/health&quot;</span><span class="p">,</span> <span class="s2">&quot;health&quot;</span><span class="p">,</span> <span class="n">flask_health_endpoint</span><span class="p">(</span><span class="n">health</span><span class="p">))</span>
+</code></pre></div>
+<h3 id="django-with-settings">Django with Settings</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="c1"># Django settings.py</span>
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="n">HEALTH_CHECKS</span> <span class="o">=</span> <span class="p">{</span>
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>    <span class="s1">&#39;REDIS_URL&#39;</span><span class="p">:</span> <span class="s1">&#39;redis://localhost:6379&#39;</span><span class="p">,</span>
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>    <span class="s1">&#39;DATABASE_URL&#39;</span><span class="p">:</span> <span class="s1">&#39;postgresql://localhost/mydb&#39;</span><span class="p">,</span>
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>    <span class="s1">&#39;TIMEOUT&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>    <span class="s1">&#39;ENABLE_CACHE_CHECK&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+<a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a>    <span class="s1">&#39;ENABLE_QUEUE_CHECK&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+<a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a><span class="p">}</span>
+<a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a>
+<a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a><span class="c1"># health.py</span>
+<a id="__codelineno-22-11" name="__codelineno-22-11" href="#__codelineno-22-11"></a><span class="kn">from</span><span class="w"> </span><span class="nn">django.conf</span><span class="w"> </span><span class="kn">import</span> <span class="n">settings</span>
+<a id="__codelineno-22-12" name="__codelineno-22-12" href="#__codelineno-22-12"></a><span class="kn">from</span><span class="w"> </span><span class="nn">healthcheckx</span><span class="w"> </span><span class="kn">import</span> <span class="n">Health</span>
+<a id="__codelineno-22-13" name="__codelineno-22-13" href="#__codelineno-22-13"></a>
+<a id="__codelineno-22-14" name="__codelineno-22-14" href="#__codelineno-22-14"></a><span class="k">def</span><span class="w"> </span><span class="nf">create_health</span><span class="p">():</span>
+<a id="__codelineno-22-15" name="__codelineno-22-15" href="#__codelineno-22-15"></a>    <span class="n">health</span> <span class="o">=</span> <span class="n">Health</span><span class="p">()</span>
+<a id="__codelineno-22-16" name="__codelineno-22-16" href="#__codelineno-22-16"></a>
+<a id="__codelineno-22-17" name="__codelineno-22-17" href="#__codelineno-22-17"></a>    <span class="n">config</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">HEALTH_CHECKS</span>
+<a id="__codelineno-22-18" name="__codelineno-22-18" href="#__codelineno-22-18"></a>
+<a id="__codelineno-22-19" name="__codelineno-22-19" href="#__codelineno-22-19"></a>    <span class="n">health</span><span class="o">.</span><span class="n">postgresql_check</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;DATABASE_URL&#39;</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;database&quot;</span><span class="p">)</span>
+<a id="__codelineno-22-20" name="__codelineno-22-20" href="#__codelineno-22-20"></a>
+<a id="__codelineno-22-21" name="__codelineno-22-21" href="#__codelineno-22-21"></a>    <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ENABLE_CACHE_CHECK&#39;</span><span class="p">):</span>
+<a id="__codelineno-22-22" name="__codelineno-22-22" href="#__codelineno-22-22"></a>        <span class="n">health</span><span class="o">.</span><span class="n">redis_check</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;REDIS_URL&#39;</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;redis&quot;</span><span class="p">)</span>
+<a id="__codelineno-22-23" name="__codelineno-22-23" href="#__codelineno-22-23"></a>
+<a id="__codelineno-22-24" name="__codelineno-22-24" href="#__codelineno-22-24"></a>    <span class="k">return</span> <span class="n">health</span>
+<a id="__codelineno-22-25" name="__codelineno-22-25" href="#__codelineno-22-25"></a>
+<a id="__codelineno-22-26" name="__codelineno-22-26" href="#__codelineno-22-26"></a><span class="n">health</span> <span class="o">=</span> <span class="n">create_health</span><span class="p">()</span>
+</code></pre></div>
+<h2 id="docker-configuration">Docker Configuration</h2>
+<h3 id="docker-composeyml">docker-compose.yml</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;3.8&#39;</span>
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>
+<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="nt">services</span><span class="p">:</span>
+<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="w">  </span><span class="nt">app</span><span class="p">:</span>
+<a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a><span class="w">    </span><span class="nt">build</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.</span>
+<a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a><span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
+<a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DATABASE_URL=postgresql://postgres:password@postgres:5432/mydb</span>
+<a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">REDIS_URL=redis://redis:6379/0</span>
+<a id="__codelineno-23-9" name="__codelineno-23-9" href="#__codelineno-23-9"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/</span>
+<a id="__codelineno-23-10" name="__codelineno-23-10" href="#__codelineno-23-10"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">HEALTH_CHECK_TIMEOUT=3</span>
+<a id="__codelineno-23-11" name="__codelineno-23-11" href="#__codelineno-23-11"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ENVIRONMENT=production</span>
+<a id="__codelineno-23-12" name="__codelineno-23-12" href="#__codelineno-23-12"></a><span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span>
+<a id="__codelineno-23-13" name="__codelineno-23-13" href="#__codelineno-23-13"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">postgres</span>
+<a id="__codelineno-23-14" name="__codelineno-23-14" href="#__codelineno-23-14"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">redis</span>
+<a id="__codelineno-23-15" name="__codelineno-23-15" href="#__codelineno-23-15"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rabbitmq</span>
+<a id="__codelineno-23-16" name="__codelineno-23-16" href="#__codelineno-23-16"></a><span class="w">    </span><span class="nt">healthcheck</span><span class="p">:</span>
+<a id="__codelineno-23-17" name="__codelineno-23-17" href="#__codelineno-23-17"></a><span class="w">      </span><span class="nt">test</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;CMD&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;curl&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;-f&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;http://localhost:8000/health&quot;</span><span class="p p-Indicator">]</span>
+<a id="__codelineno-23-18" name="__codelineno-23-18" href="#__codelineno-23-18"></a><span class="w">      </span><span class="nt">interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30s</span>
+<a id="__codelineno-23-19" name="__codelineno-23-19" href="#__codelineno-23-19"></a><span class="w">      </span><span class="nt">timeout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3s</span>
+<a id="__codelineno-23-20" name="__codelineno-23-20" href="#__codelineno-23-20"></a><span class="w">      </span><span class="nt">retries</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+<a id="__codelineno-23-21" name="__codelineno-23-21" href="#__codelineno-23-21"></a><span class="w">      </span><span class="nt">start_period</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10s</span>
+<a id="__codelineno-23-22" name="__codelineno-23-22" href="#__codelineno-23-22"></a>
+<a id="__codelineno-23-23" name="__codelineno-23-23" href="#__codelineno-23-23"></a><span class="w">  </span><span class="nt">postgres</span><span class="p">:</span>
+<a id="__codelineno-23-24" name="__codelineno-23-24" href="#__codelineno-23-24"></a><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">postgres:15</span>
+<a id="__codelineno-23-25" name="__codelineno-23-25" href="#__codelineno-23-25"></a><span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
+<a id="__codelineno-23-26" name="__codelineno-23-26" href="#__codelineno-23-26"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">POSTGRES_PASSWORD=password</span>
+<a id="__codelineno-23-27" name="__codelineno-23-27" href="#__codelineno-23-27"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">POSTGRES_DB=mydb</span>
+<a id="__codelineno-23-28" name="__codelineno-23-28" href="#__codelineno-23-28"></a>
+<a id="__codelineno-23-29" name="__codelineno-23-29" href="#__codelineno-23-29"></a><span class="w">  </span><span class="nt">redis</span><span class="p">:</span>
+<a id="__codelineno-23-30" name="__codelineno-23-30" href="#__codelineno-23-30"></a><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">redis:7-alpine</span>
+<a id="__codelineno-23-31" name="__codelineno-23-31" href="#__codelineno-23-31"></a>
+<a id="__codelineno-23-32" name="__codelineno-23-32" href="#__codelineno-23-32"></a><span class="w">  </span><span class="nt">rabbitmq</span><span class="p">:</span>
+<a id="__codelineno-23-33" name="__codelineno-23-33" href="#__codelineno-23-33"></a><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rabbitmq:3-management-alpine</span>
+</code></pre></div>
+<h2 id="kubernetes-configmap">Kubernetes ConfigMap</h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ConfigMap</span>
+<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a><span class="nt">metadata</span><span class="p">:</span>
+<a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">health-config</span>
+<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a><span class="nt">data</span><span class="p">:</span>
+<a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a><span class="w">  </span><span class="nt">DATABASE_URL</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;postgresql://postgres:5432/mydb&quot;</span>
+<a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a><span class="w">  </span><span class="nt">REDIS_URL</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;redis://redis:6379&quot;</span>
+<a id="__codelineno-24-8" name="__codelineno-24-8" href="#__codelineno-24-8"></a><span class="w">  </span><span class="nt">RABBITMQ_URL</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;amqp://rabbitmq:5672&quot;</span>
+<a id="__codelineno-24-9" name="__codelineno-24-9" href="#__codelineno-24-9"></a><span class="w">  </span><span class="nt">HEALTH_CHECK_TIMEOUT</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2&quot;</span>
+<a id="__codelineno-24-10" name="__codelineno-24-10" href="#__codelineno-24-10"></a><span class="w">  </span><span class="nt">ENVIRONMENT</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;production&quot;</span>
+<a id="__codelineno-24-11" name="__codelineno-24-11" href="#__codelineno-24-11"></a><span class="nn">---</span>
+<a id="__codelineno-24-12" name="__codelineno-24-12" href="#__codelineno-24-12"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
+<a id="__codelineno-24-13" name="__codelineno-24-13" href="#__codelineno-24-13"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
+<a id="__codelineno-24-14" name="__codelineno-24-14" href="#__codelineno-24-14"></a><span class="nt">metadata</span><span class="p">:</span>
+<a id="__codelineno-24-15" name="__codelineno-24-15" href="#__codelineno-24-15"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-app</span>
+<a id="__codelineno-24-16" name="__codelineno-24-16" href="#__codelineno-24-16"></a><span class="nt">spec</span><span class="p">:</span>
+<a id="__codelineno-24-17" name="__codelineno-24-17" href="#__codelineno-24-17"></a><span class="w">  </span><span class="nt">template</span><span class="p">:</span>
+<a id="__codelineno-24-18" name="__codelineno-24-18" href="#__codelineno-24-18"></a><span class="w">    </span><span class="nt">spec</span><span class="p">:</span>
+<a id="__codelineno-24-19" name="__codelineno-24-19" href="#__codelineno-24-19"></a><span class="w">      </span><span class="nt">containers</span><span class="p">:</span>
+<a id="__codelineno-24-20" name="__codelineno-24-20" href="#__codelineno-24-20"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">app</span>
+<a id="__codelineno-24-21" name="__codelineno-24-21" href="#__codelineno-24-21"></a><span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-app:latest</span>
+<a id="__codelineno-24-22" name="__codelineno-24-22" href="#__codelineno-24-22"></a><span class="w">        </span><span class="nt">envFrom</span><span class="p">:</span>
+<a id="__codelineno-24-23" name="__codelineno-24-23" href="#__codelineno-24-23"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">configMapRef</span><span class="p">:</span>
+<a id="__codelineno-24-24" name="__codelineno-24-24" href="#__codelineno-24-24"></a><span class="w">            </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">health-config</span>
+<a id="__codelineno-24-25" name="__codelineno-24-25" href="#__codelineno-24-25"></a><span class="w">        </span><span class="nt">livenessProbe</span><span class="p">:</span>
+<a id="__codelineno-24-26" name="__codelineno-24-26" href="#__codelineno-24-26"></a><span class="w">          </span><span class="nt">httpGet</span><span class="p">:</span>
+<a id="__codelineno-24-27" name="__codelineno-24-27" href="#__codelineno-24-27"></a><span class="w">            </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/healthz</span>
+<a id="__codelineno-24-28" name="__codelineno-24-28" href="#__codelineno-24-28"></a><span class="w">            </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8000</span>
+<a id="__codelineno-24-29" name="__codelineno-24-29" href="#__codelineno-24-29"></a><span class="w">          </span><span class="nt">initialDelaySeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30</span>
+<a id="__codelineno-24-30" name="__codelineno-24-30" href="#__codelineno-24-30"></a><span class="w">          </span><span class="nt">periodSeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+<a id="__codelineno-24-31" name="__codelineno-24-31" href="#__codelineno-24-31"></a><span class="w">        </span><span class="nt">readinessProbe</span><span class="p">:</span>
+<a id="__codelineno-24-32" name="__codelineno-24-32" href="#__codelineno-24-32"></a><span class="w">          </span><span class="nt">httpGet</span><span class="p">:</span>
+<a id="__codelineno-24-33" name="__codelineno-24-33" href="#__codelineno-24-33"></a><span class="w">            </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/ready</span>
+<a id="__codelineno-24-34" name="__codelineno-24-34" href="#__codelineno-24-34"></a><span class="w">            </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8000</span>
+<a id="__codelineno-24-35" name="__codelineno-24-35" href="#__codelineno-24-35"></a><span class="w">          </span><span class="nt">initialDelaySeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+<a id="__codelineno-24-36" name="__codelineno-24-36" href="#__codelineno-24-36"></a><span class="w">          </span><span class="nt">periodSeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
+</code></pre></div>
+<h2 id="best-practices">Best Practices</h2>
+<ol>
+<li><strong>Use Environment Variables</strong> - Never hardcode credentials</li>
+<li><strong>Set Appropriate Timeouts</strong> - 2-3 seconds for most checks</li>
+<li><strong>Cache When Needed</strong> - Cache results for high-traffic endpoints</li>
+<li><strong>Log Failures</strong> - Always log unhealthy checks for debugging</li>
+<li><strong>Document Configuration</strong> - Comment why each setting exists</li>
+<li><strong>Validate Configuration</strong> - Check that required env vars are set</li>
+<li><strong>Use Secrets Management</strong> - Use proper secret management in production</li>
+<li><strong>Test Configuration</strong> - Test health checks in each environment</li>
+<li><strong>Monitor Performance</strong> - Track check duration over time</li>
+<li><strong>Keep It Simple</strong> - Avoid over-complicated configuration</li>
+</ol>
+<h2 id="configuration-checklist">Configuration Checklist</h2>
+<ul>
+<li>[ ] Environment variables defined</li>
+<li>[ ] Timeouts configured appropriately</li>
+<li>[ ] Logging enabled</li>
+<li>[ ] Secrets properly managed</li>
+<li>[ ] Docker health checks configured</li>
+<li>[ ] Kubernetes probes configured</li>
+<li>[ ] Error handling implemented</li>
+<li>[ ] Caching strategy defined</li>
+<li>[ ] Documentation updated</li>
+<li>[ ] Tests written for configuration</li>
+</ul>
+<h2 id="next-steps">Next Steps</h2>
+<ul>
+<li><a href="../custom-checks/">Custom Health Checks</a> - Create custom checks</li>
+<li><a href="../multiple-instances/">Multiple Instances</a> - Check multiple services</li>
+<li><a href="../../examples/">Examples</a> - Complete configuration examples</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
