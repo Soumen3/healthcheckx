@@ -76,31 +76,31 @@ def _check_stomp_connection(host: str, port: int, timeout: int, name: str) -> Ch
         # If connection successful, disconnect and return healthy
         if conn.is_connected():
             conn.disconnect()
-            return CheckResult(name, HealthStatus.healthy)
+            return CheckResult(name, HealthStatus.healthy, message="STOMP connection successful")
         else:
             return CheckResult(
                 name,
                 HealthStatus.unhealthy,
-                "Failed to establish STOMP connection"
+                error="Failed to establish STOMP connection"
             )
         
     except ImportError:
         return CheckResult(
             name,
             HealthStatus.unhealthy,
-            "stomp.py package not installed. Install with: pip install stomp.py"
+            error="stomp.py package not installed. Install with: pip install stomp.py"
         )
     except ConnectFailedException as e:
         return CheckResult(
             name,
             HealthStatus.unhealthy,
-            f"STOMP connection failed: {str(e)}"
+            error=f"STOMP connection failed: {str(e)}"
         )
     except Exception as e:
         return CheckResult(
             name,
             HealthStatus.unhealthy,
-            f"STOMP error: {str(e)}"
+            error=f"STOMP error: {str(e)}"
         )
 
 
@@ -116,29 +116,29 @@ def _check_tcp_connection(host: str, port: int, timeout: int, name: str) -> Chec
         sock.close()
         
         if result == 0:
-            return CheckResult(name, HealthStatus.healthy)
+            return CheckResult(name, HealthStatus.healthy, message="TCP connection successful")
         else:
             return CheckResult(
                 name,
                 HealthStatus.unhealthy,
-                f"TCP connection failed to {host}:{port}"
+                error=f"TCP connection failed to {host}:{port}"
             )
         
     except socket.timeout:
         return CheckResult(
             name,
             HealthStatus.unhealthy,
-            f"Connection timeout to {host}:{port}"
+            error=f"Connection timeout to {host}:{port}"
         )
     except socket.gaierror as e:
         return CheckResult(
             name,
             HealthStatus.unhealthy,
-            f"DNS resolution failed: {str(e)}"
+            error=f"DNS resolution failed: {str(e)}"
         )
     except Exception as e:
         return CheckResult(
             name,
             HealthStatus.unhealthy,
-            f"TCP connection error: {str(e)}"
+            error=f"TCP connection error: {str(e)}"
         )

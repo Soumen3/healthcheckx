@@ -8,12 +8,12 @@ def create_postgresql_check(dsn: str, timeout: int = 3, name: str = "postgresql"
             cur = conn.cursor()
             cur.execute("SELECT 1")
             conn.close()
-            return CheckResult(name, HealthStatus.healthy)
+            return CheckResult(name, status=HealthStatus.healthy, message="PostgreSQL is healthy")
         except Exception as e:
             return CheckResult(
                 name,
-                HealthStatus.unhealthy,
-                str(e)
+                status=HealthStatus.unhealthy,
+                error=str(e)
             )
 
     return check

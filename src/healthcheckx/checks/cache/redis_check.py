@@ -9,13 +9,14 @@ def create_redis_check(redis_url: str, timeout: int = 2, name: str = "redis"):
             client.ping()
             return CheckResult(
                 name=name,
-                status=HealthStatus.healthy
+                status=HealthStatus.healthy,
+                message="Redis is healthy"
             )
         except Exception as e:
             return CheckResult(
                 name=name,
                 status=HealthStatus.unhealthy,
-                message=str(e)
+                error=str(e)
             )
 
     return check

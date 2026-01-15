@@ -27,13 +27,14 @@ def create_keydb_check(keydb_url: str, timeout: int = 2, name: str = "keydb"):
             client.ping()
             return CheckResult(
                 name=name,
-                status=HealthStatus.healthy
+                status=HealthStatus.healthy,
+                message="KeyDB is healthy"
             )
         except Exception as e:
             return CheckResult(
                 name=name,
                 status=HealthStatus.unhealthy,
-                message=str(e)
+                error=str(e)
             )
 
     return check

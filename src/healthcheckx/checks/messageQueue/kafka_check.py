@@ -42,25 +42,25 @@ def create_kafka_check(bootstrap_servers: str, timeout: int = 2, name: str = "ka
             # Close the connection
             admin_client.close()
             
-            return CheckResult(name, HealthStatus.healthy)
+            return CheckResult(name, HealthStatus.healthy, message="Kafka is healthy")
             
         except ImportError:
             return CheckResult(
                 name,
                 HealthStatus.unhealthy,
-                "kafka-python package not installed. Install with: pip install kafka-python"
+                error="kafka-python package not installed. Install with: pip install kafka-python"
             )
         except KafkaError as e:
             return CheckResult(
                 name,
                 HealthStatus.unhealthy,
-                f"Kafka error: {str(e)}"
+                error=f"Kafka error: {str(e)}"
             )
         except Exception as e:
             return CheckResult(
                 name,
                 HealthStatus.unhealthy,
-                str(e)
+                error=str(e)
             )
     
     return check

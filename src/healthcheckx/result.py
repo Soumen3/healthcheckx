@@ -13,3 +13,4 @@ class CheckResult:
     status: HealthStatus
     message: Optional[str] = None
     duration_ms: Optional[float] = None
+    error: Optional[str] = None

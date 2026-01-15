@@ -7,7 +7,7 @@ build-backend = "setuptools.build_meta"
 # -------------------------------------------------
 [project]
 name = "healthcheckx"
-version = "1.1.0"
+version = "1.2.0"
 description = "Production-grade health checks for Python applications"
 readme = "README.md"
 requires-python = ">=3.8"

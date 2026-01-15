@@ -61,34 +61,69 @@ for result in results:
 
 Register a Redis health check.
 
+Tests connectivity to a Redis server by executing a PING command. Supports standard Redis URL format including authentication.
+
 **Parameters:**
-- `redis_url` (str): Redis connection URL (e.g., "redis://localhost:6379")
+- `redis_url` (str): Redis connection URL
+  - Format: `redis://localhost:6379`
+  - With auth: `redis://:password@localhost:6379/0`
+  - With database: `redis://localhost:6379/1`
 - `timeout` (int, optional): Connection timeout in seconds. Default: 2
 - `name` (str, optional): Custom name for the check. Default: "redis"
 
-**Example:**
+**Examples:**
 ```python
-health.redis_check("redis://localhost:6379", timeout=3, name="redis-cache")
+# Basic
+health.redis_check("redis://localhost:6379", name="redis-cache")
+
+# With authentication
+health.redis_check("redis://:mypassword@localhost:6379/1", name="redis-session")
 ```
 
 ##### `keydb_check(keydb_url: str, timeout: int = 2, name: str = "keydb") -> Health`
 
 Register a KeyDB health check.
 
+Tests connectivity to a KeyDB server (Redis-compatible) by executing a PING command. KeyDB is a high-performance fork of Redis with multithreading support.
+
 **Parameters:**
-- `keydb_url` (str): KeyDB connection URL (e.g., "keydb://localhost:6379")
+- `keydb_url` (str): KeyDB connection URL (Redis format)
+  - Format: `redis://localhost:6379`
+  - With auth: `redis://:password@localhost:6379/0`
 - `timeout` (int, optional): Connection timeout in seconds. Default: 2
 - `name` (str, optional): Custom name for the check. Default: "keydb"
+
+**Examples:**
+```python
+# Single instance
+health.keydb_check("redis://localhost:6379", name="keydb-primary")
+
+# Multiple KeyDB instances
+health.keydb_check("redis://keydb1:6379", name="keydb-shard1") \
+      .keydb_check("redis://keydb2:6379", name="keydb-shard2")
+```
 
 ##### `memcached_check(host: str = "localhost", port: int = 11211, timeout: int = 2, name: str = "memcached") -> Health`
 
 Register a Memcached health check.
 
+Tests connectivity to a Memcached server by executing a version command. Memcached is a distributed memory caching system.
+
 **Parameters:**
-- `host` (str, optional): Memcached server host. Default: "localhost"
+- `host` (str, optional): Memcached server hostname or IP address. Default: "localhost"
 - `port` (int, optional): Memcached server port. Default: 11211
 - `timeout` (int, optional): Connection timeout in seconds. Default: 2
 - `name` (str, optional): Custom name for the check. Default: "memcached"
+
+**Examples:**
+```python
+# Local server
+health.memcached_check("localhost", 11211, name="memcached-cache")
+
+# Multiple Memcached servers
+health.memcached_check("cache1.example.com", name="memcached-server1") \
+      .memcached_check("cache2.example.com", name="memcached-server2")
+```
 
 ---
 
@@ -98,10 +133,67 @@ Register a Memcached health check.
 
 Register a RabbitMQ health check.
 
+Tests connectivity to a RabbitMQ server using AMQP protocol. Verifies the broker is accepting connections and can authenticate.
+
 **Parameters:**
-- `amqp_url` (str): AMQP connection URL (e.g., "amqp://guest:guest@localhost:5672")
+- `amqp_url` (str): RabbitMQ connection URL using AMQP format
+  - Basic: `amqp://guest:guest@localhost:5672/%2F`
+  - With vhost: `amqp://user:password@rabbitmq.example.com:5672/vhost`
 - `timeout` (int, optional): Connection timeout in seconds. Default: 2
 - `name` (str, optional): Custom name for the check. Default: "rabbitmq"
+
+**Examples:**
+```python
+# Local instance
+health.rabbitmq_check("amqp://guest:guest@localhost:5672/%2F", name="rabbitmq-broker")
+
+# Production with custom vhost
+health.rabbitmq_check("amqp://user:pass@rabbitmq:5672/production", name="rabbitmq-prod")
+```
+
+##### `kafka_check(bootstrap_servers: str, timeout: int = 2, name: str = "kafka") -> Health`
+
+Register a Kafka health check.
+
+Tests connectivity to Kafka brokers by attempting to retrieve cluster metadata.
+
+**Parameters:**
+- `bootstrap_servers` (str): Comma-separated list of Kafka broker addresses
+  - Single broker: `localhost:9092`
+  - Multiple brokers: `broker1:9092,broker2:9092`
+- `timeout` (int, optional): Connection timeout in seconds. Default: 2
+- `name` (str, optional): Custom name for the check. Default: "kafka"
+
+**Examples:**
+```python
+# Single broker
+health.kafka_check("localhost:9092", name="kafka-broker")
+
+# Kafka cluster
+health.kafka_check("broker1:9092,broker2:9092", name="kafka-cluster")
+```
+
+##### `activemq_check(broker_url: str, timeout: int = 2, name: str = "activemq") -> Health`
+
+Register an ActiveMQ health check.
+
+Tests connectivity to ActiveMQ broker using either TCP (OpenWire) or STOMP protocol, automatically detected from the URL.
+
+**Parameters:**
+- `broker_url` (str): ActiveMQ broker URL
+  - TCP/OpenWire: `tcp://localhost:61616`
+  - STOMP: `stomp://localhost:61613`
+- `timeout` (int, optional): Connection timeout in seconds. Default: 2
+- `name` (str, optional): Custom name for the check. Default: "activemq"
+
+**Examples:**
+```python
+# OpenWire protocol (default port 61616)
+health.activemq_check("tcp://localhost:61616", name="activemq-broker")
+
+# STOMP protocol (default port 61613)
+health.activemq_check("stomp://localhost:61613", name="activemq-stomp")
+```
 
 ---
 
@@ -111,46 +203,118 @@ Register a RabbitMQ health check.
 
 Register a PostgreSQL health check.
 
+Tests connectivity to a PostgreSQL database by executing a simple query. Verifies database is accessible and accepting queries.
+
 **Parameters:**
-- `dsn` (str): PostgreSQL connection string (e.g., "postgresql://user:pass@localhost/db")
+- `dsn` (str): PostgreSQL connection string. Supports both formats:
+  - URL format: `postgresql://user:password@localhost:5432/dbname`
+  - Key-value format: `host=localhost port=5432 dbname=mydb user=postgres password=secret`
 - `timeout` (int, optional): Connection timeout in seconds. Default: 3
 - `name` (str, optional): Custom name for the check. Default: "postgresql"
+
+**Examples:**
+```python
+# URL format
+health.postgresql_check("postgresql://user:pass@localhost:5432/mydb", name="postgres-main")
+
+# Key-value format
+health.postgresql_check("host=db.example.com dbname=prod user=app", name="postgres-prod")
+```
 
 ##### `mysql_check(dsn: str, timeout: int = 3, name: str = "mysql") -> Health`
 
 Register a MySQL health check.
 
+Tests connectivity to a MySQL/MariaDB database by executing a simple query. Supports both MySQL and MariaDB servers.
+
 **Parameters:**
-- `dsn` (str): MySQL connection string (e.g., "mysql://user:pass@localhost:3306/db")
+- `dsn` (str): MySQL connection string in URL format:
+  - Basic: `mysql://user:password@localhost:3306/dbname`
+  - With charset: `mysql://user:password@mysql.example.com/database?charset=utf8mb4`
 - `timeout` (int, optional): Connection timeout in seconds. Default: 3
 - `name` (str, optional): Custom name for the check. Default: "mysql"
+
+**Examples:**
+```python
+# MySQL
+health.mysql_check("mysql://root:password@localhost:3306/mydb", name="mysql-main")
+
+# MariaDB with custom charset
+health.mysql_check("mysql://user:pass@mariadb:3306/db?charset=utf8mb4", name="mariadb-prod")
+```
 
 ##### `sqlite_check(db_path: str, timeout: int = 3, name: str = "sqlite") -> Health`
 
 Register a SQLite health check.
 
+Tests connectivity to a SQLite database file by executing a simple query. Verifies the database file is accessible and not corrupted.
+
 **Parameters:**
-- `db_path` (str): Path to SQLite database file (e.g., "/path/to/db.db" or ":memory:")
-- `timeout` (int, optional): Connection timeout in seconds. Default: 3
+- `db_path` (str): Path to the SQLite database file
+  - File path: `/var/data/app.db` or `./local.sqlite3`
+  - In-memory: `:memory:`
+- `timeout` (int, optional): Query timeout in seconds. Default: 3
 - `name` (str, optional): Custom name for the check. Default: "sqlite"
+
+**Examples:**
+```python
+# Absolute path
+health.sqlite_check("/var/data/application.db", name="sqlite-main")
+
+# Relative path
+health.sqlite_check("./data/cache.db", name="sqlite-cache")
+
+# In-memory database
+health.sqlite_check(":memory:", name="sqlite-memory")
+```
 
 ##### `oracle_check(dsn: str, timeout: int = 3, name: str = "oracle") -> Health`
 
 Register an Oracle health check.
 
+Tests connectivity to an Oracle database by executing a simple query. Supports Oracle Database 11g and later versions.
+
 **Parameters:**
-- `dsn` (str): Oracle connection string (e.g., "oracle://user:pass@localhost:1521/service")
+- `dsn` (str): Oracle connection string. Supports multiple formats:
+  - URL format: `oracle://user:password@localhost:1521/ORCL`
+  - TNS format: `user/password@PROD_DB`
+  - Full TNS: `user/password@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=host)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=ORCL)))`
 - `timeout` (int, optional): Connection timeout in seconds. Default: 3
 - `name` (str, optional): Custom name for the check. Default: "oracle"
+
+**Examples:**
+```python
+# URL format
+health.oracle_check("oracle://system:password@localhost:1521/XE", name="oracle-xe")
+
+# TNS format
+health.oracle_check("user/pass@PROD_DB", name="oracle-prod")
+
+# With service name
+health.oracle_check("oracle://app:secret@oracledb:1521/ORCL", name="oracle-main")
+```
 
 ##### `mssql_check(dsn: str, timeout: int = 3, name: str = "mssql") -> Health`
 
 Register a MS SQL Server health check.
 
+Tests connectivity to a Microsoft SQL Server database by executing a simple query. Supports SQL Server 2012 and later versions.
+
 **Parameters:**
-- `dsn` (str): MS SQL connection string (e.g., "mssql://user:pass@localhost:1433/db")
+- `dsn` (str): MS SQL Server connection string in URL format:
+  - Basic: `mssql://user:password@localhost:1433/database`
+  - With instance: `mssql://sa:Password123@sqlserver.example.com/DatabaseName`
 - `timeout` (int, optional): Connection timeout in seconds. Default: 3
 - `name` (str, optional): Custom name for the check. Default: "mssql"
+
+**Examples:**
+```python
+# Local instance
+health.mssql_check("mssql://sa:Password@localhost:1433/master", name="mssql-local")
+
+# Azure SQL Database
+health.mssql_check("mssql://user@server:pass@server.database.windows.net/db", name="azure-sql")
+```
 
 ---
 
@@ -160,10 +324,31 @@ Register a MS SQL Server health check.
 
 Register a MongoDB health check.
 
+Tests connectivity to a MongoDB server by executing a ping command. Supports MongoDB 3.6+ including replica sets and sharded clusters.
+
 **Parameters:**
-- `connection_string` (str): MongoDB connection string (e.g., "mongodb://localhost:27017")
+- `connection_string` (str): MongoDB connection URI
+  - Local: `mongodb://localhost:27017`
+  - With auth: `mongodb://user:password@mongodb.example.com:27017/database`
+  - Atlas: `mongodb+srv://cluster.mongodb.net/database`
+  - Replica set: `mongodb://host1:27017,host2:27017/db?replicaSet=rs0`
 - `timeout` (int, optional): Connection timeout in seconds. Default: 3
 - `name` (str, optional): Custom name for the check. Default: "mongodb"
+
+**Examples:**
+```python
+# Local instance
+health.mongodb_check("mongodb://localhost:27017", name="mongodb-local")
+
+# With authentication
+health.mongodb_check("mongodb://user:pass@mongo:27017/mydb", name="mongodb-app")
+
+# MongoDB Atlas (cloud)
+health.mongodb_check("mongodb+srv://user:pass@cluster.mongodb.net/db", name="mongodb-atlas")
+
+# Replica set
+health.mongodb_check("mongodb://host1:27017,host2:27017/db?replicaSet=rs0", name="mongodb-replica")
+```
 
 ---
 

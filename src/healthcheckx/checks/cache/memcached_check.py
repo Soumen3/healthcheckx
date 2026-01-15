@@ -35,20 +35,20 @@ def create_memcached_check(host: str = "localhost", port: int = 11211, timeout: 
             else:
                 return CheckResult(
                     name,
-                    HealthStatus.unhealthy,
-                    "Failed to retrieve stats"
+                    status=HealthStatus.unhealthy,
+                    error="Failed to retrieve stats"
                 )
         except MemcacheError as e:
             return CheckResult(
                 name,
                 HealthStatus.unhealthy,
-                f"Memcache error: {str(e)}"
+                error=f"Memcache error: {str(e)}"
             )
         except Exception as e:
             return CheckResult(
                 name,
                 HealthStatus.unhealthy,
-                str(e)
+                error=str(e)
             )
 
     return check

@@ -29,18 +29,18 @@ def create_mongodb_check(connection_string: str, timeout: int = 3, name: str = "
             # Close the connection
             client.close()
             
-            return CheckResult(name, HealthStatus.healthy)
+            return CheckResult(name, status=HealthStatus.healthy, message="MongoDB is healthy")
         except (ConnectionFailure, ServerSelectionTimeoutError) as e:
             return CheckResult(
                 name,
-                HealthStatus.unhealthy,
-                f"Connection failed: {str(e)}"
+                status=HealthStatus.unhealthy,
+                error=f"Connection failed: {str(e)}"
             )
         except Exception as e:
             return CheckResult(
                 name,
                 HealthStatus.unhealthy,
-                str(e)
+                error=str(e)
             )
 
     return check

@@ -20,12 +20,12 @@ def create_sqlite_check(db_path: str, timeout: int = 3, name: str = "sqlite"):
             cur.fetchone()
             cur.close()
             conn.close()
-            return CheckResult(name, HealthStatus.healthy)
+            return CheckResult(name, status=HealthStatus.healthy, message="SQLite is healthy")
         except Exception as e:
             return CheckResult(
                 name,
-                HealthStatus.unhealthy,
-                str(e)
+                status=HealthStatus.unhealthy,
+                error=str(e)
             )
 
     return check

@@ -290,8 +290,388 @@ Python health check for this setup:
 health.rabbitmq_check("amqp://myuser:mypassword@localhost:5672")
 ```
 
+## Kafka
+
+Apache Kafka is a distributed event streaming platform.
+
+### Basic Usage
+
+```python
+from healthcheckx import Health
+
+health = Health()
+health.kafka_check("localhost:9092")
+
+results = health.run()
+```
+
+### Connection Formats
+
+```python
+# Single broker
+health.kafka_check("localhost:9092")
+
+# Multiple brokers (cluster)
+health.kafka_check("broker1:9092,broker2:9092,broker3:9092")
+
+# With custom name
+health.kafka_check("kafka.example.com:9092", name="kafka-prod")
+```
+
+### Custom Timeout
+
+```python
+health.kafka_check(
+    "localhost:9092",
+    timeout=3
+)
+```
+
+### Multiple Kafka Clusters
+
+```python
+health.kafka_check(
+    "prod-broker1:9092,prod-broker2:9092",
+    name="kafka-production"
+)
+
+health.kafka_check(
+    "dev-broker:9092",
+    name="kafka-development"
+)
+```
+
+### Complete Example
+
+```python
+from healthcheckx import Health, overall_status
+
+health = Health()
+
+# Production Kafka cluster
+health.kafka_check(
+    "kafka1.prod.example.com:9092,kafka2.prod.example.com:9092,kafka3.prod.example.com:9092",
+    timeout=3,
+    name="kafka-prod-cluster"
+)
+
+# Development Kafka
+health.kafka_check(
+    "localhost:9092",
+    timeout=2,
+    name="kafka-dev"
+)
+
+results = health.run()
+status = overall_status(results)
+
+for result in results:
+    print(f"{result.name}: {result.status} ({result.duration_ms:.2f}ms)")
+    if result.message:
+        print(f"  Error: {result.message}")
+
+print(f"\nOverall Status: {status}")
+```
+
+### Installation
+
+```bash
+pip install healthcheckx[kafka]
+```
+
+### How It Works
+
+The Kafka health check:
+1. Creates a KafkaAdminClient with the provided bootstrap servers
+2. Attempts to retrieve cluster metadata
+3. Verifies connection to at least one broker
+4. Closes the client connection
+5. Returns `healthy` if metadata retrieval succeeds
+6. Returns `unhealthy` if connection fails or times out
+
+### Parameters
+
+- **`bootstrap_servers`** (str): Comma-separated list of Kafka broker addresses
+  - Format: `host:port` or `host1:port1,host2:port2`
+  - Default port: 9092
+  
+- **`timeout`** (int, optional): Connection timeout in seconds
+  - Default: 2
+  - Recommended: 2-5 seconds
+  
+- **`name`** (str, optional): Custom name for the check
+  - Default: "kafka"
+  - Use for multiple clusters
+
+### Environment Variables Example
+
+```python
+import os
+from healthcheckx import Health
+
+health = Health()
+
+kafka_brokers = os.getenv("KAFKA_BOOTSTRAP_SERVERS", "localhost:9092")
+health.kafka_check(kafka_brokers)
+
+results = health.run()
+```
+
+### Docker Compose Example
+
+```yaml
+version: '3.8'
+
+services:
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+```
+
+Python health check for this setup:
+
+```python
+health.kafka_check("localhost:9092")
+```
+
+---
+
+## ActiveMQ
+
+Apache ActiveMQ is a popular open-source message broker supporting multiple protocols.
+
+### Basic Usage
+
+```python
+from healthcheckx import Health
+
+health = Health()
+# Using OpenWire protocol (TCP)
+health.activemq_check("tcp://localhost:61616")
+
+results = health.run()
+```
+
+### Connection Formats
+
+```python
+# OpenWire protocol (default port 61616)
+health.activemq_check("tcp://localhost:61616")
+
+# STOMP protocol (default port 61613)
+health.activemq_check("stomp://localhost:61613")
+
+# With custom name
+health.activemq_check("tcp://activemq.example.com:61616", name="activemq-prod")
+```
+
+### Custom Timeout
+
+```python
+health.activemq_check(
+    "tcp://localhost:61616",
+    timeout=3
+)
+```
+
+### Multiple ActiveMQ Instances
+
+```python
+health.activemq_check(
+    "tcp://primary:61616",
+    name="activemq-primary"
+)
+
+health.activemq_check(
+    "tcp://secondary:61616",
+    name="activemq-secondary"
+)
+```
+
+### Complete Example
+
+```python
+from healthcheckx import Health, overall_status
+
+health = Health()
+
+# OpenWire protocol check
+health.activemq_check(
+    "tcp://activemq-prod.example.com:61616",
+    timeout=3,
+    name="activemq-openwire"
+)
+
+# STOMP protocol check
+health.activemq_check(
+    "stomp://activemq-prod.example.com:61613",
+    timeout=3,
+    name="activemq-stomp"
+)
+
+results = health.run()
+status = overall_status(results)
+
+for result in results:
+    print(f"{result.name}: {result.status} ({result.duration_ms:.2f}ms)")
+    if result.message:
+        print(f"  Error: {result.message}")
+
+print(f"\nOverall Status: {status}")
+```
+
+### Installation
+
+```bash
+pip install healthcheckx[activemq]
+```
+
+### How It Works
+
+The ActiveMQ health check supports two protocols:
+
+**TCP (OpenWire) Check:**
+1. Parses the broker URL for host and port
+2. Creates a TCP socket connection
+3. Attempts to connect to the broker
+4. Returns `healthy` if connection succeeds
+5. Returns `unhealthy` if connection fails or times out
+
+**STOMP Check:**
+1. Parses the broker URL for host and port
+2. Creates a STOMP connection
+3. Attempts to connect to the broker
+4. Returns `healthy` if connection succeeds
+5. Returns `unhealthy` if connection fails or times out
+
+### Parameters
+
+- **`broker_url`** (str): ActiveMQ broker URL
+  - TCP format: `tcp://host:port` (default port: 61616)
+  - STOMP format: `stomp://host:port` (default port: 61613)
+  
+- **`timeout`** (int, optional): Connection timeout in seconds
+  - Default: 2
+  - Recommended: 2-5 seconds
+  
+- **`name`** (str, optional): Custom name for the check
+  - Default: "activemq"
+  - Use for multiple instances or protocols
+
+### Environment Variables Example
+
+```python
+import os
+from healthcheckx import Health
+
+health = Health()
+
+activemq_url = os.getenv("ACTIVEMQ_BROKER_URL", "tcp://localhost:61616")
+health.activemq_check(activemq_url)
+
+results = health.run()
+```
+
+### Docker Compose Example
+
+```yaml
+version: '3.8'
+
+services:
+  activemq:
+    image: apache/activemq-classic:latest
+    ports:
+      - "61616:61616"  # OpenWire
+      - "61613:61613"  # STOMP
+      - "8161:8161"    # Web Console
+```
+
+Python health check for this setup:
+
+```python
+# Check OpenWire protocol
+health.activemq_check("tcp://localhost:61616", name="activemq-openwire")
+
+# Check STOMP protocol
+health.activemq_check("stomp://localhost:61613", name="activemq-stomp")
+```
+
+---
+
+## Best Practices
+
+1. **Use specific names** - When monitoring multiple instances, use descriptive names
+2. **Set appropriate timeouts** - Message queue checks should be fast (2-3 seconds)
+3. **Monitor all brokers** - In a cluster, check each broker/node separately
+4. **Check connectivity only** - Health checks verify connection, not message processing
+5. **Use environment variables** - Store connection URLs in environment variables
+
+## Common Issues
+
+### Connection Refused
+
+```
+Error: Connection refused
+```
+
+**Solution:**
+- Verify the message broker is running
+- Check host and port
+- Verify firewall rules
+- Ensure correct protocol (AMQP/Kafka/TCP/STOMP)
+
+### Authentication Failed
+
+```
+Error: Authentication failed
+```
+
+**Solution:**
+- Verify username and password
+- Check user permissions
+- Verify authentication configuration
+
+### Timeout
+
+```
+Error: Connection timeout
+```
+
+**Solution:**
+- Increase timeout value
+- Check network connectivity
+- Verify broker is not overloaded
+
+### Protocol Mismatch
+
+```
+Error: Protocol error
+```
+
+**Solution for ActiveMQ:**
+- Use `tcp://` for OpenWire (port 61616)
+- Use `stomp://` for STOMP (port 61613)
+- Use `amqp://` for AMQP (use rabbitmq_check)
+
+## Comparison Table
+
+| Message Queue | Default Port | Protocol | Check Method |
+|---------------|-------------|----------|--------------|
+| RabbitMQ | 5672 | AMQP | Connection + Channel |
+| Kafka | 9092 | Kafka Native | Cluster Metadata |
+| ActiveMQ (OpenWire) | 61616 | TCP/OpenWire | TCP Socket |
+| ActiveMQ (STOMP) | 61613 | STOMP | STOMP Connection |
+
+---
+
 ## Next Steps
 
-- [Relational Database Checks](relational-db.md) - Database health checks
-- [NoSQL Checks](nosql.md) - NoSQL database health checks
+- [Cache Checks](cache.md) - Redis, KeyDB, Memcached
+- [Relational Database Checks](relational-db.md) - PostgreSQL, MySQL, etc.
+- [NoSQL Checks](nosql.md) - MongoDB health checks
 - [Custom Checks](../advanced/custom-checks.md) - Create custom message queue checks

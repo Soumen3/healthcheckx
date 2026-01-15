@@ -9,12 +9,12 @@ def create_rabbitmq_check(amqp_url: str, timeout: int = 2, name: str = "rabbitmq
         try:
             conn = pika.BlockingConnection(params)
             conn.close()
-            return CheckResult(name, HealthStatus.healthy)
+            return CheckResult(name, HealthStatus.healthy, message="RabbitMQ is healthy")
         except Exception as e:
             return CheckResult(
                 name,
                 HealthStatus.unhealthy,
-                str(e)
+                error=str(e)
             )
 
     return check

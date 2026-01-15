@@ -18,17 +18,39 @@ results = health.run()
 ### Connection Formats
 
 ```python
-# Basic
+# URL format
 health.postgresql_check("postgresql://localhost/mydb")
 
-# With credentials
+# With credentials (URL format)
 health.postgresql_check("postgresql://user:pass@localhost:5432/mydb")
 
-# With schema
-health.postgresql_check("postgresql://user:pass@localhost/mydb?options=-csearch_path=myschema")
+# Key-value format
+health.postgresql_check("host=localhost port=5432 dbname=mydb user=postgres password=secret")
+
+# Key-value with schema
+health.postgresql_check("host=localhost dbname=mydb user=app options=-csearch_path=myschema")
 
 # Unix socket
 health.postgresql_check("postgresql:///mydb?host=/var/run/postgresql")
+
+# Key-value with Unix socket
+health.postgresql_check("host=/var/run/postgresql dbname=mydb")
+```
+
+### Multiple Connection Format Examples
+
+```python
+# URL format - recommended for simple connections
+health.postgresql_check(
+    "postgresql://user:password@db.example.com:5432/production",
+    name="postgres-prod"
+)
+
+# Key-value format - recommended for complex configurations
+health.postgresql_check(
+    "host=db.example.com port=5432 dbname=production user=app password=secret sslmode=require",
+    name="postgres-prod-ssl"
+)
 ```
 
 ### Installation

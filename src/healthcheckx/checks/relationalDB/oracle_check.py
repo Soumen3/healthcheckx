@@ -40,12 +40,12 @@ def create_oracle_check(dsn: str, timeout: int = 3, name: str = "oracle"):
             cur.fetchone()
             cur.close()
             conn.close()
-            return CheckResult(name, HealthStatus.healthy)
+            return CheckResult(name, status=HealthStatus.healthy, message="Oracle DB is healthy")
         except Exception as e:
             return CheckResult(
                 name,
-                HealthStatus.unhealthy,
-                str(e)
+                status=HealthStatus.unhealthy,
+                error=str(e)
             )
 
     return check
