@@ -1,14 +1,78 @@
+# annotations for forward references
+from __future__ import annotations
+
 import time
 from typing import Callable, List
 
 from .result import CheckResult, HealthStatus
-
 
 # A health check is a function that returns CheckResult
 HealthCheck = Callable[[], CheckResult]
 
 
 class Health:
+    """
+    Main health check orchestrator for monitoring service dependencies.
+    
+    The Health class provides a fluent API for registering and executing health checks
+    across various services (databases, caches, message queues, etc.). It supports
+    method chaining for convenient configuration and returns detailed results for
+    each check including execution time and status.
+    
+    Attributes:
+        _checks (List[HealthCheck]): Internal list of registered health check functions.
+    
+    Example:
+        Basic usage with multiple services:
+        
+        >>> health = Health()
+        >>> health.redis_check("redis://localhost:6379") \\
+        ...       .postgresql_check("postgresql://user:pass@localhost/db") \\
+        ...       .mongodb_check("mongodb://localhost:27017")
+        >>> results = health.run()
+        >>> for result in results:
+        ...     print(f"{result.name}: {result.status}")
+        redis: healthy
+        postgresql: healthy
+        mongodb: healthy
+        
+        Using custom names for multiple instances:
+        
+        >>> health = Health()
+        >>> health.redis_check("redis://primary:6379", name="redis-primary") \\
+        ...       .redis_check("redis://cache:6379", name="redis-cache")
+        >>> results = health.run()
+        
+        Custom health checks:
+        
+        >>> def custom_check():
+        ...     return CheckResult("my-service", HealthStatus.healthy)
+        >>> health = Health()
+        >>> health.register(custom_check)
+        >>> results = health.run()
+    
+    Methods:
+        register(check): Register a custom health check function.
+        run(): Execute all registered checks and return results.
+        
+        Built-in check methods:
+        - Cache: redis_check(), keydb_check(), memcached_check()
+        - Message Queue: rabbitmq_check()
+        - Relational DB: postgresql_check(), mysql_check(), sqlite_check(), 
+                        oracle_check(), mssql_check()
+        - NoSQL DB: mongodb_check()
+    
+    Notes:
+        - All check methods return self for method chaining.
+        - Each check is executed independently; failures don't stop other checks.
+        - Execution time is automatically measured for each check.
+        - The 'name' parameter allows monitoring multiple instances of the same service.
+    
+    See Also:
+        - CheckResult: Data class containing check results
+        - HealthStatus: Enum defining health states (healthy, degraded, unhealthy)
+        - overall_status(): Function to aggregate multiple check results
+    """
     def __init__(self):
         self._checks: List[HealthCheck] = []
 
@@ -16,7 +80,7 @@ class Health:
     # Core registration
     # -----------------------------
 
-    def register(self, check: HealthCheck):
+    def register(self, check: HealthCheck) -> Health:
         """
         Register a health check function.
         """
@@ -27,7 +91,7 @@ class Health:
     # Built-in check helpers
     # -----------------------------
 
-    def redis_check(self, redis_url: str, timeout: int = 2, name: str = "redis"):
+    def redis_check(self, redis_url: str, timeout: int = 2, name: str = "redis") -> Health:
         """
         Register a Redis health check.
         """
@@ -37,7 +101,7 @@ class Health:
         self.register(check)
         return self
 
-    def keydb_check(self, keydb_url: str, timeout: int = 2, name: str = "keydb"):
+    def keydb_check(self, keydb_url: str, timeout: int = 2, name: str = "keydb") -> Health:
         """
         Register a KeyDB health check.
         """
@@ -47,7 +111,7 @@ class Health:
         self.register(check)
         return self
 
-    def memcached_check(self, host: str = "localhost", port: int = 11211, timeout: int = 2, name: str = "memcached"):
+    def memcached_check(self, host: str = "localhost", port: int = 11211, timeout: int = 2, name: str = "memcached") -> Health:
         """
         Register a Memcached health check.
         """
@@ -57,7 +121,7 @@ class Health:
         self.register(check)
         return self
 
-    def rabbitmq_check(self, amqp_url: str, timeout: int = 2, name: str = "rabbitmq"):
+    def rabbitmq_check(self, amqp_url: str, timeout: int = 2, name: str = "rabbitmq") -> Health:
         """
         Register a RabbitMQ health check.
         """
@@ -67,7 +131,7 @@ class Health:
         self.register(check)
         return self
 
-    def postgresql_check(self, dsn: str, timeout: int = 3, name: str = "postgresql"):
+    def postgresql_check(self, dsn: str, timeout: int = 3, name: str = "postgresql") -> Health:
         """
         Register a PostgreSQL health check.
         """
@@ -77,7 +141,7 @@ class Health:
         self.register(check)
         return self
 
-    def mysql_check(self, dsn: str, timeout: int = 3, name: str = "mysql"):
+    def mysql_check(self, dsn: str, timeout: int = 3, name: str = "mysql") -> Health:
         """
         Register a MySQL health check.
         """
@@ -87,7 +151,7 @@ class Health:
         self.register(check)
         return self
 
-    def sqlite_check(self, db_path: str, timeout: int = 3, name: str = "sqlite"):
+    def sqlite_check(self, db_path: str, timeout: int = 3, name: str = "sqlite") -> Health:
         """
         Register a SQLite health check.
         """
@@ -97,7 +161,7 @@ class Health:
         self.register(check)
         return self
 
-    def oracle_check(self, dsn: str, timeout: int = 3, name: str = "oracle"):
+    def oracle_check(self, dsn: str, timeout: int = 3, name: str = "oracle") -> Health:
         """
         Register an Oracle health check.
         """
@@ -107,7 +171,7 @@ class Health:
         self.register(check)
         return self
 
-    def mssql_check(self, dsn: str, timeout: int = 3, name: str = "mssql"):
+    def mssql_check(self, dsn: str, timeout: int = 3, name: str = "mssql") -> Health:
         """
         Register a MS SQL Server health check.
         """
@@ -117,7 +181,7 @@ class Health:
         self.register(check)
         return self
 
-    def mongodb_check(self, connection_string: str, timeout: int = 3, name: str = "mongodb"):
+    def mongodb_check(self, connection_string: str, timeout: int = 3, name: str = "mongodb") -> Health:
         """
         Register a MongoDB health check.
         """
@@ -131,7 +195,7 @@ class Health:
     # Execute all checks
     # -----------------------------
 
-    def run(self):
+    def run(self) -> List[CheckResult]:
         """
         Run all registered health checks and return their results.
         """

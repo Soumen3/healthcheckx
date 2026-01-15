@@ -1,5 +1,6 @@
 from enum import Enum
 from dataclasses import dataclass
+from typing import Optional
 
 class HealthStatus(str, Enum):
     healthy = "healthy"
@@ -10,5 +11,5 @@ class HealthStatus(str, Enum):
 class CheckResult:
     name: str
     status: HealthStatus
-    message: str | None = None
-    duration_ms: float | None = None
+    message: Optional[str] = None
+    duration_ms: Optional[float] = None
