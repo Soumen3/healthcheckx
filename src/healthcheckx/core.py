@@ -131,6 +131,55 @@ class Health:
         self.register(check)
         return self
 
+    def kafka_check(self, bootstrap_servers: str, timeout: int = 2, name: str = "kafka") -> Health:
+        """
+        Register a Kafka health check.
+        
+        Args:
+            bootstrap_servers: Comma-separated list of Kafka broker addresses 
+                             (e.g., "localhost:9092" or "broker1:9092,broker2:9092")
+            timeout: Connection timeout in seconds (default: 2)
+            name: Name for this health check (default: "kafka")
+        
+        Returns:
+            Self for method chaining
+        
+        Example:
+            >>> health = Health()
+            >>> health.kafka_check("localhost:9092", name="kafka-broker")
+            >>> # Multiple brokers
+            >>> health.kafka_check("broker1:9092,broker2:9092", name="kafka-cluster")
+        """
+        from healthcheckx.checks.messageQueue.kafka_check import create_kafka_check
+
+        check = create_kafka_check(bootstrap_servers, timeout, name)
+        self.register(check)
+        return self
+
+    def activemq_check(self, broker_url: str, timeout: int = 2, name: str = "activemq") -> Health:
+        """
+        Register an ActiveMQ health check.
+        
+        Args:
+            broker_url: ActiveMQ broker URL (e.g., "tcp://localhost:61616" or "stomp://localhost:61613")
+            timeout: Connection timeout in seconds (default: 2)
+            name: Name for this health check (default: "activemq")
+        
+        Returns:
+            Self for method chaining
+        
+        Example:
+            >>> health = Health()
+            >>> health.activemq_check("tcp://localhost:61616", name="activemq-broker")
+            >>> # Using STOMP protocol
+            >>> health.activemq_check("stomp://localhost:61613", name="activemq-stomp")
+        """
+        from healthcheckx.checks.messageQueue.activemq_check import create_activemq_check
+
+        check = create_activemq_check(broker_url, timeout, name)
+        self.register(check)
+        return self
+
     def postgresql_check(self, dsn: str, timeout: int = 3, name: str = "postgresql") -> Health:
         """
         Register a PostgreSQL health check.
