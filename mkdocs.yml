@@ -1,0 +1,72 @@
+site_name: healthcheckx Documentation
+site_description: Production-grade health checks for Python applications
+site_author: Soumen Samanta
+site_url: https://github.com/Soumen3/healthcheckx
+
+repo_name: Soumen3/healthcheckx
+repo_url: https://github.com/Soumen3/healthcheckx
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - admonition
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - attr_list
+  - md_in_html
+
+nav:
+  - Home: index.md
+  - Getting Started:
+    - Installation: installation.md
+    - Quick Start: quickstart.md
+  - Built-in Checks:
+    - Cache Systems: checks/cache.md
+    - Message Queues: checks/message-queue.md
+    - Relational Databases: checks/relational-db.md
+    - NoSQL Databases: checks/nosql.md
+  - Framework Integration:
+    - FastAPI: frameworks/fastapi.md
+    - Flask: frameworks/flask.md
+    - Django: frameworks/django.md
+  - Advanced:
+    - Overview: advanced/index.md
+    # - Custom Health Checks: advanced/custom-checks.md
+    # - Multiple Instances: advanced/multiple-instances.md
+    # - Configuration: advanced/configuration.md
+  - API Reference: api-reference.md
+  - Examples: examples.md
+
+plugins:
+  - search
