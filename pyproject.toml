@@ -7,7 +7,7 @@ build-backend = "setuptools.build_meta"
 # -------------------------------------------------
 [project]
 name = "healthcheckx"
-version = "1.0.0"
+version = "1.1.0"
 description = "Production-grade health checks for Python applications"
 readme = "README.md"
 requires-python = ">=3.8"
@@ -93,6 +93,7 @@ all = [
 # Project URLs (optional but recommended)
 # -------------------------------------------------
 [project.urls]
-Homepage = "https://github.com/Soumen3/healthcheckx"
+Documentation = "https://soumen3.github.io/healthcheckx/"
+Homepage = "https://soumen3.github.io/healthcheckx/"
 Repository = "https://github.com/Soumen3/healthcheckx"
 Issues = "https://github.com/Soumen3/healthcheckx/issues"
