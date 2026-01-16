@@ -318,7 +318,7 @@ def create_api_check(url: str, timeout: int = 2):
             response = requests.get(url, timeout=timeout)
             if response.status_code == 200:
                 return CheckResult("api", HealthStatus.healthy)
-            return CheckResult("api", HealthStatus.unhealthy, f"HTTP {response.status_code}")
+            return CheckResult("api", HealthStatus.unhealthy, error=f"HTTP {response.status_code}")
         except Exception as e:
             return CheckResult("api", HealthStatus.unhealthy, str(e))
     return check

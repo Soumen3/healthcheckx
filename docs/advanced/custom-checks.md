@@ -34,10 +34,10 @@ def custom_api_check() -> CheckResult:
             return CheckResult(
                 "external-api",
                 HealthStatus.unhealthy,
-                f"HTTP {response.status_code}"
+                error=f"HTTP {response.status_code}"
             )
     except Exception as e:
-        return CheckResult("external-api", HealthStatus.unhealthy, str(e))
+        return CheckResult("external-api", HealthStatus.unhealthy, error=str(e))
 
 # Register the custom check
 health.register(custom_api_check)
@@ -52,11 +52,40 @@ The `CheckResult` class has the following parameters:
 
 ```python
 CheckResult(
-    name: str,              # Unique identifier for the check
-    status: HealthStatus,   # healthy, unhealthy, or degraded
-    message: Optional[str] = None,     # Error or status message
-    duration_ms: Optional[float] = None  # Execution time (auto-calculated)
+    name: str,                           # Required: Unique identifier
+    status: HealthStatus,                # Required: healthy/degraded/unhealthy
+    message: Optional[str] = None,       # Optional: Status message
+    duration_ms: Optional[float] = None, # Optional: Execution time (auto-set by Health.run())
+    error: Optional[str] = None          # Optional: Error message for failed checks
 )
+```
+
+**Parameters:**
+
+- **`name`** (str): Unique identifier for your check (e.g., \"external-api\", \"disk-space\")
+- **`status`** (HealthStatus): The health status - use `HealthStatus.healthy`, `HealthStatus.degraded`, or `HealthStatus.unhealthy`
+- **`message`** (Optional[str]): Optional status message providing additional context about successful or degraded states
+- **`duration_ms`** (Optional[float]): Execution time in milliseconds - automatically set by `Health.run()`, don't set manually
+- **`error`** (Optional[str]): Error message when the check fails - use this field for exceptions and failure details
+
+**When to use `message` vs `error`:**
+
+- Use **`message`** for informational context (e.g., "Disk usage: 45%", "API latency: 120ms")
+- Use **`error`** for failure details (e.g., "Connection refused", "Timeout", exception messages)
+- For `HealthStatus.unhealthy`, prefer `error` over `message`
+- For `HealthStatus.healthy` or `HealthStatus.degraded`, use `message` for additional context
+
+**Examples:**
+
+```python
+# Successful check with informational message
+CheckResult("disk", HealthStatus.healthy, message="Disk usage: 45%")
+
+# Degraded state with warning message
+CheckResult("memory", HealthStatus.degraded, message="Memory usage high: 85%")
+
+# Failed check with error
+CheckResult("database", HealthStatus.unhealthy, error="Connection refused")
 ```
 
 ### HealthStatus Enum
@@ -101,16 +130,16 @@ def api_check_with_retry() -> CheckResult:
                 return CheckResult(
                     "api",
                     HealthStatus.unhealthy,
-                    f"HTTP {response.status_code}"
+                    error=f"HTTP {response.status_code}"
                 )
         except requests.Timeout:
             if attempt < max_retries - 1:
                 continue
-            return CheckResult("api", HealthStatus.unhealthy, "Timeout")
+            return CheckResult("api", HealthStatus.unhealthy, error="Timeout")
         except Exception as e:
-            return CheckResult("api", HealthStatus.unhealthy, str(e))
+            return CheckResult("api", HealthStatus.unhealthy, error=str(e))
     
-    return CheckResult("api", HealthStatus.unhealthy, "All retries failed")
+    return CheckResult("api", HealthStatus.unhealthy, error="All retries failed")
 
 health = Health()
 health.register(api_check_with_retry)
@@ -133,22 +162,22 @@ def disk_space_check() -> CheckResult:
             return CheckResult(
                 "disk-space",
                 HealthStatus.unhealthy,
-                f"Disk usage critical: {percent_used:.1f}%"
+                error=f"Disk usage critical: {percent_used:.1f}%"
             )
         elif percent_used > 75:
             return CheckResult(
                 "disk-space",
                 HealthStatus.degraded,
-                f"Disk usage high: {percent_used:.1f}%"
+                message=f"Disk usage high: {percent_used:.1f}%"
             )
         else:
             return CheckResult(
                 "disk-space",
                 HealthStatus.healthy,
-                f"Disk usage: {percent_used:.1f}%"
+                message=f"Disk usage: {percent_used:.1f}%"
             )
     except Exception as e:
-        return CheckResult("disk-space", HealthStatus.unhealthy, str(e))
+        return CheckResult("disk-space", HealthStatus.unhealthy, error=str(e))
 
 health = Health()
 health.register(disk_space_check)
@@ -180,22 +209,22 @@ def external_api_check() -> CheckResult:
                 return CheckResult(
                     "payment-gateway",
                     HealthStatus.degraded,
-                    f"Status: {data.get('status')}"
+                    message=f"Status: {data.get('status')}"
                 )
         else:
             return CheckResult(
                 "payment-gateway",
                 HealthStatus.unhealthy,
-                f"HTTP {response.status_code}"
+                error=f"HTTP {response.status_code}"
             )
     except requests.Timeout:
         return CheckResult(
             "payment-gateway",
             HealthStatus.unhealthy,
-            "Request timeout"
+            error="Request timeout"
         )
     except Exception as e:
-        return CheckResult("payment-gateway", HealthStatus.unhealthy, str(e))
+        return CheckResult("payment-gateway", HealthStatus.unhealthy, error=str(e))
 
 health = Health()
 health.register(external_api_check)
@@ -225,22 +254,22 @@ def s3_bucket_check() -> CheckResult:
             return CheckResult(
                 "s3-storage",
                 HealthStatus.unhealthy,
-                "Bucket not found"
+                error="Bucket not found"
             )
         elif error_code == '403':
             return CheckResult(
                 "s3-storage",
                 HealthStatus.unhealthy,
-                "Access denied"
+                error="Access denied"
             )
         else:
             return CheckResult(
                 "s3-storage",
                 HealthStatus.unhealthy,
-                str(e)
+                error=str(e)
             )
     except Exception as e:
-        return CheckResult("s3-storage", HealthStatus.unhealthy, str(e))
+        return CheckResult("s3-storage", HealthStatus.unhealthy, error=str(e))
 
 health = Health()
 health.register(s3_bucket_check)
@@ -267,16 +296,16 @@ def elasticsearch_check() -> CheckResult:
             return CheckResult(
                 "elasticsearch",
                 HealthStatus.degraded,
-                "Cluster status: yellow"
+                message="Cluster status: yellow"
             )
         else:  # red
             return CheckResult(
                 "elasticsearch",
                 HealthStatus.unhealthy,
-                "Cluster status: red"
+                error="Cluster status: red"
             )
     except Exception as e:
-        return CheckResult("elasticsearch", HealthStatus.unhealthy, str(e))
+        return CheckResult("elasticsearch", HealthStatus.unhealthy, error=str(e))
 
 health = Health()
 health.register(elasticsearch_check)
@@ -298,9 +327,9 @@ def smtp_check() -> CheckResult:
         return CheckResult("smtp", HealthStatus.healthy)
         
     except smtplib.SMTPException as e:
-        return CheckResult("smtp", HealthStatus.unhealthy, f"SMTP error: {e}")
+        return CheckResult("smtp", HealthStatus.unhealthy, error=f"SMTP error: {e}")
     except Exception as e:
-        return CheckResult("smtp", HealthStatus.unhealthy, str(e))
+        return CheckResult("smtp", HealthStatus.unhealthy, error=str(e))
 
 health = Health()
 health.register(smtp_check)
@@ -322,22 +351,22 @@ def memory_check() -> CheckResult:
             return CheckResult(
                 "memory",
                 HealthStatus.unhealthy,
-                f"Memory usage critical: {percent_used}%"
+                error=f"Memory usage critical: {percent_used}%"
             )
         elif percent_used > 75:
             return CheckResult(
                 "memory",
                 HealthStatus.degraded,
-                f"Memory usage high: {percent_used}%"
+                message=f"Memory usage high: {percent_used}%"
             )
         else:
             return CheckResult(
                 "memory",
                 HealthStatus.healthy,
-                f"Memory usage: {percent_used}%"
+                message=f"Memory usage: {percent_used}%"
             )
     except Exception as e:
-        return CheckResult("memory", HealthStatus.unhealthy, str(e))
+        return CheckResult("memory", HealthStatus.unhealthy, error=str(e))
 
 health = Health()
 health.register(memory_check)
@@ -368,10 +397,10 @@ def websocket_check() -> CheckResult:
             return CheckResult(
                 "websocket",
                 HealthStatus.degraded,
-                f"Unexpected response: {response}"
+                message=f"Unexpected response: {response}"
             )
     except Exception as e:
-        return CheckResult("websocket", HealthStatus.unhealthy, str(e))
+        return CheckResult("websocket", HealthStatus.unhealthy, error=str(e))
 
 health = Health()
 health.register(websocket_check)
@@ -408,7 +437,7 @@ def business_logic_check() -> CheckResult:
                 "No admin users found"
             )
     except Exception as e:
-        return CheckResult("admin-users", HealthStatus.unhealthy, str(e))
+        return CheckResult("admin-users", HealthStatus.unhealthy, error=str(e))
 
 health = Health()
 health.register(business_logic_check)
@@ -455,7 +484,7 @@ def ssl_certificate_check() -> CheckResult:
             return CheckResult("ssl-cert", HealthStatus.healthy)
             
     except Exception as e:
-        return CheckResult("ssl-cert", HealthStatus.unhealthy, str(e))
+        return CheckResult("ssl-cert", HealthStatus.unhealthy, error=str(e))
 
 health = Health()
 health.register(ssl_certificate_check)
@@ -491,7 +520,7 @@ def create_http_check(
                     f"Expected {expected_status}, got {response.status_code}"
                 )
         except Exception as e:
-            return CheckResult(name, HealthStatus.unhealthy, str(e))
+            return CheckResult(name, HealthStatus.unhealthy, error=str(e))
     
     return check
 
@@ -606,7 +635,7 @@ async def async_api_check() -> CheckResult:
                         f"HTTP {response.status}"
                     )
     except Exception as e:
-        return CheckResult("async-api", HealthStatus.unhealthy, str(e))
+        return CheckResult("async-api", HealthStatus.unhealthy, error=str(e))
 
 # Sync wrapper for healthcheckx
 def sync_api_check() -> CheckResult:
@@ -723,7 +752,7 @@ def check_with_retry(max_retries: int = 3) -> CheckResult:
             return CheckResult("service", HealthStatus.healthy)
         except Exception as e:
             if attempt == max_retries - 1:
-                return CheckResult("service", HealthStatus.unhealthy, str(e))
+                return CheckResult("service", HealthStatus.unhealthy, error=str(e))
             time.sleep(0.5)
 ```
 
@@ -738,7 +767,7 @@ class CircuitBreakerCheck:
     
     def __call__(self) -> CheckResult:
         if self.is_open:
-            return CheckResult("service", HealthStatus.unhealthy, "Circuit open")
+            return CheckResult("service", HealthStatus.unhealthy, error="Circuit open")
         
         try:
             # Check logic
@@ -748,7 +777,7 @@ class CircuitBreakerCheck:
             self.failure_count += 1
             if self.failure_count >= self.threshold:
                 self.is_open = True
-            return CheckResult("service", HealthStatus.unhealthy, str(e))
+            return CheckResult("service", HealthStatus.unhealthy, error=str(e))
 ```
 
 ## Next Steps

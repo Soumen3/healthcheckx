@@ -361,25 +361,35 @@ Contains the result of a health check.
 ```python
 @dataclass
 class CheckResult:
-    name: str                      # Name/identifier of the check
-    status: HealthStatus          # Health status
-    message: Optional[str] = None # Optional error/status message
-    duration_ms: Optional[float] = None  # Execution time in milliseconds
+    name: str                           # Name/identifier of the check
+    status: HealthStatus                # Health status
+    message: Optional[str] = None       # Optional status message
+    duration_ms: Optional[float] = None # Execution time in milliseconds
+    error: Optional[str] = None         # Optional error message when check fails
 ```
 
 **Attributes:**
 - `name` (str): Unique identifier for the health check
 - `status` (HealthStatus): The health status (healthy/degraded/unhealthy)
-- `message` (Optional[str]): Additional information, typically error messages
+- `message` (Optional[str]): Additional information about the check status
 - `duration_ms` (Optional[float]): How long the check took to execute
+- `error` (Optional[str]): Error message when the check fails (automatically set for exceptions)
 
 **Example:**
 ```python
+# Successful check
 result = CheckResult(
     name="redis",
     status=HealthStatus.healthy,
-    message=None,
+    message="Connected successfully",
     duration_ms=12.5
+)
+
+# Failed check with error
+result = CheckResult(
+    name="database",
+    status=HealthStatus.unhealthy,
+    error="Connection refused"
 )
 ```
 
@@ -557,7 +567,7 @@ def api_check() -> CheckResult:
         # Your check logic
         return CheckResult("external-api", HealthStatus.healthy)
     except Exception as e:
-        return CheckResult("external-api", HealthStatus.unhealthy, str(e))
+        return CheckResult("external-api", HealthStatus.unhealthy, error=str(e))
 
 health.register(api_check)
 
