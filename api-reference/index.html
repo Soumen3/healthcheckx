@@ -1842,23 +1842,33 @@
 <p>Contains the result of a health check.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="nd">@dataclass</span>
 <a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">CheckResult</span><span class="p">:</span>
-<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>                      <span class="c1"># Name/identifier of the check</span>
-<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>    <span class="n">status</span><span class="p">:</span> <span class="n">HealthStatus</span>          <span class="c1"># Health status</span>
-<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>    <span class="n">message</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1"># Optional error/status message</span>
-<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>    <span class="n">duration_ms</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Execution time in milliseconds</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>                           <span class="c1"># Name/identifier of the check</span>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>    <span class="n">status</span><span class="p">:</span> <span class="n">HealthStatus</span>                <span class="c1"># Health status</span>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>    <span class="n">message</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>       <span class="c1"># Optional status message</span>
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>    <span class="n">duration_ms</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1"># Execution time in milliseconds</span>
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>    <span class="n">error</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>         <span class="c1"># Optional error message when check fails</span>
 </code></pre></div>
 <p><strong>Attributes:</strong>
 - <code>name</code> (str): Unique identifier for the health check
 - <code>status</code> (HealthStatus): The health status (healthy/degraded/unhealthy)
-- <code>message</code> (Optional[str]): Additional information, typically error messages
-- <code>duration_ms</code> (Optional[float]): How long the check took to execute</p>
+- <code>message</code> (Optional[str]): Additional information about the check status
+- <code>duration_ms</code> (Optional[float]): How long the check took to execute
+- <code>error</code> (Optional[str]): Error message when the check fails (automatically set for exceptions)</p>
 <p><strong>Example:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="n">result</span> <span class="o">=</span> <span class="n">CheckResult</span><span class="p">(</span>
-<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;redis&quot;</span><span class="p">,</span>
-<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>    <span class="n">status</span><span class="o">=</span><span class="n">HealthStatus</span><span class="o">.</span><span class="n">healthy</span><span class="p">,</span>
-<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>    <span class="n">message</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>    <span class="n">duration_ms</span><span class="o">=</span><span class="mf">12.5</span>
-<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># Successful check</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="n">result</span> <span class="o">=</span> <span class="n">CheckResult</span><span class="p">(</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;redis&quot;</span><span class="p">,</span>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>    <span class="n">status</span><span class="o">=</span><span class="n">HealthStatus</span><span class="o">.</span><span class="n">healthy</span><span class="p">,</span>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>    <span class="n">message</span><span class="o">=</span><span class="s2">&quot;Connected successfully&quot;</span><span class="p">,</span>
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>    <span class="n">duration_ms</span><span class="o">=</span><span class="mf">12.5</span>
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="p">)</span>
+<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>
+<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="c1"># Failed check with error</span>
+<a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a><span class="n">result</span> <span class="o">=</span> <span class="n">CheckResult</span><span class="p">(</span>
+<a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;database&quot;</span><span class="p">,</span>
+<a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a>    <span class="n">status</span><span class="o">=</span><span class="n">HealthStatus</span><span class="o">.</span><span class="n">unhealthy</span><span class="p">,</span>
+<a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a>    <span class="n">error</span><span class="o">=</span><span class="s2">&quot;Connection refused&quot;</span>
+<a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a><span class="p">)</span>
 </code></pre></div></p>
 <hr />
 <h2 id="enums">Enums</h2>
@@ -1984,7 +1994,7 @@
 <a id="__codelineno-26-19" name="__codelineno-26-19" href="#__codelineno-26-19"></a>        <span class="c1"># Your check logic</span>
 <a id="__codelineno-26-20" name="__codelineno-26-20" href="#__codelineno-26-20"></a>        <span class="k">return</span> <span class="n">CheckResult</span><span class="p">(</span><span class="s2">&quot;external-api&quot;</span><span class="p">,</span> <span class="n">HealthStatus</span><span class="o">.</span><span class="n">healthy</span><span class="p">)</span>
 <a id="__codelineno-26-21" name="__codelineno-26-21" href="#__codelineno-26-21"></a>    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-<a id="__codelineno-26-22" name="__codelineno-26-22" href="#__codelineno-26-22"></a>        <span class="k">return</span> <span class="n">CheckResult</span><span class="p">(</span><span class="s2">&quot;external-api&quot;</span><span class="p">,</span> <span class="n">HealthStatus</span><span class="o">.</span><span class="n">unhealthy</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+<a id="__codelineno-26-22" name="__codelineno-26-22" href="#__codelineno-26-22"></a>        <span class="k">return</span> <span class="n">CheckResult</span><span class="p">(</span><span class="s2">&quot;external-api&quot;</span><span class="p">,</span> <span class="n">HealthStatus</span><span class="o">.</span><span class="n">unhealthy</span><span class="p">,</span> <span class="n">error</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
 <a id="__codelineno-26-23" name="__codelineno-26-23" href="#__codelineno-26-23"></a>
 <a id="__codelineno-26-24" name="__codelineno-26-24" href="#__codelineno-26-24"></a><span class="n">health</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">api_check</span><span class="p">)</span>
 <a id="__codelineno-26-25" name="__codelineno-26-25" href="#__codelineno-26-25"></a>

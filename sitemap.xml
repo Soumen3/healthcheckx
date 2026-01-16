@@ -2,66 +2,66 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://github.com/Soumen3/healthcheckx/</loc>
-         <lastmod>2026-01-15</lastmod>
+         <lastmod>2026-01-16</lastmod>
     </url>
     <url>
          <loc>https://github.com/Soumen3/healthcheckx/api-reference/</loc>
-         <lastmod>2026-01-15</lastmod>
+         <lastmod>2026-01-16</lastmod>
     </url>
     <url>
          <loc>https://github.com/Soumen3/healthcheckx/examples/</loc>
-         <lastmod>2026-01-15</lastmod>
+         <lastmod>2026-01-16</lastmod>
     </url>
     <url>
          <loc>https://github.com/Soumen3/healthcheckx/installation/</loc>
-         <lastmod>2026-01-15</lastmod>
+         <lastmod>2026-01-16</lastmod>
     </url>
     <url>
          <loc>https://github.com/Soumen3/healthcheckx/quickstart/</loc>
-         <lastmod>2026-01-15</lastmod>
+         <lastmod>2026-01-16</lastmod>
     </url>
     <url>
          <loc>https://github.com/Soumen3/healthcheckx/advanced/</loc>
-         <lastmod>2026-01-15</lastmod>
+         <lastmod>2026-01-16</lastmod>
     </url>
     <url>
          <loc>https://github.com/Soumen3/healthcheckx/advanced/configuration/</loc>
-         <lastmod>2026-01-15</lastmod>
+         <lastmod>2026-01-16</lastmod>
     </url>
     <url>
          <loc>https://github.com/Soumen3/healthcheckx/advanced/custom-checks/</loc>
-         <lastmod>2026-01-15</lastmod>
+         <lastmod>2026-01-16</lastmod>
     </url>
     <url>
          <loc>https://github.com/Soumen3/healthcheckx/advanced/multiple-instances/</loc>
-         <lastmod>2026-01-15</lastmod>
+         <lastmod>2026-01-16</lastmod>
     </url>
     <url>
          <loc>https://github.com/Soumen3/healthcheckx/checks/cache/</loc>
-         <lastmod>2026-01-15</lastmod>
+         <lastmod>2026-01-16</lastmod>
     </url>
     <url>
          <loc>https://github.com/Soumen3/healthcheckx/checks/message-queue/</loc>
-         <lastmod>2026-01-15</lastmod>
+         <lastmod>2026-01-16</lastmod>
     </url>
     <url>
          <loc>https://github.com/Soumen3/healthcheckx/checks/nosql/</loc>
-         <lastmod>2026-01-15</lastmod>
+         <lastmod>2026-01-16</lastmod>
     </url>
     <url>
          <loc>https://github.com/Soumen3/healthcheckx/checks/relational-db/</loc>
-         <lastmod>2026-01-15</lastmod>
+         <lastmod>2026-01-16</lastmod>
     </url>
     <url>
          <loc>https://github.com/Soumen3/healthcheckx/frameworks/django/</loc>
-         <lastmod>2026-01-15</lastmod>
+         <lastmod>2026-01-16</lastmod>
     </url>
     <url>
          <loc>https://github.com/Soumen3/healthcheckx/frameworks/fastapi/</loc>
-         <lastmod>2026-01-15</lastmod>
+         <lastmod>2026-01-16</lastmod>
     </url>
     <url>
          <loc>https://github.com/Soumen3/healthcheckx/frameworks/flask/</loc>
-         <lastmod>2026-01-15</lastmod>
+         <lastmod>2026-01-16</lastmod>
     </url>
 </urlset>
